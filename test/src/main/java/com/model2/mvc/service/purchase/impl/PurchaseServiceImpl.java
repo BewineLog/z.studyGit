@@ -19,13 +19,17 @@ public class PurchaseServiceImpl implements PurchaseService{
 		return purchaseDao.getPurchase(tranNo);
 	}
 	
+	public PurchaseVO getPurchase(int prodNo, String tranCode) throws Exception{
+		return purchaseDao.getPurchase(prodNo, tranCode);
+	}
+	
 	public Map<String,Object> getPurchaseList(String buyer_id) throws Exception{
 		return purchaseDao.getPurchaseList(buyer_id);
 	}
 	
 	
-	public Map<String,Object> getPurchaseListProdNo(String buyer_id) throws Exception{
-		return purchaseDao.getPurchaseListProdNo(buyer_id);
+	public Map<String,Object> getPurchaseListProdNo(String buyer_id, String tranCode) throws Exception{
+		return purchaseDao.getPurchaseListProdNo(buyer_id,tranCode);
 	}
 	
 	public void updatePurchase(PurchaseVO purchaseVO) throws Exception{

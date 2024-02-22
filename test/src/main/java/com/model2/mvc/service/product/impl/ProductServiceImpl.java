@@ -26,10 +26,6 @@ public class ProductServiceImpl implements ProductService {
 		return productDao.getProductList(searchVO);
 	}
 	
-	public HashMap<String, Object> getProductList(SearchVO searchVO, List<Integer> list) throws Exception {
-		
-		return productDao.getProductList(searchVO, list);
-	}
 	
 	public void updateProduct(ProductVO productVO) throws Exception{
 		productDao.updateProduct(productVO);

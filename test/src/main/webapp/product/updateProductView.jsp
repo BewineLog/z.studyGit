@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <html>
 <head>
@@ -115,7 +116,9 @@ function resetData(){
 		</td>
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
-			<input type="text" name="manuDate" readonly="readonly" class="ct_input_g"  value="${fn:substring(manuDate,'0','4')}${'-'}${fn:substring(manuDate,'4','6')}${'-'}${fn:substring(manuDate,'6','8')}"
+			
+			<input type="text" name="manuDate" readonly="readonly" class="ct_input_g"  value="${fn:substring(productVO.manuDate,'0','4').concat('-').concat(fn:substring(productVO.manuDate,'4','6')).concat('-').concat(fn:substring(productVO.manuDate,'6','8'))}
+"
 						style="width: 100px; height: 19px"	maxLength="10" minLength="6"/>
 				&nbsp;<img src="../images/ct_icon_date.gif" width="15" height="15" 
 										onclick="show_calendar('document.detailForm.manuDate', document.detailForm.manuDate.value)"/>

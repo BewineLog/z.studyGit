@@ -21,7 +21,7 @@ function fncGetProductList(){
 
 <div style="width:98%; margin-left:10px;">
 
-<form name="detailForm" action="/listProduct.do?menu=${menu}" method="post">
+<form name="detailForm" action="/listProduct.do?menu=${param.menu}" method="post">
 
 <table width="100%" height="37" border="0" cellpadding="0"	cellspacing="0">
 	<tr>
@@ -53,7 +53,7 @@ function fncGetProductList(){
 			<select name="searchCondition" class="ct_input_g" style="width:80px">
 				<option value="0" ${searchVO.searchCondition.trim() == '0' ? 'selected' : '' }>상품번호</option>
 				<option value="1" ${searchVO.searchCondition.trim() == '1' ? 'selected' : '' } >상품명</option>
-				<option value="2" ${searchVO.searchCondition.trim() == '2' ? 'selected' : '' } %> >상품가격</option>
+				<option value="2" ${searchVO.searchCondition.trim() == '2' ? 'selected' : '' } >상품가격</option>
 			</select>
 			<input type="text" name="searchKeyword" value = "${searchVO.searchKeyword.trim()}"  class="ct_input_g" style="width:200px; height:19px" />
 		</td>
@@ -106,7 +106,7 @@ function fncGetProductList(){
 		<td align="center">${idx+1}</td>
 		<td></td>
 				
-				<td align="left"><a href="/getProduct.do?prodNo=${i.prodNo}&menu=${menu}">${i.prodName}</a></td>
+				<td align="left"><a href="/getProduct.do?prodNo=${i.prodNo}&menu=${param.menu}">${i.prodName}</a></td>
 		
 		<td></td>
 		

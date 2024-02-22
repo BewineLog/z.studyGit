@@ -26,7 +26,7 @@ public class ProductDao {
 		stmt = con.prepareStatement(sql);
 		
 		String date = productVO.getManuDate().replaceAll("-", "");
-		
+		System.out.println("productDao addProduct ManuDate::" + date);
 		stmt.setString(1, productVO.getProdName());
 		stmt.setString(2, productVO.getProdDetail());
 		stmt.setString(3, date);
@@ -83,105 +83,29 @@ public class ProductDao {
 	public HashMap<String,Object> getProductList(SearchVO searchVO) throws Exception{
 		Connection con = DBUtil.getConnection();
 		
-		String sql = "select * from product ";
+		String sql = "select p.*, t.tran_status_code from product p , transaction t";
 		
-		if(searchVO.getSearchCondition() != null) {
+		if(searchVO.getSearchCondition() != null && searchVO.getSearchKeyword() != null) {
 			
 			if (searchVO.getSearchCondition().equals("0")) {
-				sql += " where prod_no='" + searchVO.getSearchKeyword() +"'";
+				sql += " where p.prod_no='" + searchVO.getSearchKeyword() +"'";
 			}
 			else if (searchVO.getSearchCondition().equals("1")) {
-				sql += " where prod_name='" + searchVO.getSearchKeyword() +"'";
+				sql += " where p.prod_name='" + searchVO.getSearchKeyword() +"'";
 			}
 			else if (searchVO.getSearchCondition().equals("2")) {
-				sql += " where price='" + searchVO.getSearchKeyword() +"'";
+				sql += " where p.price='" + searchVO.getSearchKeyword() +"'";
 			}
 			
 			
-		} // �˻� ó�� 
+		} //
 		
-		
-		sql += "order by reg_date desc"; // �������� ���� 
-		
-		PreparedStatement stmt = 
-				con.prepareStatement(	sql,
-															ResultSet.TYPE_SCROLL_INSENSITIVE,
-															ResultSet.CONCUR_UPDATABLE);
-		
-		ResultSet rs = stmt.executeQuery();
-		
-		rs.last();
-		int total = rs.getRow(); // Row ���� get
-		System.out.println("�ο��� ��:" + total);
-		
-		HashMap<String, Object> map = new HashMap<String,Object>();
-		
-		map.put("count", total);
-		ArrayList<ProductVO> list = new ArrayList<ProductVO>();
-	
-		rs.absolute(searchVO.getPage() * searchVO.getPageUnit() - searchVO.getPageUnit()+1); // �ش� page �� ù��° row �� �̵��ϴ� ��
-		if(total > 0) {
-			for(int i = 0; i < searchVO.getPageUnit(); i++) {
-				ProductVO productVO = new ProductVO();
-				
-				productVO.setFileName(rs.getString("image_file"));
-				productVO.setManuDate(rs.getString("manufacture_day"));
-				productVO.setPrice(rs.getInt("price"));
-				productVO.setProdDetail(rs.getString("prod_detail"));
-				productVO.setProdName(rs.getString("prod_name"));
-				productVO.setProdNo(rs.getInt("prod_no"));
-				productVO.setRegDate(rs.getDate("reg_date")); // DATETIME type?  casting?
-				
-				
-				list.add(productVO);
-				
-				
-//				if(productVO.getProTranCode().trim().equals("���ſϷ�")) {
-//					System.out.println("in productVO get ���ſϷ�:: "+ productVO.toString());
-//				}
-//				
-				if(!rs.next()) {
-					break;
-				}
-				
-			}
+		if(sql.contains("where")) {
+			sql += " and p.prod_no=t.prod_no(+)";
+		}else {
+			sql += " WHERE p.prod_no=t.prod_no(+)";
 		}
-		
-		System.out.println("list.size() : "+ list.size());
-		map.put("list", list);
-		System.out.println("map().size() : "+ map.size());
-
-		con.close();
-		stmt.close();
-		rs.close();
-		return map;
-		
-	}
-	
-	public HashMap<String,Object> getProductList(SearchVO searchVO, List<Integer> list) throws Exception{
-		
-		System.out.println("productdao::" + list.toString());
-		Connection con = DBUtil.getConnection();
-		
-		String sql = "select * from product ";
-		
-		if(searchVO.getSearchCondition() != null) {
-			
-			if (searchVO.getSearchCondition().equals("0")) {
-				sql += " where prod_no='" + searchVO.getSearchKeyword() +"'";
-			}
-			else if (searchVO.getSearchCondition().equals("1")) {
-				sql += " where prod_name='" + searchVO.getSearchKeyword() +"'";
-			}
-			else if (searchVO.getSearchCondition().equals("2")) {
-				sql += " where price='" + searchVO.getSearchKeyword() +"'";
-			}
-			
-			
-		} // �˻� ó�� 
-		
-		
-		sql += "order by reg_date desc"; // �������� ���� 
+		sql += " order by reg_date desc"; // �������� ���� 
 		
 		int total = this.getTotalCount(sql, searchVO);
 		
@@ -201,7 +125,7 @@ public class ProductDao {
 		HashMap<String, Object> map = new HashMap<String,Object>();
 		
 		map.put("count", total);
-		ArrayList<ProductVO> plist = new ArrayList<ProductVO>();
+		ArrayList<ProductVO> list = new ArrayList<ProductVO>();
 	
 		//rs.absolute(searchVO.getPage() * searchVO.getPageUnit() - searchVO.getPageUnit()+1); // �ش� page �� ù��° row �� �̵��ϴ� ��
 		rs.next();
@@ -217,12 +141,24 @@ public class ProductDao {
 				productVO.setProdNo(rs.getInt("prod_no"));
 				productVO.setRegDate(rs.getDate("reg_date")); // DATETIME type?  casting?
 				
-				System.out.println("productdao::" + productVO.getProdNo());
-				if(list != null & list.contains(productVO.getProdNo())) {
-					productVO.setProTranCode("구매완료");
+				
+				System.out.println("productDao tranCode::" + rs.getString("tran_status_code"));
+				String tsc = null;
+				if(rs.getString("tran_status_code") != null) {
+					tsc =  rs.getString("tran_status_code").toString().trim();
 				}
 				
-				plist.add(productVO);
+				if(tsc == null) {
+					productVO.setProTranCode("판매중");
+				}else if(tsc.equals("1")) {  // later, store tran_status_code to var
+					System.out.println("tran_status_code == 1");
+					productVO.setProTranCode("구매완료");
+				}else if(tsc.equals("2")) {
+					System.out.println("tran_status_code == 2");
+					productVO.setProTranCode("배송중");
+				}
+				
+				list.add(productVO);
 				
 				
 				if(productVO.getProTranCode().trim().equals("구매완료")) {
@@ -237,7 +173,7 @@ public class ProductDao {
 		}
 		
 		System.out.println("list.size() : "+ list.size());
-		map.put("list", plist);
+		map.put("list", list);
 		System.out.println("map().size() : "+ map.size());
 
 		con.close();
@@ -247,6 +183,7 @@ public class ProductDao {
 		
 	}
 	
+
 	public void updateProduct(ProductVO productVO) throws Exception{
 		Connection con = DBUtil.getConnection();
 		PreparedStatement stmt = null;
@@ -258,7 +195,7 @@ public class ProductDao {
 		stmt = con.prepareStatement(sql);
 		
 		String date = productVO.getManuDate().replaceAll("-", "");
-		
+		System.out.println("productDao updateProduct ManuDate::" + date);
 		stmt.setInt(1, productVO.getProdNo());
 		stmt.setString(2, productVO.getProdName());
 		stmt.setString(3, productVO.getProdDetail());
@@ -275,11 +212,13 @@ public class ProductDao {
 		stmt.close();
 	}
 	
+	
+	
 	private int getTotalCount(String sql, SearchVO searchVO) throws Exception {
 		sql = "SELECT COUNT(*)"
-				+ "FROM ( SELECT ROW_NUMBER() OVER (ORDER BY reg_date DESC), product.*"
-				+ "FROM ("+sql+") product )";
+				+ " FROM ("+sql+")";
 		
+		System.out.println(sql);
 		System.out.println("getTotalCount sql ::" + sql);
 		
 		Connection con = DBUtil.getConnection();

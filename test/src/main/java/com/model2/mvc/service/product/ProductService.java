@@ -14,7 +14,6 @@ public interface ProductService{
 	public ProductVO getProduct(int prodNo) throws Exception;
 	
 	public HashMap<String, Object> getProductList(SearchVO searchVO) throws Exception;
-	public HashMap<String, Object> getProductList(SearchVO searchVO, List<Integer> list) throws Exception;
 	
 	public void updateProduct(ProductVO productVO) throws Exception;
 	

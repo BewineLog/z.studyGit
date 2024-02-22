@@ -71,30 +71,25 @@ public class ListProductAction extends Action {
 		PurchaseServiceImpl puImpl = new PurchaseServiceImpl();
 		Map<String,Object> puMap = new HashMap<String,Object>();
 		UserVO userVO = (UserVO)request.getSession().getAttribute("user");
+//		String tranCode = request.getParameter("tranCode");
 		
-		System.out.println("listproductAction userVO::" + userVO.toString());
-		if(userVO != null) {
-			System.out.println("listproductAction getListProdNo ::" + userVO.getUserId());
-			puMap = puImpl.getPurchaseListProdNo(userVO.getUserId());
-		}
-		
-		
-		if(puMap != null) {
-			
-			System.out.println("ListProductAction in puMap");
-			map = impl.getProductList(searchVO, (List<Integer>)puMap.get("prodNoList"));
-//			request.setAttribute("map", map);
-			request.setAttribute("count",map.get("count"));
-			request.setAttribute("list", map.get("list"));
-			
-		}else {
+//		System.out.println("listproductAction userVO::" + userVO);
+//		if (userVO != null) {
+//			if (tranCode == null) {
+//				System.out.println("listproductAction getListProdNo ::" + userVO.getUserId());
+//				puMap = puImpl.getPurchaseListProdNo(userVO.getUserId(), "1");
+//			}else if(tranCode.equals("2")) {
+//				puMap = puImpl.getPurchaseListProdNo(userVO.getUserId(), "2");
+//			}
+//		}
 
-			map = impl.getProductList(searchVO);
-//			request.setAttribute("map",map);
-			request.setAttribute("count",map.get("count"));
-			request.setAttribute("list", map.get("list"));
-		}
 		
+		System.out.println("ListProductAction in puMap");
+		map = impl.getProductList(searchVO);
+//			request.setAttribute("map", map);
+		request.setAttribute("count", map.get("count"));
+		request.setAttribute("list", map.get("list"));
+	
 		Page pageInfo = new Page(searchVO.getPage(),((Integer)map.get("count")).intValue(),searchVO.getPageUnit(),searchVO.getPageSize());
 		
 		
