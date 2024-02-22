@@ -15,6 +15,8 @@ public class test {
 		
 		System.out.println("new branch conflict test");
 		
+		System.out.println("main conflict test");
+
 	}
 
 	public static void main(String[] args) {
