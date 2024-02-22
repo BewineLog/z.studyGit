@@ -7,7 +7,9 @@ public class test {
 	}
 	
 	public void newMethod() {
-		System.out.println("new/def 1st commit");
+		System.out.println("main 1st commit");
+		
+		System.out.println("new/dev 2nd commit");
 	}
 
 	public static void main(String[] args) {
