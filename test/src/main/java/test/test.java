@@ -10,6 +10,8 @@ public class test {
 		System.out.println("main 1st commit");
 		
 		System.out.println("new/dev 2nd commit");
+		
+		System.out.println("main conflict test");
 	}
 
 	public static void main(String[] args) {
