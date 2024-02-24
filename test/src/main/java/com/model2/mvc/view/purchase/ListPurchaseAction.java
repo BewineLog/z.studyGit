@@ -21,7 +21,7 @@ public class ListPurchaseAction extends Action {
 		SearchVO searchVO = new SearchVO();
 		
 		
-		int page = 1; //ÀÌ·¸°Ô ÇØÁà¾ß default 1
+		int page = 1; //ï¿½Ì·ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ default 1
 		if(request.getParameter("page") != null) {
 			page = Integer.parseInt(request.getParameter("page"));
 		}
@@ -59,7 +59,7 @@ public class ListPurchaseAction extends Action {
 		
 		
 		if(userVO != null) {
-			map = impl.getPurchaseList(userVO.getUserId());
+			map = impl.getPurchaseList(userVO.getUserId(),searchVO);
 		}
 		
 		

@@ -11,6 +11,7 @@ import java.util.Map;
 
 import com.model2.mvc.common.util.DBUtil;
 import com.model2.mvc.service.product.impl.ProductServiceImpl;
+import com.model2.mvc.common.SearchVO;
 import com.model2.mvc.service.purchase.vo.PurchaseVO;
 import com.model2.mvc.service.user.impl.UserServiceImpl;
 
@@ -143,7 +144,7 @@ public class PurchaseDao {
 	}
 	
 
-	public Map<String,Object> getPurchaseList(String buyer_id) throws Exception{
+	public Map<String,Object> getPurchaseList(String buyer_id,SearchVO searchVO) throws Exception{
 		Map<String,Object> map = new HashMap<String,Object>();
 		
 		ProductServiceImpl pImpl = new ProductServiceImpl();
@@ -154,15 +155,21 @@ public class PurchaseDao {
 		ResultSet rs = null;
 		
 		
-		String sql = "select * from transaction where buyer_id = ? ORDER BY tran_no desc";
-		stmt = con.prepareStatement(sql);
-		stmt.setString(1, buyer_id);
-		rs = stmt.executeQuery();
+		String sql = "select ROWNUM row_seq , t.* from transaction t where buyer_id = ? ";
 		
 		int totalCount = this.getTotalCount(sql, buyer_id);
 		System.out.println("purchaseDao totalCount: " + totalCount);
 		
 		map.put("count",totalCount);
+		
+		sql += " AND ROWNUM <= " + searchVO.getPage() * searchVO.getPageSize();
+		sql += " ORDER BY tran_no desc";
+		
+		sql = this.makeCurrentPageSql(sql, searchVO);
+		
+		stmt = con.prepareStatement(sql);
+		stmt.setString(1, buyer_id);
+		rs = stmt.executeQuery();
 		
 		
 		
@@ -316,6 +323,16 @@ public class PurchaseDao {
 		return totalCount;
 		
 		
+	}
+	
+	private String makeCurrentPageSql(String sql, SearchVO searchVO) {
+		sql = "SELECT * FROM ("
+				+ sql + ") vt"
+						+ " WHERE vt.row_seq between "
+						+ ((searchVO.getPage() - 1) * searchVO.getPageSize() + 1) + " AND " + (searchVO.getPage() * searchVO.getPageSize());
+		
+		System.out.println("purchaseDao makeCurrentPageSql sql::" + sql);
+		return sql;
 	}
 
 }

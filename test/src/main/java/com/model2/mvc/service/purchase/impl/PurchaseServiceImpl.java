@@ -4,6 +4,7 @@ import java.util.Map;
 
 import com.model2.mvc.service.product.vo.ProductVO;
 import com.model2.mvc.service.purchase.PurchaseService;
+import com.model2.mvc.common.SearchVO;
 import com.model2.mvc.service.purchase.dao.PurchaseDao;
 import com.model2.mvc.service.purchase.vo.PurchaseVO;
 
@@ -26,8 +27,8 @@ public class PurchaseServiceImpl implements PurchaseService{
 		return purchaseDao.getPurchaseByTranNo(tranNo);
 	}
 	
-	public Map<String,Object> getPurchaseList(String buyer_id) throws Exception{
-		return purchaseDao.getPurchaseList(buyer_id);
+	public Map<String,Object> getPurchaseList(String buyer_id,SearchVO searchVO) throws Exception{
+		return purchaseDao.getPurchaseList(buyer_id, searchVO);
 	}
 	
 	
