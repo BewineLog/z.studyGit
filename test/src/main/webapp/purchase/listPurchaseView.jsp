@@ -81,7 +81,13 @@
 		<td align="left">현재
 				
 					${i.purchaseProd.proTranCode}
-				상태 입니다.</td>
+				상태 입니다.
+				
+				<c:if test="${i.purchaseProd.proTranCode.trim() == '배송' }">
+					<a href="/listPurchase.do?page=${i}&">${'물건도착'}</a> 
+				</c:if>
+				
+				</td>
 		<td></td>
 		<td align="left">
 			

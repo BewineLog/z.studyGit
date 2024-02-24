@@ -14,12 +14,14 @@ public class UpdateTranCodeByProdAction extends Action {
 		int prodNo = Integer.parseInt(request.getParameter("prodNo"));
 		String tranCode = request.getParameter("tranCode").toString();
 		
+		System.out.println("UpdateTranCodeByProdAction :: " + prodNo + " " + tranCode);
+		
 		System.out.println("UpdateTranCodeByProdAction:: " + tranCode +"  "+ prodNo);
 		
 		PurchaseServiceImpl impl = new PurchaseServiceImpl();
 		PurchaseVO purchaseVO = new PurchaseVO();
 		
-		purchaseVO = (PurchaseVO)(impl.getPurchase(prodNo,tranCode));
+		purchaseVO = (PurchaseVO)(impl.getPurchase(prodNo));
 		
 		if(purchaseVO != null) {
 			System.out.println("UpdateTranCodeByProdAction:: " + purchaseVO.toString() );

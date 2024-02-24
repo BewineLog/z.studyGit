@@ -15,13 +15,13 @@ public class PurchaseServiceImpl implements PurchaseService{
 		purchaseDao.addPurchase(purchaseVO);
 	}
 	
-	public PurchaseVO getPurchase(int tranNo) throws Exception{
-		return purchaseDao.getPurchase(tranNo);
+	public PurchaseVO getPurchase(int prodNo) throws Exception{
+		return purchaseDao.getPurchase(prodNo);
 	}
 	
-	public PurchaseVO getPurchase(int prodNo, String tranCode) throws Exception{
-		return purchaseDao.getPurchase(prodNo, tranCode);
-	}
+//	public PurchaseVO getPurchase(int prodNo, String tranCode) throws Exception{
+//		return purchaseDao.getPurchase(prodNo, tranCode);
+//	}
 	
 	public Map<String,Object> getPurchaseList(String buyer_id) throws Exception{
 		return purchaseDao.getPurchaseList(buyer_id);
