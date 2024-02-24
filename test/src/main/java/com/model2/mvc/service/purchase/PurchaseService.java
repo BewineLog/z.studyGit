@@ -9,6 +9,7 @@ public interface PurchaseService {
 	
 	public PurchaseVO getPurchase(int prodNo) throws Exception;
 //	public PurchaseVO getPurchase(int prodNo, String tranCode) throws Exception;
+	public PurchaseVO getPurchaseByTranNo(int tranNo) throws Exception;
 	
 	public Map<String,Object> getPurchaseList(String buyer_id) throws Exception;
 	public Map<String,Object> getPurchaseListProdNo(String buyer_id,String tranCode) throws Exception;

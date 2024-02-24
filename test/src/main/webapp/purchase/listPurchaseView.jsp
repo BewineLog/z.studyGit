@@ -83,10 +83,12 @@
 					${i.purchaseProd.proTranCode}
 				상태 입니다.
 				
-				<c:if test="${i.purchaseProd.proTranCode.trim() == '배송' }">
-					<a href="/listPurchase.do?page=${i}&">${'물건도착'}</a> 
+				<c:if test="${i.purchaseProd.proTranCode.trim() == '배송중' }">
+					<a href="/updateTranCode.do?page=${status.index + 1}&tranNo=${i.tranNo}&tranCode=3">${'물건도착'}</a> 
 				</c:if>
 				
+				
+				<%--환불하기 만들기 --%>
 				</td>
 		<td></td>
 		<td align="left">

@@ -156,6 +156,9 @@ public class ProductDao {
 				}else if(tsc.equals("2")) {
 					System.out.println("tran_status_code == 2");
 					productVO.setProTranCode("배송중");
+				}else if(tsc.equals("3")) {
+					System.out.println("tran_status_code == 3");
+					productVO.setProTranCode("배송완료");
 				}
 				
 				list.add(productVO);
