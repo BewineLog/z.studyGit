@@ -105,10 +105,18 @@
 <table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top: 10px;">
 	<tr>
 		<td align="center">
+		
+		<c:if test="${pageInfo.beginUnitPage > pageInfo.pageSize}">
+			<a href="/listPurchase.do?page=${pageInfo.endPageUnit+1}&searchKeyword=${searchVO.searchKeyword}&searchCondition=${searchVO.searchCondition}">${'<'}</a>
+		</c:if>
 		 
 		 <c:forEach var="i" begin="${requestScope.pageInfo.beginUnitPage}" step="1" end="${requestScope.pageInfo.endUnitPage}">
-			<a href="/listPurchase.do?page=${i}">${i}</a> 
+			<a href="/listPurchase.do?page=${i}&searchKeyword=${searchVO.searchKeyword}&searchCondition=${searchVO.searchCondition}">${i}</a> 
 		</c:forEach>
+		
+		<c:if test="${pageInfo.endUnitPage < pageInfo.maxPage}">
+			<a href="/listPurchase.do?page=${pageInfo.beginPageUnit-1}&searchKeyword=${searchVO.searchKeyword}&searchCondition=${searchVO.searchCondition}">${'>'}</a>
+		</c:if>
 		
 		</td>
 	</tr>

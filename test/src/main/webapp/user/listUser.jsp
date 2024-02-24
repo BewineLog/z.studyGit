@@ -145,7 +145,7 @@ function fncGetUserList(){
 	<tr>
 		<td align="center">
 		
-		<c:if test="${pageInfo.beginUnitPage > '1'}">
+		<c:if test="${pageInfo.beginUnitPage > pageInfo.pageSize}">
 			<a href="/listUser.do?page=${pageInfo.beginUnitPage-1}&searchKeyword=${searchVO.searchKeyword}&searchCondition=${searchVO.searchCondition}">${'<'}</a>
 		</c:if>
 		

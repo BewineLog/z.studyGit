@@ -46,7 +46,7 @@ function fncFixPurchase() {
 </table>
 
 <input type="hidden" name="tranNo" value="${purchaseVO.tranNo}" />
-<input type="hidden" name="prodNo" value="${purchaseVO.prodNo}" />
+<input type="hidden" name="prodNo" value="${productVO.prodNo}" />
 
 <table width="600" border="0" cellspacing="0" cellpadding="0"	align="center" style="margin-top: 13px;">
 	<tr>
