@@ -22,20 +22,7 @@ function fncFixPurchase() {
 </script>
 </head>
 
-<%
-	PurchaseVO purchaseVO = (PurchaseVO)request.getAttribute("purchaseVO");
-	UserVO userVO = purchaseVO.getBuyer();
-	
-	String divyDate = purchaseVO.getDivyDate();
-	String paymentOption = purchaseVO.getPaymentOption().trim();
-	
-	System.out.println("updatePurchaseView ::" + paymentOption );
-	System.out.println(paymentOption.equals("1")? "selected" : "");
-	System.out.println(paymentOption.equals("2")? "selected" : "");
-	System.out.println("======================================");
-// 	divyDate = divyDate.substring(0,4) + "-" +divyDate.substring(4,6) + "-" +divyDate.substring(6,8);
 
-%>
 <body>
 
 <form name="addPurchase" method="post" action="/updatePurchase.do">
@@ -66,8 +53,8 @@ function fncFixPurchase() {
 			구매자아이디 <img 	src="/images/ct_icon_red.gif" width="3" height="3" align="absmiddle"/>
 		</td>
 		<td bgcolor="D6D6D6" width="1"></td>
-		<td class="ct_write01"><%=userVO.getUserId() %></td>
-		<input type="hidden" name="tranNo" value=<%=purchaseVO.getTranNo()%> />
+		<td class="ct_write01">${userVO.userId}</td>
+		<input type="hidden" name="tranNo" value="${purchaseVO.tranNo}" />
 	</tr>
 	<tr>
 		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
@@ -78,8 +65,8 @@ function fncFixPurchase() {
 		<td class="ct_write01">
 			<select 	name="paymentOption"		class="ct_input_g" 
 							style="width: 100px; height: 19px" maxLength="20">
-				<option value="1" <%=paymentOption.equals("1") ? "selected" : "" %>>현금구매</option>
-				<option value="2" <%=paymentOption.equals("2") ? "selected" : "" %>>신용구매</option>
+				<option value="1" ${purchaseVO.paymentOption.trim() == '1' ? 'selected' : ''}>현금구매</option>
+				<option value="2" ${purchaseVO.paymentOption.trim() == '2' ? 'selected' : ''}>신용구매</option>
 			</select>
 		</td>
 	</tr>
@@ -90,7 +77,7 @@ function fncFixPurchase() {
 		<td width="104" class="ct_write">구매자이름</td>
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
-			<input type="text" name="receiverName" 	class="ct_input_g" value=<%=purchaseVO.getReceiverName()%>
+			<input type="text" name="receiverName" 	class="ct_input_g" value="${purchaseVO.receiverName}"
 						style="width: 100px; height: 19px" maxLength="20" />
 		</td>
 	</tr>
@@ -101,7 +88,7 @@ function fncFixPurchase() {
 		<td width="104" class="ct_write">구매자연락처</td>
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
-			<input 	type="text" name="receiverPhone" class="ct_input_g" value=<%=purchaseVO.getReceiverPhone()%>
+			<input 	type="text" name="receiverPhone" class="ct_input_g" value="${purchaseVO.receiverPhone}"
 							style="width: 100px; height: 19px" maxLength="20" />
 		</td>
 	</tr>
@@ -112,7 +99,7 @@ function fncFixPurchase() {
 		<td width="104" class="ct_write">구매자주소</td>
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
-			<input 	type="text" name="receiverAddr" class="ct_input_g" value=<%=purchaseVO.getDivyAddr() %>
+			<input 	type="text" name="receiverAddr" class="ct_input_g" value="${purchaseVO.divyAddr}"
 							style="width: 100px; height: 19px" maxLength="20"/>
 		</td>
 	</tr>
@@ -123,7 +110,7 @@ function fncFixPurchase() {
 		<td width="104" class="ct_write">구매요청사항</td>
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
-			<input		type="text" name="receiverRequest" 	class="ct_input_g" value=<%=purchaseVO.getDivyRequest() %>
+			<input		type="text" name="receiverRequest" 	class="ct_input_g" value="${purchaseVO.receiverRequest}"
 							style="width: 100px; height: 19px" maxLength="20" />
 		</td>
 	</tr>
@@ -134,7 +121,7 @@ function fncFixPurchase() {
 		<td width="104" class="ct_write">배송희망일자</td>
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td width="200" class="ct_write01">
-			<input 	type="text" readonly="readonly" name="receiverDate" class="ct_input_g" value=<%=divyDate %>
+			<input 	type="text" readonly="readonly" name="receiverDate" class="ct_input_g" value="${purchaseVO.divyDate}"
 							style="width: 100px; height: 19px" maxLength="20"/>
 			<img 	src="../images/ct_icon_date.gif" width="15" height="15"	
 						onclick="show_calendar('document.addPurchase.receiverDate', document.addPurchase.receiverDate.value)"/>

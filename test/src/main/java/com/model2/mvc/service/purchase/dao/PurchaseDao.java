@@ -154,7 +154,7 @@ public class PurchaseDao {
 		ResultSet rs = null;
 		
 		
-		String sql = "select * from transaction where buyer_id = ?";
+		String sql = "select * from transaction where buyer_id = ? ORDER BY tran_no desc";
 		stmt = con.prepareStatement(sql);
 		stmt.setString(1, buyer_id);
 		rs = stmt.executeQuery();
