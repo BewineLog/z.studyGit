@@ -6,13 +6,13 @@ import java.sql.Date;
 public class Product {
 	
 	private String fileName;
-	private String manuDate; // �������� 
-	private int price; // ���� 
-	private String prodDetail; // ���λ��� 
-	private String prodName; // ��ǰ�� 
-	private int prodNo; // ��ǰ��ȣ 
-	private Date regDate; //������� 
-	private String proTranCode = "판매중"; // �ǸŻ�
+	private String manuDate; // 
+	private int price; //
+	private String prodDetail; //
+	private String prodName; // 
+	private int prodNo; // 
+	private Date regDate; //
+	private String proTranCode; //
 	
 	public Product(){
 	}
