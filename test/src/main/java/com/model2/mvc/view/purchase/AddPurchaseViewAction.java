@@ -10,8 +10,8 @@ import javax.servlet.http.HttpSession;
 
 import com.model2.mvc.framework.Action;
 import com.model2.mvc.service.product.impl.ProductServiceImpl;
-import com.model2.mvc.service.product.vo.ProductVO;
-import com.model2.mvc.service.user.vo.UserVO;
+import com.model2.mvc.service.domain.Product;
+import com.model2.mvc.service.domain.User;
 
 /**
  * Servlet implementation class AddPurchaseView
@@ -27,17 +27,17 @@ public class AddPurchaseViewAction extends Action {
 		int prodNo = Integer.parseInt(request.getParameter("prod_no"));
 		
 		HttpSession session = request.getSession(); // default true
-		UserVO userVO = (UserVO)session.getAttribute("user");
+		User User = (User)session.getAttribute("user");
 		
 		ProductServiceImpl pImpl = new ProductServiceImpl();
-		ProductVO productVO = pImpl.getProduct(prodNo);
+		Product Product = pImpl.getProduct(prodNo);
 		
 		
-		request.setAttribute("userVO", userVO);
-		request.setAttribute("productVO", productVO);
+		request.setAttribute("User", User);
+		request.setAttribute("Product", Product);
 		
-		System.out.println("AddPurchaseViewAction ::" +userVO.toString());
-		System.out.println("AddPurchaseViewAction ::" +productVO.toString());
+		System.out.println("AddPurchaseViewAction ::" +User.toString());
+		System.out.println("AddPurchaseViewAction ::" +Product.toString());
 		
 		return "forward:/purchase/addPurchaseView.jsp";
 		

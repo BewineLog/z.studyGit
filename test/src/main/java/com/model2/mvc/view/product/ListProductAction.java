@@ -4,10 +4,10 @@ import com.model2.mvc.common.Page;
 import com.model2.mvc.common.SearchVO;
 import com.model2.mvc.framework.Action;
 import com.model2.mvc.service.product.impl.ProductServiceImpl;
-import com.model2.mvc.service.product.vo.ProductVO;
+import com.model2.mvc.service.domain.Product;
 import com.model2.mvc.service.purchase.impl.PurchaseServiceImpl;
-import com.model2.mvc.service.purchase.vo.PurchaseVO;
-import com.model2.mvc.service.user.vo.UserVO;
+import com.model2.mvc.service.domain.Purchase;
+import com.model2.mvc.service.domain.User;
 
 import java.lang.*;
 import java.util.ArrayList;
@@ -70,16 +70,16 @@ public class ListProductAction extends Action {
 		
 		PurchaseServiceImpl puImpl = new PurchaseServiceImpl();
 		Map<String,Object> puMap = new HashMap<String,Object>();
-		UserVO userVO = (UserVO)request.getSession().getAttribute("user");
+		User User = (User)request.getSession().getAttribute("user");
 //		String tranCode = request.getParameter("tranCode");
 		
-//		System.out.println("listproductAction userVO::" + userVO);
-//		if (userVO != null) {
+//		System.out.println("listproductAction User::" + User);
+//		if (User != null) {
 //			if (tranCode == null) {
-//				System.out.println("listproductAction getListProdNo ::" + userVO.getUserId());
-//				puMap = puImpl.getPurchaseListProdNo(userVO.getUserId(), "1");
+//				System.out.println("listproductAction getListProdNo ::" + User.getUserId());
+//				puMap = puImpl.getPurchaseListProdNo(User.getUserId(), "1");
 //			}else if(tranCode.equals("2")) {
-//				puMap = puImpl.getPurchaseListProdNo(userVO.getUserId(), "2");
+//				puMap = puImpl.getPurchaseListProdNo(User.getUserId(), "2");
 //			}
 //		}
 

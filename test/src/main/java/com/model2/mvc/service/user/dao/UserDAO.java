@@ -7,7 +7,7 @@ import java.util.HashMap;
 
 import com.model2.mvc.common.SearchVO;
 import com.model2.mvc.common.util.DBUtil;
-import com.model2.mvc.service.user.vo.UserVO;
+import com.model2.mvc.service.domain.User;
 
 
 public class UserDAO {
@@ -15,26 +15,26 @@ public class UserDAO {
 	public UserDAO(){
 	}
 
-	public void insertUser(UserVO userVO) throws Exception {
+	public void insertUser(User User) throws Exception {
 		
 		Connection con = DBUtil.getConnection();
 
 		String sql = "insert into USERS values (?,?,?,'user',?,?,?,?,sysdate)";
 		
 		PreparedStatement stmt = con.prepareStatement(sql);
-		stmt.setString(1, userVO.getUserId());
-		stmt.setString(2, userVO.getUserName());
-		stmt.setString(3, userVO.getPassword());
-		stmt.setString(4, userVO.getSsn());
-		stmt.setString(5, userVO.getPhone());
-		stmt.setString(6, userVO.getAddr());
-		stmt.setString(7, userVO.getEmail());
+		stmt.setString(1, User.getUserId());
+		stmt.setString(2, User.getUserName());
+		stmt.setString(3, User.getPassword());
+		stmt.setString(4, User.getSsn());
+		stmt.setString(5, User.getPhone());
+		stmt.setString(6, User.getAddr());
+		stmt.setString(7, User.getEmail());
 		stmt.executeUpdate();
 		
 		con.close();
 	}
 
-	public UserVO findUser(String userId) throws Exception {
+	public User findUser(String userId) throws Exception {
 		
 		Connection con = DBUtil.getConnection();
 
@@ -49,23 +49,23 @@ public class UserDAO {
 
 		ResultSet rs = stmt.executeQuery();
 
-		UserVO userVO = null;
+		User User = null;
 		while (rs.next()) {
-			userVO = new UserVO();
-			userVO.setUserId(rs.getString("USER_ID"));
-			userVO.setUserName(rs.getString("USER_NAME"));
-			userVO.setPassword(rs.getString("PASSWORD"));
-			userVO.setRole(rs.getString("ROLE"));
-			userVO.setSsn(rs.getString("SSN"));
-			userVO.setPhone(rs.getString("CELL_PHONE"));
-			userVO.setAddr(rs.getString("ADDR"));
-			userVO.setEmail(rs.getString("EMAIL"));
-			userVO.setRegDate(rs.getDate("REG_DATE"));
+			User = new User();
+			User.setUserId(rs.getString("USER_ID"));
+			User.setUserName(rs.getString("USER_NAME"));
+			User.setPassword(rs.getString("PASSWORD"));
+			User.setRole(rs.getString("ROLE"));
+			User.setSsn(rs.getString("SSN"));
+			User.setPhone(rs.getString("CELL_PHONE"));
+			User.setAddr(rs.getString("ADDR"));
+			User.setEmail(rs.getString("EMAIL"));
+			User.setRegDate(rs.getDate("REG_DATE"));
 		}
 		
 		con.close();
 
-		return userVO;
+		return User;
 	}
 
 	public HashMap<String,Object> getUserList(SearchVO searchVO) throws Exception {
@@ -78,7 +78,7 @@ public class UserDAO {
 		
 		
 		//
-		//pageCount°¡ ¸¸µé¾îÁ® ÀÖÀ¸¸é ¾ÈÇÏ°í, ¾Æ´Ï¸é ÇÏ
+		//pageCountï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ï°ï¿½, ï¿½Æ´Ï¸ï¿½ ï¿½ï¿½
 		//
 		
 		
@@ -155,7 +155,7 @@ public class UserDAO {
 		int total = 0;
 		if(rs.next())
 			total = Integer.parseInt(rs.getString("cnt"));
-		System.out.println("·Î¿ìÀÇ ¼ö:" + total);
+		System.out.println("ï¿½Î¿ï¿½ï¿½ï¿½ ï¿½ï¿½:" + total);
 
 		HashMap<String,Object> map = new HashMap<String,Object>();
 		map.put("count", new Integer(total));
@@ -164,10 +164,10 @@ public class UserDAO {
 		System.out.println("searchVO.getPage():" + searchVO.getPage());
 		System.out.println("searchVO.getPageSize():" + searchVO.getPageSize());
 
-		ArrayList<UserVO> list = new ArrayList<UserVO>();
+		ArrayList<User> list = new ArrayList<User>();
 		if (total > 0) {
 			for (int i = 0; i < searchVO.getPageSize(); i++) {
-				UserVO vo = new UserVO();
+				User vo = new User();
 				vo.setUserId(rs.getString("USER_ID"));
 				vo.setUserName(rs.getString("USER_NAME"));
 				vo.setPassword(rs.getString("PASSWORD"));
@@ -192,18 +192,18 @@ public class UserDAO {
 		return map;
 	}
 
-	public void updateUser(UserVO userVO) throws Exception {
+	public void updateUser(User User) throws Exception {
 		
 		Connection con = DBUtil.getConnection();
 
 		String sql = "update USERS set USER_NAME=?,CELL_PHONE=?,ADDR=?,EMAIL=? where USER_ID=?";
 		
 		PreparedStatement stmt = con.prepareStatement(sql);
-		stmt.setString(1, userVO.getUserName());
-		stmt.setString(2, userVO.getPhone());
-		stmt.setString(3, userVO.getAddr());
-		stmt.setString(4, userVO.getEmail());
-		stmt.setString(5, userVO.getUserId());
+		stmt.setString(1, User.getUserName());
+		stmt.setString(2, User.getPhone());
+		stmt.setString(3, User.getAddr());
+		stmt.setString(4, User.getEmail());
+		stmt.setString(5, User.getUserId());
 		stmt.executeUpdate();
 		
 		con.close();

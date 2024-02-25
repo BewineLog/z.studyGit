@@ -4,20 +4,20 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.model2.mvc.common.SearchVO;
+import com.model2.mvc.service.domain.Product;
 import com.model2.mvc.service.product.ProductService;
 import com.model2.mvc.service.product.dao.ProductDao;
-import com.model2.mvc.service.product.vo.ProductVO;
-import com.model2.mvc.service.purchase.vo.PurchaseVO;
+
 
 public class ProductServiceImpl implements ProductService {
 	ProductDao productDao = new ProductDao();
 	
-	public void addProduct(ProductVO productVO) throws Exception{
+	public void addProduct(Product productVO) throws Exception{
 		productDao.addProduct(productVO);
 	}
 	
 	
-	public ProductVO getProduct(int prodNo) throws Exception {
+	public Product getProduct(int prodNo) throws Exception {
 		return productDao.getProduct(prodNo);
 	}
 	
@@ -27,7 +27,7 @@ public class ProductServiceImpl implements ProductService {
 	}
 	
 	
-	public void updateProduct(ProductVO productVO) throws Exception{
+	public void updateProduct(Product productVO) throws Exception{
 		productDao.updateProduct(productVO);
 	}
 	

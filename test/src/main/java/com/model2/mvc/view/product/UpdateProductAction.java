@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.model2.mvc.framework.Action;
 import com.model2.mvc.service.product.impl.ProductServiceImpl;
-import com.model2.mvc.service.product.vo.ProductVO;
+import com.model2.mvc.service.domain.Product;
 
 public class UpdateProductAction extends Action{
 	
@@ -17,7 +17,7 @@ public class UpdateProductAction extends Action{
 		
 		
 
-		ProductVO productVO = new ProductVO();
+		Product Product = new Product();
 		
 		ProductServiceImpl impl = new ProductServiceImpl();
 		
@@ -27,12 +27,12 @@ public class UpdateProductAction extends Action{
 		
 		int prodNo = Integer.parseInt(request.getParameter("prodNo"));
 		
-		productVO = impl.getProduct(prodNo);
+		Product = impl.getProduct(prodNo);
 		
 		
 		
 		//
-		//³ªÁß¿¡ session À¸·Î º¯°æ ÇÊ¿ä 
+		//ï¿½ï¿½ï¿½ß¿ï¿½ session ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¿ï¿½ 
 		//
 		/*
 		if((history = (List<Integer>)getServletContext().getAttribute("history")) == null) {
@@ -45,9 +45,9 @@ public class UpdateProductAction extends Action{
 		
 		
 		
-		if(productVO != null) {
-			request.setAttribute("productVO", productVO);
-			System.out.println(productVO.toString());
+		if(Product != null) {
+			request.setAttribute("Product", Product);
+			System.out.println(Product.toString());
 		}
 		
 		System.out.println("getP action menu ::" + request.getParameter("menu"));

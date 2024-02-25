@@ -9,14 +9,14 @@ import java.util.List;
 
 import com.model2.mvc.common.SearchVO;
 import com.model2.mvc.common.util.DBUtil;
-import com.model2.mvc.service.product.vo.ProductVO;
-import com.model2.mvc.service.purchase.vo.PurchaseVO;
+import com.model2.mvc.service.domain.Product;
+
 
 public class ProductDao {
 
 	public ProductDao() {}
 	
-	public void addProduct(ProductVO productVO) throws Exception{
+	public void addProduct(Product Product) throws Exception{
 		Connection con = DBUtil.getConnection();
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
@@ -25,13 +25,13 @@ public class ProductDao {
 		
 		stmt = con.prepareStatement(sql);
 		
-		String date = productVO.getManuDate().replaceAll("-", "");
+		String date = Product.getManuDate().replaceAll("-", "");
 		System.out.println("productDao addProduct ManuDate::" + date);
-		stmt.setString(1, productVO.getProdName());
-		stmt.setString(2, productVO.getProdDetail());
+		stmt.setString(1, Product.getProdName());
+		stmt.setString(2, Product.getProdDetail());
 		stmt.setString(3, date);
-		stmt.setInt(4, productVO.getPrice());
-		stmt.setString(5, productVO.getFileName());
+		stmt.setInt(4, Product.getPrice());
+		stmt.setString(5, Product.getFileName());
 		
 		stmt.executeUpdate();
 		
@@ -40,8 +40,8 @@ public class ProductDao {
 		
 	}
 	
-	public ProductVO getProduct(int prodNo) throws Exception{
-		ProductVO productVO = new ProductVO();
+	public Product getProduct(int prodNo) throws Exception{
+		Product Product = new Product();
 		
 		Connection con = DBUtil.getConnection();
 		PreparedStatement stmt = null;
@@ -56,17 +56,17 @@ public class ProductDao {
 		rs = stmt.executeQuery();
 		
 		if(rs.next()) {
-			productVO.setFileName(rs.getString("image_file"));
-			productVO.setManuDate(rs.getString("manufacture_day"));
-			productVO.setPrice(rs.getInt("price"));
-			productVO.setProdDetail(rs.getString("prod_detail"));
-			productVO.setProdName(rs.getString("prod_name"));
-			productVO.setProdNo(rs.getInt("prod_no"));
-			productVO.setRegDate(rs.getDate("reg_date")); // DATETIME type?  casting?
+			Product.setFileName(rs.getString("image_file"));
+			Product.setManuDate(rs.getString("manufacture_day"));
+			Product.setPrice(rs.getInt("price"));
+			Product.setProdDetail(rs.getString("prod_detail"));
+			Product.setProdName(rs.getString("prod_name"));
+			Product.setProdNo(rs.getInt("prod_no"));
+			Product.setRegDate(rs.getDate("reg_date")); // DATETIME type?  casting?
 			
 		} // to bean
 		
-		System.out.println("in dao getProduct:" + productVO.toString());
+		System.out.println("in dao getProduct:" + Product.toString());
 		
 		
 		
@@ -75,7 +75,7 @@ public class ProductDao {
 		rs.close(); // to bean
 		
 		
-		return productVO;
+		return Product;
 		
 	}
 	
@@ -125,21 +125,21 @@ public class ProductDao {
 		HashMap<String, Object> map = new HashMap<String,Object>();
 		
 		map.put("count", total);
-		ArrayList<ProductVO> list = new ArrayList<ProductVO>();
+		ArrayList<Product> list = new ArrayList<Product>();
 	
 		//rs.absolute(searchVO.getPage() * searchVO.getPageUnit() - searchVO.getPageUnit()+1); // �ش� page �� ù��° row �� �̵��ϴ� ��
 		rs.next();
 		if(total > 0) {
 			for(int i = 0; i < searchVO.getPageUnit(); i++) {
-				ProductVO productVO = new ProductVO();
+				Product Product = new Product();
 				
-				productVO.setFileName(rs.getString("image_file"));
-				productVO.setManuDate(rs.getString("manufacture_day"));
-				productVO.setPrice(rs.getInt("price"));
-				productVO.setProdDetail(rs.getString("prod_detail"));
-				productVO.setProdName(rs.getString("prod_name"));
-				productVO.setProdNo(rs.getInt("prod_no"));
-				productVO.setRegDate(rs.getDate("reg_date")); // DATETIME type?  casting?
+				Product.setFileName(rs.getString("image_file"));
+				Product.setManuDate(rs.getString("manufacture_day"));
+				Product.setPrice(rs.getInt("price"));
+				Product.setProdDetail(rs.getString("prod_detail"));
+				Product.setProdName(rs.getString("prod_name"));
+				Product.setProdNo(rs.getInt("prod_no"));
+				Product.setRegDate(rs.getDate("reg_date")); // DATETIME type?  casting?
 				
 				
 				System.out.println("productDao tranCode::" + rs.getString("tran_status_code"));
@@ -149,23 +149,23 @@ public class ProductDao {
 				}
 				
 				if(tsc == null) {
-					productVO.setProTranCode("판매중");
+					Product.setProTranCode("판매중");
 				}else if(tsc.equals("1")) {  // later, store tran_status_code to var
 					System.out.println("tran_status_code == 1");
-					productVO.setProTranCode("구매완료");
+					Product.setProTranCode("구매완료");
 				}else if(tsc.equals("2")) {
 					System.out.println("tran_status_code == 2");
-					productVO.setProTranCode("배송중");
+					Product.setProTranCode("배송중");
 				}else if(tsc.equals("3")) {
 					System.out.println("tran_status_code == 3");
-					productVO.setProTranCode("배송완료");
+					Product.setProTranCode("배송완료");
 				}
 				
-				list.add(productVO);
+				list.add(Product);
 				
 				
-				if(productVO.getProTranCode().trim().equals("구매완료")) {
-					System.out.println("in productVO get 구매완료:: "+ productVO.toString());
+				if(Product.getProTranCode().trim().equals("구매완료")) {
+					System.out.println("in Product get 구매완료:: "+ Product.toString());
 				}
 				
 				if(!rs.next()) {
@@ -187,7 +187,7 @@ public class ProductDao {
 	}
 	
 
-	public void updateProduct(ProductVO productVO) throws Exception{
+	public void updateProduct(Product Product) throws Exception{
 		Connection con = DBUtil.getConnection();
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
@@ -197,15 +197,15 @@ public class ProductDao {
 		
 		stmt = con.prepareStatement(sql);
 		
-		String date = productVO.getManuDate().replaceAll("-", "");
+		String date = Product.getManuDate().replaceAll("-", "");
 		System.out.println("productDao updateProduct ManuDate::" + date);
-		stmt.setInt(1, productVO.getProdNo());
-		stmt.setString(2, productVO.getProdName());
-		stmt.setString(3, productVO.getProdDetail());
+		stmt.setInt(1, Product.getProdNo());
+		stmt.setString(2, Product.getProdName());
+		stmt.setString(3, Product.getProdDetail());
 		stmt.setString(4, date);
-		stmt.setInt(5, productVO.getPrice());
-		stmt.setString(6, productVO.getFileName());
-		stmt.setInt(7, productVO.getProdNo());
+		stmt.setInt(5, Product.getPrice());
+		stmt.setString(6, Product.getFileName());
+		stmt.setInt(7, Product.getProdNo());
 		
 		stmt.executeUpdate();
 		

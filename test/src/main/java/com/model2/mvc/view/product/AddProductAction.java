@@ -5,7 +5,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.model2.mvc.framework.Action;
 import com.model2.mvc.service.product.impl.ProductServiceImpl;
-import com.model2.mvc.service.product.vo.ProductVO;
+import com.model2.mvc.service.domain.Product;
 
 public class AddProductAction extends Action {
 
@@ -13,7 +13,7 @@ public class AddProductAction extends Action {
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
 		//request
-		ProductVO productVO = new ProductVO();
+		Product productVO = new Product();
 		
 		productVO.setFileName(request.getParameter("fileName"));
 		productVO.setManuDate(request.getParameter("manuDate"));

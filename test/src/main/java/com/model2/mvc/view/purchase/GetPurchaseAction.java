@@ -5,7 +5,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.model2.mvc.framework.Action;
 import com.model2.mvc.service.purchase.impl.PurchaseServiceImpl;
-import com.model2.mvc.service.purchase.vo.PurchaseVO;
+import com.model2.mvc.service.domain.Purchase;
 
 public class GetPurchaseAction extends Action {
 	@Override
@@ -15,13 +15,13 @@ public class GetPurchaseAction extends Action {
 		
 		PurchaseServiceImpl impl = new PurchaseServiceImpl();
 		
-		PurchaseVO purchaseVO = (PurchaseVO)(impl.getPurchase(tranNo));
+		Purchase Purchase = (Purchase)(impl.getPurchase(tranNo));
 		
-		if(purchaseVO != null) {
-			System.out.println("GetPurchaseAction purchaseVO not null");
-			request.setAttribute("purchaseVO", purchaseVO);
-			request.setAttribute("productVO", purchaseVO.getPurchaseProd());
-			request.setAttribute("userVO", purchaseVO.getBuyer());
+		if(Purchase != null) {
+			System.out.println("GetPurchaseAction Purchase not null");
+			request.setAttribute("Purchase", Purchase);
+			request.setAttribute("productVO", Purchase.getPurchaseProd());
+			request.setAttribute("userVO", Purchase.getBuyer());
 		}
 		
 		

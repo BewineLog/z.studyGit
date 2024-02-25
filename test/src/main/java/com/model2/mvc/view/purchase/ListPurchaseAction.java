@@ -4,7 +4,7 @@ import com.model2.mvc.common.Page;
 import com.model2.mvc.common.SearchVO;
 import com.model2.mvc.framework.Action;
 import com.model2.mvc.service.purchase.impl.PurchaseServiceImpl;
-import com.model2.mvc.service.user.vo.UserVO;
+import com.model2.mvc.service.domain.User;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -55,11 +55,11 @@ public class ListPurchaseAction extends Action {
 		
 		PurchaseServiceImpl impl = new PurchaseServiceImpl();
 		Map<String,Object> map = new HashMap<String,Object>();
-		UserVO userVO = (UserVO)request.getSession().getAttribute("user");
+		User User = (User)request.getSession().getAttribute("user");
 		
 		
-		if(userVO != null) {
-			map = impl.getPurchaseList(userVO.getUserId(),searchVO);
+		if(User != null) {
+			map = impl.getPurchaseList(User.getUserId(),searchVO);
 		}
 		
 		

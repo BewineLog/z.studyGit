@@ -6,7 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.model2.mvc.framework.Action;
 import com.model2.mvc.service.user.UserService;
 import com.model2.mvc.service.user.impl.UserServiceImpl;
-import com.model2.mvc.service.user.vo.UserVO;
+import com.model2.mvc.service.domain.User;
 
 
 public class UpdateUserViewAction extends Action{
@@ -17,9 +17,9 @@ public class UpdateUserViewAction extends Action{
 		String userId=request.getParameter("userId");
 		
 		UserService service=new UserServiceImpl();
-		UserVO userVO=service.getUser(userId);
+		User User=service.getUser(userId);
 		
-		request.setAttribute("userVO", userVO);
+		request.setAttribute("User", User);
 		
 		return "forward:/user/updateUser.jsp";
 	}

@@ -5,7 +5,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.model2.mvc.framework.Action;
 import com.model2.mvc.service.purchase.impl.PurchaseServiceImpl;
-import com.model2.mvc.service.purchase.vo.PurchaseVO;
+import com.model2.mvc.service.domain.Purchase;
 
 public class UpdateTranCodeAction extends Action {
 
@@ -22,16 +22,16 @@ public class UpdateTranCodeAction extends Action {
 		
 		
 		PurchaseServiceImpl impl = new PurchaseServiceImpl();
-		PurchaseVO purchaseVO = new PurchaseVO();
+		Purchase Purchase = new Purchase();
 		
-		purchaseVO = (PurchaseVO)(impl.getPurchaseByTranNo(tranNo));
+		Purchase = (Purchase)(impl.getPurchaseByTranNo(tranNo));
 		
-		if(purchaseVO != null) {
-			System.out.println("UpdateTranCodeAction:: " + purchaseVO.toString() );
+		if(Purchase != null) {
+			System.out.println("UpdateTranCodeAction:: " + Purchase.toString() );
 		}
-		purchaseVO.setTranCode(tranCode);
+		Purchase.setTranCode(tranCode);
 		
-		impl.updatePurchase(purchaseVO);
+		impl.updatePurchase(Purchase);
 		
 		return "forward:/listPurchase.do";
 	}
