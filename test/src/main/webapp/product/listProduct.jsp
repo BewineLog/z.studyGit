@@ -8,12 +8,7 @@
 
 <link rel="stylesheet" href="/css/admin.css" type="text/css">
 
-<script type="text/javascript">
-<!--
-function fncGetProductList(){
-	document.detailForm.submit();
-}
--->
+<script src="../javascript/list.js">
 </script>
 </head>
 
@@ -51,11 +46,11 @@ function fncGetProductList(){
 		
 		<td align="right">
 			<select name="searchCondition" class="ct_input_g" style="width:80px">
-				<option value="0" ${searchVO.searchCondition.trim() == '0' ? 'selected' : '' }>상품번호</option>
-				<option value="1" ${searchVO.searchCondition.trim() == '1' ? 'selected' : '' } >상품명</option>
-				<option value="2" ${searchVO.searchCondition.trim() == '2' ? 'selected' : '' } >상품가격</option>
+				<option value="0" ${! empty searchVO.searchCondition && searchVO.searchCondition.trim() == '0' ? 'selected' : '' }>상품번호</option>
+				<option value="1" ${! empty searchVO.searchCondition && searchVO.searchCondition.trim() == '1' ? 'selected' : '' } >상품명</option>
+				<option value="2" ${! empty searchVO.searchCondition && searchVO.searchCondition.trim() == '2' ? 'selected' : '' } >상품가격</option>
 			</select>
-			<input type="text" name="searchKeyword" value = "${searchVO.searchKeyword.trim()}"  class="ct_input_g" style="width:200px; height:19px" />
+			<input type="text" name="searchKeyword" value = "${! empty searchVO.searchKeyword ? searchVO.searchKeyword.trim() : ''}"  class="ct_input_g" style="width:200px; height:19px" />
 		</td>
 	
 		
@@ -66,7 +61,7 @@ function fncGetProductList(){
 						<img src="/images/ct_btnbg01.gif" width="17" height="23">
 					</td>
 					<td background="/images/ct_btnbg02.gif" class="ct_btn01" style="padding-top:3px;">
-						<a href="javascript:fncGetProductList();">검색</a>
+						<a href="javascript:fncGetList('1');">검색</a>
 					</td>
 					<td width="14" height="23">
 						<img src="/images/ct_btnbg03.gif" width="14" height="23">
@@ -138,18 +133,9 @@ function fncGetProductList(){
 <table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top:10px;">
 	<tr>
 		<td align="center">
+		<input type="hidden" id="page" name="page" value="" />
 			
-		<c:if test="${pageInfo.beginUnitPage > pageInfo.pageSize }">
-			<a href="/listProduct.do?page=${pageInfo.beginUnitPage-1}&searchKeyword=${searchVO.searchKeyword}&searchCondition=${searchVO.searchCondtion}">${'<'}</a>
-		</c:if>
-		
-		<c:forEach var="i" begin="${pageInfo.beginUnitPage}" end="${pageInfo.endUnitPage}">
-		<a href="/listProduct.do?page=${i}&menu=${menu}&searchKeyword=${searchVO.searchKeyword}&searchCondition=${searchVO.searchCondition}">${i}</a>
-		</c:forEach>
-		
-		<c:if test="${pageInfo.endUnitPage < pageInfo.maxPage }">
-			<a href="/listProduct.do?page=${pageInfo.endUnitPage+1}&searchKeyword=${searchVO.searchKeyword}&searchCondition=${searchVO.searchCondtion}">${'>'}</a>
-		</c:if>
+		<c:import url="../common/pageNavigator.jsp"/>
 		
     	</td>
 	</tr>

@@ -41,7 +41,7 @@
 		<td class="ct_write01">
 			<table width="100%" border="0" cellspacing="0" cellpadding="0">
 				<tr>
-					<td width="105">${vo.userId }</td>
+					<td width="105">${! empty vo ? vo.userId : '' }</td>
 					<td></td>
 				</tr>
 			</table>
@@ -71,7 +71,7 @@
 	</tr>
 	<tr>
 		<td width="104" class="ct_write">휴대전화번호</td>
-		<td bgcolor="D6D6D6" width="1">$vo.phone }</td>
+		<td bgcolor="D6D6D6" width="1">${vo.phone}</td>
 		<td class="ct_write01"></td>
 	</tr>
 	<tr>

@@ -9,10 +9,7 @@
 
 <link rel="stylesheet" href="/css/admin.css" type="text/css">
 
-<script type="text/javascript">
-	function fncGetUserList() {
-		document.detailForm.submit();
-	}
+<script src="../javascript/list.js">
 </script>
 </head>
 
@@ -20,7 +17,7 @@
 
 <div style="width: 98%; margin-left: 10px;">
 
-<form name="detailForm" action="/listUser.do" method="post">
+<form name="detailForm" action="/listPurchaseView.do" method="post">
 
 <table width="100%" height="37" border="0" cellpadding="0"	cellspacing="0">
 	<tr>
@@ -106,17 +103,9 @@
 	<tr>
 		<td align="center">
 		
-		<c:if test="${pageInfo.beginUnitPage > pageInfo.pageSize}">
-			<a href="/listPurchase.do?page=${pageInfo.endPageUnit+1}&searchKeyword=${searchVO.searchKeyword}&searchCondition=${searchVO.searchCondition}">${'<'}</a>
-		</c:if>
-		 
-		 <c:forEach var="i" begin="${requestScope.pageInfo.beginUnitPage}" step="1" end="${requestScope.pageInfo.endUnitPage}">
-			<a href="/listPurchase.do?page=${i}&searchKeyword=${searchVO.searchKeyword}&searchCondition=${searchVO.searchCondition}">${i}</a> 
-		</c:forEach>
-		
-		<c:if test="${pageInfo.endUnitPage < pageInfo.maxPage}">
-			<a href="/listPurchase.do?page=${pageInfo.beginPageUnit-1}&searchKeyword=${searchVO.searchKeyword}&searchCondition=${searchVO.searchCondition}">${'>'}</a>
-		</c:if>
+		<input type="hidden" id="page" name="page" value="" />
+			
+		<c:import url="../common/pageNavigator.jsp"/>
 		
 		</td>
 	</tr>

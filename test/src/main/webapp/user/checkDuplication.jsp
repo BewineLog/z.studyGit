@@ -154,7 +154,7 @@ function fncUseId() {
 			<table border="0" cellspacing="0" cellpadding="0">
 				<tr>		
 				
-					<c:if test="${result }">
+					<c:if test="${! empty result && result}">
 					<td width="17" height="23">
 						<img src="/images/ct_btnbg01.gif" width="17" height="23"/>
 					</td>

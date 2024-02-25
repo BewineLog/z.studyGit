@@ -110,9 +110,9 @@ public class UserDAO {
 		subSql += "SELECT ROW_NUMBER() OVER (ORDER BY users.user_id) AS num, users.* FROM USERS users";
 
 		if (searchVO.getSearchCondition() != null) {
-		    if (searchVO.getSearchCondition().equals("0")) {
+		    if (searchVO.getSearchCondition().equals("0") && !searchVO.getSearchKeyword().equals("")) {
 		        subSql += " WHERE USER_ID LIKE '%" + searchVO.getSearchKeyword() + "%'";
-		    } else if (searchVO.getSearchCondition().equals("1")) {
+		    } else if (searchVO.getSearchCondition().equals("1") && !searchVO.getSearchKeyword().equals("")) {
 		        subSql += " WHERE USER_NAME LIKE '%" + searchVO.getSearchKeyword() + "%'";
 		    }
 		}

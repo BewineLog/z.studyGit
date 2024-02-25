@@ -85,15 +85,15 @@ public class ProductDao {
 		
 		String sql = "select p.*, t.tran_status_code from product p , transaction t";
 		
-		if(searchVO.getSearchCondition() != null && searchVO.getSearchKeyword() != null) {
+		if(searchVO.getSearchCondition() != null) {
 			
-			if (searchVO.getSearchCondition().equals("0")) {
+			if (searchVO.getSearchCondition().equals("0") && !searchVO.getSearchKeyword().equals("")) {
 				sql += " where p.prod_no='" + searchVO.getSearchKeyword() +"'";
 			}
-			else if (searchVO.getSearchCondition().equals("1")) {
+			else if (searchVO.getSearchCondition().equals("1") && !searchVO.getSearchKeyword().equals("")) {
 				sql += " where p.prod_name='" + searchVO.getSearchKeyword() +"'";
 			}
-			else if (searchVO.getSearchCondition().equals("2")) {
+			else if (searchVO.getSearchCondition().equals("2") && !searchVO.getSearchKeyword().equals("")) {
 				sql += " where p.price='" + searchVO.getSearchKeyword() +"'";
 			}
 			

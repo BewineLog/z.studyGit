@@ -6,10 +6,7 @@
 
 <link rel="stylesheet" href="/css/admin.css" type="text/css">
 
-<script type="text/javascript">
-function fncGetUserList(){
-	document.detailForm.submit();
-}
+<script src="../javascript/list.js">
 </script>
 </head>
 
@@ -41,22 +38,12 @@ function fncGetUserList(){
 	<tr>
 	
 	
-	<c:if test="${! empty searchCondition }">
 	<td align="right">
 			<select name="searchCondition" class="ct_input_g" style="width:80px">
-				<option value="0" ${searchVO.getSearchCondition == "0" ? "selected" : "" }>회원ID</option>
-				<option value="1" ${searchVO.getSearchCondition == "1" ? "selected" : "" }>회원명</option>
+				<option value="0" ${! empty searchCondition && searchVO.getSearchCondition == "0" ? "selected" : "" }>회원ID</option>
+				<option value="1" ${! empty searchCondition && searchVO.getSearchCondition == "1" ? "selected" : "" }>회원명</option>
 			</select>
-			<input type="text" name="searchKeyword"  class="ct_input_g" style="width:200px; height:19px" >
-		</td>
-	</c:if>
-	
-	<td align="right">
-			<select name="searchCondition" class="ct_input_g" style="width:80px">
-				<option value="0">회원ID</option>
-				<option value="1">회원명</option>
-			</select>
-			<input type="text" name="searchKeyword" value="${searchVO.searchKeyword}"  class="ct_input_g" style="width:200px; height:19px" >
+			<input type="text" name="searchKeyword" value="${! empty searchVO.searchKeyword ? searchVO.searchKeyword :''  }"  class="ct_input_g" style="width:200px; height:19px" >
 		</td>
 	
 		<td align="right" width="70">
@@ -66,7 +53,7 @@ function fncGetUserList(){
 						<img src="/images/ct_btnbg01.gif" width="17" height="23">
 					</td>
 					<td background="/images/ct_btnbg02.gif" class="ct_btn01" style="padding-top:3px;">
-						<a href="javascript:fncGetUserList();">검색</a>
+						<a href="javascript:fncGetList('1');">검색</a>
 					</td>
 					<td width="14" height="23">
 						<img src="/images/ct_btnbg03.gif" width="14" height="23">
@@ -118,17 +105,17 @@ function fncGetUserList(){
 	<c:set var="idx" value="0">
 	</c:set>
 	
-	<c:forEach var="i" items="${list}" begin="${idx}" step="1" end="${idx+pageInfo.pageSize}">
+	<c:forEach var="user" items="${list}" begin="${idx}" step="1" end="${idx+pageInfo.pageSize}">
 		<tr class="ct_list_pop">
 		<td align="center">${idx+1 + pageInfo.pageSize*(pageInfo.currentPage-1)}</td>
 		<td></td>
 		<td align="left">
-			<a href="/getUser.do?userId=${i.userId}">${i.userId}</a>
+			<a href="/getUser.do?userId=${user.userId}">${user.userId}</a>
 		</td>
 		<td></td>
-		<td align="left">${i.userName}</td>
+		<td align="left">${user.userName}</td>
 		<td></td>
-		<td align="left">${i.email}
+		<td align="left">${user.email}
 		</td>		
 	</tr>
 	<tr>
@@ -145,17 +132,9 @@ function fncGetUserList(){
 	<tr>
 		<td align="center">
 		
-		<c:if test="${pageInfo.beginUnitPage > pageInfo.pageSize}">
-			<a href="/listUser.do?page=${pageInfo.beginUnitPage-1}&searchKeyword=${searchVO.searchKeyword}&searchCondition=${searchVO.searchCondition}">${'<'}</a>
-		</c:if>
+		<input type="hidden" id="page" name="page" value="" />
 		
-		<c:forEach var="i" begin="${pageInfo.beginUnitPage}" end="${pageInfo.endUnitPage}">
-			<a href="/listUser.do?page=${i}&searchKeyword=${searchVO.searchKeyword}&searchCondition=${searchVO.searchCondition}">${i}</a>
-		</c:forEach>
-		
-		<c:if test="${pageInfo.endUnitPage < pageInfo.maxPage}">
-			<a href="/listUser.do?page=${pageInfo.endUnitPage+1}&searchKeyword=${searchVO.searchKeyword}&searchCondition=${searchVO.searchCondition}">${'>'}</a>
-		</c:if>
+		<c:import url="../common/pageNavigator.jsp"/>
 		
     	</td>
 	</tr>
