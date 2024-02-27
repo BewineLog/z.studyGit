@@ -15,13 +15,13 @@ public class GetPurchaseAction extends Action {
 		
 		PurchaseServiceImpl impl = new PurchaseServiceImpl();
 		
-		Purchase Purchase = (Purchase)(impl.getPurchase(tranNo));
+		Purchase purchase = (Purchase)(impl.getPurchase(tranNo));
 		
-		if(Purchase != null) {
+		if(purchase != null) {
 			System.out.println("GetPurchaseAction Purchase not null");
-			request.setAttribute("Purchase", Purchase);
-			request.setAttribute("productVO", Purchase.getPurchaseProd());
-			request.setAttribute("userVO", Purchase.getBuyer());
+			request.setAttribute("purchase", purchase);
+			request.setAttribute("product", purchase.getPurchaseProd());
+			request.setAttribute("user", purchase.getBuyer());
 		}
 		
 		

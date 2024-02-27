@@ -19,16 +19,16 @@ public class UpdateTranCodeByProdAction extends Action {
 		System.out.println("UpdateTranCodeByProdAction:: " + tranCode +"  "+ prodNo);
 		
 		PurchaseServiceImpl impl = new PurchaseServiceImpl();
-		Purchase Purchase = new Purchase();
+		Purchase purchase = new Purchase();
 		
-		Purchase = (Purchase)(impl.getPurchase(prodNo));
+		purchase = (Purchase)(impl.getPurchase(prodNo));
 		
-		if(Purchase != null) {
-			System.out.println("UpdateTranCodeByProdAction:: " + Purchase.toString() );
+		if(purchase != null) {
+			System.out.println("UpdateTranCodeByProdAction:: " + purchase.toString() );
 		}
-		Purchase.setTranCode(tranCode);
+		purchase.setTranCode(tranCode);
 		
-		impl.updatePurchase(Purchase);
+		impl.updatePurchase(purchase);
 		
 		return "forward:/listProduct.do?menu=manage";
 	}

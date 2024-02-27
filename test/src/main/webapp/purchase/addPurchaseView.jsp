@@ -46,7 +46,7 @@ function fncAddPurchase() {
 	</tr>
 </table>
 
-<input type="hidden" name="prodNo" value="${productVO.prodNo}" />
+<input type="hidden" name="prodNo" value="${product.prodNo}" />
 
 <table width="600" border="0" cellspacing="0" cellpadding="0"	align="center" style="margin-top: 13px;">
 	<tr>
@@ -60,7 +60,7 @@ function fncAddPurchase() {
 		<td class="ct_write01" width="299">
 			<table width="100%" border="0" cellspacing="0" cellpadding="0">
 				<tr>
-					<td width="105">${productVO.prodNo}</td>
+					<td width="105">${product.prodNo}</td>
 				</tr>
 			</table>
 		</td>
@@ -73,7 +73,7 @@ function fncAddPurchase() {
 			상품명 <img src="/images/ct_icon_red.gif" width="3" height="3" align="absmiddle"/>
 		</td>
 		<td bgcolor="D6D6D6" width="1"></td>
-		<td class="ct_write01">${productVO.prodName}</td>
+		<td class="ct_write01">${product.prodName}</td>
 	</tr>
 	<tr>
 		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
@@ -83,7 +83,7 @@ function fncAddPurchase() {
 			상품상세정보 <img	src="/images/ct_icon_red.gif" width="3" height="3" align="absmiddle"/>
 		</td>
 		<td bgcolor="D6D6D6" width="1"></td>
-		<td class="ct_write01">${productVO.prodDetail}</td>
+		<td class="ct_write01">${product.prodDetail}</td>
 	</tr>
 	<tr>
 		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
@@ -91,7 +91,7 @@ function fncAddPurchase() {
 	<tr>
 		<td width="104" class="ct_write">제조일자</td>
 		<td bgcolor="D6D6D6" width="1"></td>
-		<td class="ct_write01">${fn:substring(productVO.manuDate,0,4)-fn:substring(productVO.manuDate,4,6)-fn:substring(productVO.manuDate,6,8)}</td>
+		<td class="ct_write01">${fn:substring(product.manuDate,0,4)-fn:substring(product.manuDate,4,6)-fn:substring(product.manuDate,6,8)}</td>
 	</tr>
 	<tr>
 		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
@@ -99,7 +99,7 @@ function fncAddPurchase() {
 	<tr>
 		<td width="104" class="ct_write">가격</td>
 		<td bgcolor="D6D6D6" width="1"></td>
-		<td class="ct_write01">${productVO.price}</td>
+		<td class="ct_write01">${product.price}</td>
 	</tr>
 	<tr>
 		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
@@ -107,7 +107,7 @@ function fncAddPurchase() {
 	<tr>
 		<td width="104" class="ct_write">등록일자</td>
 		<td bgcolor="D6D6D6" width="1"></td>
-		<td class="ct_write01">${productVO.regDate}</td>
+		<td class="ct_write01">${product.regDate}</td>
 	</tr>
 	<tr>
 		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
@@ -117,8 +117,8 @@ function fncAddPurchase() {
 			구매자아이디 <img 	src="/images/ct_icon_red.gif" width="3" height="3" align="absmiddle"/>
 		</td>
 		<td bgcolor="D6D6D6" width="1"></td>
-		<td class="ct_write01">${userVO.userId}</td>
-		<input type="hidden" name="buyerId" value="${userVO.userId}" />
+		<td class="ct_write01">${user.userId}</td>
+		<input type="hidden" name="buyerId" value="${user.userId}" />
 	</tr>
 	<tr>
 		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
@@ -141,7 +141,7 @@ function fncAddPurchase() {
 		<td width="104" class="ct_write">구매자이름</td>
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
-			<input type="text" name="receiverName" 	class="ct_input_g" value="${userVO.userName}"
+			<input type="text" name="receiverName" 	class="ct_input_g" value="${user.userName}"
 						style="width: 100px; height: 19px" maxLength="20" />
 		</td>
 	</tr>
@@ -152,7 +152,7 @@ function fncAddPurchase() {
 		<td width="104" class="ct_write">구매자연락처</td>
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
-			<input 	type="text" name="receiverPhone" class="ct_input_g" value="${userVO.phone}"
+			<input 	type="text" name="receiverPhone" class="ct_input_g" value="${user.phone}"
 							style="width: 100px; height: 19px" maxLength="20" />
 		</td>
 	</tr>
@@ -163,7 +163,7 @@ function fncAddPurchase() {
 		<td width="104" class="ct_write">구매자주소</td>
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
-			<input 	type="text" name="receiverAddr" class="ct_input_g" value="${userVO.addr}"
+			<input 	type="text" name="receiverAddr" class="ct_input_g" value="${user.addr}"
 							style="width: 100px; height: 19px" maxLength="20" />
 		</td>
 	</tr>

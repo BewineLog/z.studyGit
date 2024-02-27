@@ -45,8 +45,8 @@ function fncFixPurchase() {
 	</tr>
 </table>
 
-<input type="hidden" name="tranNo" value="${purchaseVO.tranNo}" />
-<input type="hidden" name="prodNo" value="${productVO.prodNo}" />
+<input type="hidden" name="tranNo" value="${purchase.tranNo}" />
+<input type="hidden" name="prodNo" value="${product.prodNo}" />
 
 <table width="600" border="0" cellspacing="0" cellpadding="0"	align="center" style="margin-top: 13px;">
 	<tr>
@@ -60,7 +60,7 @@ function fncFixPurchase() {
 		<td class="ct_write01" width="299">
 			<table width="100%" border="0" cellspacing="0" cellpadding="0">
 				<tr>
-					<td width="105">${purchaseVO.tranNo}</td>
+					<td width="105">${purchase.tranNo}</td>
 				</tr>
 			</table>
 		</td>
@@ -74,7 +74,7 @@ function fncFixPurchase() {
 		<td class="ct_write01" width="299">
 			<table width="100%" border="0" cellspacing="0" cellpadding="0">
 				<tr>
-					<td width="105">${productVO.prodNo}</td>
+					<td width="105">${product.prodNo}</td>
 				</tr>
 			</table>
 		</td>
@@ -88,7 +88,7 @@ function fncFixPurchase() {
 			구매자아이디 <img 	src="/images/ct_icon_red.gif" width="3" height="3" align="absmiddle"/>
 		</td>
 		<td bgcolor="D6D6D6" width="1"></td>
-		<td class="ct_write01">${purchaseVO.buyer.userId}</td>
+		<td class="ct_write01">${purchase.buyer.userId}</td>
 	</tr>
 	<tr>
 		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
@@ -97,7 +97,7 @@ function fncFixPurchase() {
 		<td width="104" class="ct_write">구매방법</td>
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
-			${purchaseVO.paymentOption}
+			${purchase.paymentOption}
 		</td>
 	</tr>
 	<tr>
@@ -107,7 +107,7 @@ function fncFixPurchase() {
 		<td width="104" class="ct_write">구매자이름</td>
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
-			${purchaseVO.buyer.userName}
+			${purchase.buyer.userName}
 		</td>
 	</tr>
 	<tr>
@@ -117,7 +117,7 @@ function fncFixPurchase() {
 		<td width="104" class="ct_write">구매자연락처</td>
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
-			${purchaseVO.receiverPhone }
+			${purchase.receiverPhone }
 		</td>
 	</tr>
 	<tr>
@@ -127,7 +127,7 @@ function fncFixPurchase() {
 		<td width="104" class="ct_write">구매자주소</td>
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
-			${purchaseVO.divyAddr}
+			${purchase.divyAddr}
 		</td>
 	</tr>
 	<tr>
@@ -137,7 +137,7 @@ function fncFixPurchase() {
 		<td width="104" class="ct_write">구매요청사항</td>
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
-			${purchaseVO.divyRequest}
+			${purchase.divyRequest}
 		</td>
 	</tr>
 	<tr>
@@ -147,7 +147,7 @@ function fncFixPurchase() {
 		<td width="104" class="ct_write">배송희망일자</td>
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td width="200" class="ct_write01">
-			${purchaseVO.divyDate}
+			${purchase.divyDate}
 		</td>
 	</tr>
 	<tr>
@@ -161,7 +161,7 @@ function fncFixPurchase() {
 		<td width="104" class="ct_write">주문일</td>
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td width="200" class="ct_write01">
-			${purchaseVO.orderDate}
+			${purchase.orderDate}
 		</td>
 	</tr>
 	<tr>

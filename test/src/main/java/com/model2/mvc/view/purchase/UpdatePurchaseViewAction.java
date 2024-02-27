@@ -18,12 +18,12 @@ public class UpdatePurchaseViewAction extends Action{
 //		HttpSession session = request.getSession();
 //		Purchase Purchase = (Purchase)session.getAttribute("Purchase");
 		PurchaseServiceImpl impl = new PurchaseServiceImpl();
-		Purchase Purchase = impl.getPurchase(prodNo);
+		Purchase purchase = impl.getPurchase(prodNo);
 		
-		if(Purchase != null) {
+		if(purchase != null) {
 		
-			request.setAttribute("Purchase", Purchase);
-			System.out.println("updatePurchaseView :::" + Purchase.toString());
+			request.setAttribute("purchase", purchase);
+			System.out.println("updatePurchaseView :::" + purchase.toString());
 		}
 		return "forward:/purchase/updatePurchaseView.jsp";
 		

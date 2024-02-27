@@ -55,11 +55,11 @@ public class ListPurchaseAction extends Action {
 		
 		PurchaseServiceImpl impl = new PurchaseServiceImpl();
 		Map<String,Object> map = new HashMap<String,Object>();
-		User User = (User)request.getSession().getAttribute("user");
+		User user = (User)request.getSession().getAttribute("user");
 		
 		
-		if(User != null) {
-			map = impl.getPurchaseList(User.getUserId(),searchVO);
+		if(user != null) {
+			map = impl.getPurchaseList(user.getUserId(),searchVO);
 		}
 		
 		

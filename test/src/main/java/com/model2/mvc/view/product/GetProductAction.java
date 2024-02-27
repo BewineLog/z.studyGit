@@ -16,7 +16,7 @@ public class GetProductAction extends Action{
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception{
 		
-		Product Product = new Product();
+		Product product = new Product();
 		
 		ProductServiceImpl impl = new ProductServiceImpl();
 		
@@ -25,7 +25,7 @@ public class GetProductAction extends Action{
 		
 		int prodNo = Integer.parseInt(request.getParameter("prodNo"));
 		
-		Product = impl.getProduct(prodNo);
+		product = impl.getProduct(prodNo);
 		
 		
 		
@@ -43,9 +43,9 @@ public class GetProductAction extends Action{
 		
 		
 		
-		if(Product != null) {
-			request.setAttribute("Product", Product);
-			System.out.println(Product.toString());
+		if(product != null) {
+			request.setAttribute("product", product);
+			System.out.println(product.toString());
 		}
 		
 		System.out.println("getP action menu ::" + request.getParameter("menu"));

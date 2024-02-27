@@ -24,20 +24,20 @@ public class AddPurchaseViewAction extends Action {
 		//prod_no
 		//Session userID
 		
-		int prodNo = Integer.parseInt(request.getParameter("prod_no"));
+		int prodNo = Integer.parseInt(request.getParameter("prodNo"));
 		
 		HttpSession session = request.getSession(); // default true
-		User User = (User)session.getAttribute("user");
+		User user = (User)session.getAttribute("user");
 		
 		ProductServiceImpl pImpl = new ProductServiceImpl();
-		Product Product = pImpl.getProduct(prodNo);
+		Product product = pImpl.getProduct(prodNo);
 		
 		
-		request.setAttribute("User", User);
-		request.setAttribute("Product", Product);
+		request.setAttribute("user", user);
+		request.setAttribute("product", product);
 		
-		System.out.println("AddPurchaseViewAction ::" +User.toString());
-		System.out.println("AddPurchaseViewAction ::" +Product.toString());
+		System.out.println("AddPurchaseViewAction ::" +user.toString());
+		System.out.println("AddPurchaseViewAction ::" +product.toString());
 		
 		return "forward:/purchase/addPurchaseView.jsp";
 		

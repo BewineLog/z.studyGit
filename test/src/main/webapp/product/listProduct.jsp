@@ -93,6 +93,7 @@
 <%-- 						value="${! empty searchVO.searchKeyword ? searchVO.searchKeyword.trim() : ''}" --%>
 <!-- 						class="ct_input_g" style="width: 200px; height: 19px" /></td> -->
 
+					<c:if test="${! empty menu && menu == 'search' }">
 					<td align="right">
 						<table border="0" cellspacing="0" cellpadding="0">
 						<tr>
@@ -116,6 +117,7 @@
 
 						</table>
 					</td>
+					</c:if>
 
 				</tr>
 			</table>

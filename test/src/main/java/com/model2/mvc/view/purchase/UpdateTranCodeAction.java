@@ -22,16 +22,16 @@ public class UpdateTranCodeAction extends Action {
 		
 		
 		PurchaseServiceImpl impl = new PurchaseServiceImpl();
-		Purchase Purchase = new Purchase();
+		Purchase purchase = new Purchase();
 		
-		Purchase = (Purchase)(impl.getPurchaseByTranNo(tranNo));
+		purchase = (Purchase)(impl.getPurchaseByTranNo(tranNo));
 		
-		if(Purchase != null) {
-			System.out.println("UpdateTranCodeAction:: " + Purchase.toString() );
+		if(purchase != null) {
+			System.out.println("UpdateTranCodeAction:: " + purchase.toString() );
 		}
-		Purchase.setTranCode(tranCode);
+		purchase.setTranCode(tranCode);
 		
-		impl.updatePurchase(Purchase);
+		impl.updatePurchase(purchase);
 		
 		return "forward:/listPurchase.do";
 	}
