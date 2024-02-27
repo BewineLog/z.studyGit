@@ -4,6 +4,8 @@ package com.model2.mvc.common;
 public class SearchVO {
 	
 	private int page;
+	String showOption;
+	String orderByOption;
 	String searchCondition;
 	String searchKeyword;
 	int pageUnit;
@@ -45,6 +47,22 @@ public class SearchVO {
 
 	public void setPageSize(int pageSize) {
 		this.pageSize = pageSize;
+	}
+
+	public String getShowOption() {
+		return showOption;
+	}
+
+	public void setShowOption(String showOption) {
+		this.showOption = showOption;
+	}
+
+	public String getOrderByOption() {
+		return orderByOption;
+	}
+
+	public void setOrderByOption(String orderByOption) {
+		this.orderByOption = orderByOption;
 	}
 	
 	

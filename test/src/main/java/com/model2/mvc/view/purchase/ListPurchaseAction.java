@@ -75,7 +75,7 @@ public class ListPurchaseAction extends Action {
 		
 //		request.setAttribute("searchVO", searchVO);
 		
-		return "forward:/purchase/listPurchaseView.jsp";
+		return "forward:/purchase/listPurchase.jsp";
 		
 	}
 

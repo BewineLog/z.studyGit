@@ -41,36 +41,84 @@
 </table>
 
 
-<table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top:10px;">
-	<tr>
-		
-		<td align="right">
-			<select name="searchCondition" class="ct_input_g" style="width:80px">
-				<option value="0" ${! empty searchVO.searchCondition && searchVO.searchCondition.trim() == '0' ? 'selected' : '' }>상품번호</option>
-				<option value="1" ${! empty searchVO.searchCondition && searchVO.searchCondition.trim() == '1' ? 'selected' : '' } >상품명</option>
-				<option value="2" ${! empty searchVO.searchCondition && searchVO.searchCondition.trim() == '2' ? 'selected' : '' } >상품가격</option>
-			</select>
-			<input type="text" name="searchKeyword" value = "${! empty searchVO.searchKeyword ? searchVO.searchKeyword.trim() : ''}"  class="ct_input_g" style="width:200px; height:19px" />
-		</td>
-	
-		
-		<td align="right" width="70">
-			<table border="0" cellspacing="0" cellpadding="0">
+			<table width="100%" border="0" cellspacing="0" cellpadding="0"
+				style="margin-top: 10px;">
 				<tr>
-					<td width="17" height="23">
-						<img src="/images/ct_btnbg01.gif" width="17" height="23">
-					</td>
-					<td background="/images/ct_btnbg02.gif" class="ct_btn01" style="padding-top:3px;">
-						<a href="javascript:fncGetList('1');">검색</a>
-					</td>
-					<td width="14" height="23">
-						<img src="/images/ct_btnbg03.gif" width="14" height="23">
+
+					<td align="right"><select name="searchCondition"
+						class="ct_input_g" style="width: 80px">
+							<option value="0"
+								${! empty searchVO.searchCondition && searchVO.searchCondition.trim() == '0' ? 'selected' : '' }>상품번호</option>
+							<option value="1"
+								${! empty searchVO.searchCondition && searchVO.searchCondition.trim() == '1' ? 'selected' : '' }>상품명</option>
+							<option value="2"
+								${! empty searchVO.searchCondition && searchVO.searchCondition.trim() == '2' ? 'selected' : '' }>상품가격</option>
+					</select> <input type="text" name="searchKeyword"
+						value="${! empty searchVO.searchKeyword ? searchVO.searchKeyword.trim() : ''}"
+						class="ct_input_g" style="width: 200px; height: 19px" /></td>
+
+
+					<td align="right" width="70">
+						<table border="0" cellspacing="0" cellpadding="0">
+							<tr>
+								<td width="17" height="23"><img
+									src="/images/ct_btnbg01.gif" width="17" height="23"></td>
+								<td background="/images/ct_btnbg02.gif" class="ct_btn01"
+									style="padding-top: 3px;"><a
+									href="javascript:fncGetList('1');">검색</a></td>
+								<td width="14" height="23"><img
+									src="/images/ct_btnbg03.gif" width="14" height="23"></td>
+							</tr>
+
+						</table>
 					</td>
 				</tr>
 			</table>
-		</td>
-	</tr>
-</table>
+
+			<table width="100%" border="0" cellspacing="0" cellpadding="0"
+				style="margin-top: 10px;">
+				<tr>
+
+<!-- 					<td align="right"><select name="searchCondition" -->
+<!-- 						class="ct_input_g" style="width: 80px"> -->
+<!-- 							<option value="0" -->
+<%-- 								${! empty searchVO.searchCondition && searchVO.searchCondition.trim() == '0' ? 'selected' : '' }>상품번호</option> --%>
+<!-- 							<option value="1" -->
+<%-- 								${! empty searchVO.searchCondition && searchVO.searchCondition.trim() == '1' ? 'selected' : '' }>상품명</option> --%>
+<!-- 							<option value="2" -->
+<%-- 								${! empty searchVO.searchCondition && searchVO.searchCondition.trim() == '2' ? 'selected' : '' }>상품가격</option> --%>
+<!-- 					</select>  -->
+					
+<!-- 					<input type="text" name="searchKeyword" -->
+<%-- 						value="${! empty searchVO.searchKeyword ? searchVO.searchKeyword.trim() : ''}" --%>
+<!-- 						class="ct_input_g" style="width: 200px; height: 19px" /></td> -->
+
+					<td align="right">
+						<table border="0" cellspacing="0" cellpadding="0">
+						<tr>
+						<a><input type="checkbox" id="orderAsc" name="orderAsc" onclick="javascript:rankingAsc('1')" ${! empty rankingAscValue && rankingAscValue == "asc" ? 'checked' : '' }>가격 낮은 순</a>
+							<input type="hidden" id="rankingAscValue" name="rankingAscValue" value="${! empty rankingAscValue ? rankingAscValue : '' }"/>
+						</tr>
+						<tr>
+						<a><input type="checkbox" id="orderDesc" name="orderDesc" onclick="javascript:rankingDesc('1')" ${! empty rankingDescValue && rankingDescValue =="desc" ? 'checked' : '' }>가격 높은 순</a>
+								<input type="hidden" id="rankingDescValue" name="rankingDescValue" value="${! empty rankingDescValue ? rankingDescValue : '' }"/>
+						
+						</tr>
+						</table>	
+					</td>
+
+					<td align="right" width="70">
+						<table border="0" cellspacing="0" cellpadding="0">
+							<tr>
+								<a><input type="checkbox" id="inventory" name="inventory" onclick="javascript:showInventory('1')" ${! empty inventoryValue && inventoryValue =="notShow" ? 'checked' : '' }>재고없음 보지않기</a>
+								<input type="hidden" id="inventoryValue" name="inventoryValue" value="${! empty inventoryValue ? inventoryValue : '' }"/>
+							</tr>
+
+						</table>
+					</td>
+
+				</tr>
+			</table>
 
 
 <table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top:10px;">
@@ -101,7 +149,9 @@
 		<td align="center">${idx+1}</td>
 		<td></td>
 				
-				<td align="left"><a href="/getProduct.do?prodNo=${i.prodNo}&menu=${param.menu}">${i.prodName}</a></td>
+		<td align="left">
+			${! empty i.proTranCode && i.proTranCode.trim() == '판매중' ? '<a href="/getProduct.do?prodNo='.concat(i.prodNo).concat('&menu=').concat(menu).concat('">').concat(i.prodName).concat('</a>') : i.prodName} 
+		</td>
 		
 		<td></td>
 		
@@ -111,7 +161,7 @@
 		<td></td>
 		<td align="left">
 		
-			${i.proTranCode} 
+			${menu == 'manage' && i.proTranCode.trim() !='판매중' ? i.proTranCode : i.proTranCode.trim() == '판매중' ? '판매중' : '재고없음'} 
 			
 			<c:if test="${i.proTranCode.trim() == '구매완료' && menu.trim() == 'manage'}">
 				<a href="/updateTranCodeByProd.do?prodNo=${i.prodNo}&tranCode=2">배송하기</a>

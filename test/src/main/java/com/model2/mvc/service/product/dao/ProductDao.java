@@ -88,24 +88,39 @@ public class ProductDao {
 		if(searchVO.getSearchCondition() != null) {
 			
 			if (searchVO.getSearchCondition().equals("0") && !searchVO.getSearchKeyword().equals("")) {
-				sql += " where p.prod_no LIKE '%" + searchVO.getSearchKeyword() +"'%";
+				sql += " WHERE p.prod_no LIKE '%" + searchVO.getSearchKeyword() +"%'";
 			}
 			else if (searchVO.getSearchCondition().equals("1") && !searchVO.getSearchKeyword().equals("")) {
-				sql += " where p.prod_name LIKE '%" + searchVO.getSearchKeyword() +"'%";
+				sql += " WHERE p.prod_name LIKE '%" + searchVO.getSearchKeyword() +"%'";
 			}
 			else if (searchVO.getSearchCondition().equals("2") && !searchVO.getSearchKeyword().equals("")) {
-				sql += " where p.price LIKE '%" + searchVO.getSearchKeyword() +"'%";
+				sql += " WHERE p.price LIKE '%" + searchVO.getSearchKeyword() +"%'";
 			}
 			
 			
 		} //
 		
-		if(sql.contains("where")) {
+		if(searchVO.getShowOption() != null && searchVO.getShowOption().equals("notShow")) {
+			if(sql.contains("WHERE")) {
+				sql += " and t.tran_status_code IS NULL";
+			}else {
+				sql += " WHERE t.tran_status_code IS NULL";
+			}
+		}
+		
+		if(sql.contains("WHERE")) {
 			sql += " and p.prod_no=t.prod_no(+)";
 		}else {
 			sql += " WHERE p.prod_no=t.prod_no(+)";
 		}
-		sql += " order by reg_date desc"; // �������� ���� 
+		
+		if(searchVO.getOrderByOption() == null || searchVO.getOrderByOption().equals("")) {
+			sql += " order by reg_date desc";
+		}else if(searchVO.getOrderByOption().equals("asc")) {
+			sql += " ORDER BY price ASC";
+		}else if(searchVO.getOrderByOption().equals("desc")) {
+			sql += " ORDER BY price DESC";
+		}
 		
 		int total = this.getTotalCount(sql, searchVO);
 		

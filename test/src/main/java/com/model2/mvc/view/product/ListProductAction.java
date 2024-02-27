@@ -59,6 +59,25 @@ public class ListProductAction extends Action {
 		System.out.println("list product Action ::" + pageSize + " " + pageUnit);
 		
 		
+		if(request.getParameter("inventoryValue") != null && ! request.getParameter("inventoryValue").toString().equals("")) {
+			System.out.println("list product action inventory::" + request.getParameter("inventoryValue"));
+			searchVO.setShowOption(request.getParameter("inventoryValue"));
+			
+			request.setAttribute("inventoryValue", request.getParameter("inventoryValue"));
+		}
+		
+		if(request.getParameter("rankingAscValue") != null && !request.getParameter("rankingAscValue").toString().equals("")) {
+			System.out.println("list product action rankingAsc::" + request.getParameter("rankingAscValue"));
+			searchVO.setOrderByOption(request.getParameter("rankingAscValue"));
+			
+			request.setAttribute("rankingAscValue", request.getParameter("rankingAscValue"));
+		}else if(request.getParameter("rankingDescValue") != null && !request.getParameter("rankingDescValue").toString().equals("")) {
+			System.out.println("list product action rankingDesc::" + request.getParameter("rankingDescValue"));
+			searchVO.setOrderByOption(request.getParameter("rankingDescValue"));
+			
+			request.setAttribute("rankingDescValue", request.getParameter("rankingDescValue"));
+		}
+		
 		
 		
 		HashMap<String,Object> map = new HashMap<String,Object>();
