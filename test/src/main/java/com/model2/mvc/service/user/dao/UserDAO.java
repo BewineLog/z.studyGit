@@ -208,4 +208,17 @@ public class UserDAO {
 		
 		con.close();
 	}
+	
+	public void removeUser(String userId) throws Exception{
+		Connection con = DBUtil.getConnection();
+		
+		String sql = "DELETE FROM users WHERE user_id = ?";
+		
+		PreparedStatement stmt = con.prepareStatement(sql);
+		stmt.setString(1, userId);
+		
+		stmt.executeUpdate();
+		
+		con.close();
+	}
 }

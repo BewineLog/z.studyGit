@@ -37,13 +37,19 @@ public class ListProductAction extends Action {
 		String searchKeyword = "";
 		String searchCondition = "";
 		
-		if(request.getParameter("searchCondition") != null & request.getParameter("searchKeyword") != null ){
+		if(request.getParameter("searchCondition") != null ){
 			searchCondition = request.getParameter("searchCondition");
-			searchKeyword = request.getParameter("searchKeyword");
+			searchVO.setSearchCondition(searchCondition);
+			if(request.getParameter("searchKeyword") != null) {
+				
+				searchKeyword = request.getParameter("searchKeyword");
+				System.out.println("ListProductAction searchKeyword :: " + searchKeyword);
+				searchVO.setSearchKeyword(searchKeyword);
+			}
 		}
 		
-		searchVO.setSearchCondition(searchCondition);
-		searchVO.setSearchKeyword(searchKeyword);
+		
+		
 		
 		System.out.println("searchKeyword ::" + searchKeyword + " " + searchCondition);
 		

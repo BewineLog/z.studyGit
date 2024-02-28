@@ -12,7 +12,6 @@ function rankingAsc(page){
 		document.getElementById("rankingAscValue").value = null;
 	}
 	
-	
 	fncGetList(page);
 }
 
@@ -25,8 +24,6 @@ function rankingDesc(page){
 		document.getElementById("rankingDescValue").value = null;
 	}
 	
-	
-	
 	fncGetList(page);
 }
 
@@ -38,9 +35,21 @@ function showInventory(page){
 		document.getElementById("inventoryValue").value = "show";
 	}
 	
-	alert("showInventory");
-	
 	fncGetList(page);
 }
 
 
+function removeUser(page,id){
+	document.getElementById("removeUserId").value = id;
+	fncGetList(page);
+}
+
+//function changeBox(page){
+//	if(document.getElementById("searchCondition") == 1){
+//		document.getElementById("optionValue").value = "1";
+//	}else if(document.getElementById("searchCondition") == 2){
+//		document.getElementById("optionValue").type = "2";
+//	}
+//	
+//	fncGetList(page);
+//}

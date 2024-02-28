@@ -41,24 +41,24 @@
 </table>
 
 
-			<table width="100%" border="0" cellspacing="0" cellpadding="0"
-				style="margin-top: 10px;">
-				<tr>
+<table width="100%" border="0" cellspacing="0" cellpadding="0"style="margin-top: 10px;">
+		<tr>
 
-					<td align="right"><select name="searchCondition"
-						class="ct_input_g" style="width: 80px">
-							<option value="0"
-								${! empty searchVO.searchCondition && searchVO.searchCondition.trim() == '0' ? 'selected' : '' }>상품번호</option>
-							<option value="1"
-								${! empty searchVO.searchCondition && searchVO.searchCondition.trim() == '1' ? 'selected' : '' }>상품명</option>
-							<option value="2"
-								${! empty searchVO.searchCondition && searchVO.searchCondition.trim() == '2' ? 'selected' : '' }>상품가격</option>
-					</select> <input type="text" name="searchKeyword"
-						value="${! empty searchVO.searchKeyword ? searchVO.searchKeyword.trim() : ''}"
-						class="ct_input_g" style="width: 200px; height: 19px" /></td>
+		<td align="right">
+			<select name="searchCondition" class="ct_input_g" style="width: 80px">
+					<c:if test="${! empty menu && menu == 'manage'}">
+					<option value="0" ${! empty searchVO.searchCondition && searchVO.searchCondition.trim() == '0' ? 'selected' : '' }>상품번호</option>
+					</c:if>
+					<option value="1" ${! empty searchVO.searchCondition && searchVO.searchCondition.trim() == '1' ? 'selected' : '' } >상품명</option>
+					<option value="2" ${! empty searchVO.searchCondition && searchVO.searchCondition.trim() == '2' ? 'selected' : '' } >상품가격</option>
+			</select> 
+			
+			<input type="hidden" id="optionValue" nsame="optionValue" value="${optionValue}"/>
+			
+			<input type="text" name="searchKeyword" value="${! empty searchVO.searchKeyword ? searchVO.searchKeyword.trim() : ''}" class="ct_input_g" style="width: 200px; height: 19px" /> </a>
+			</td>
 
-
-					<td align="right" width="70">
+			<td align="right" width="70">
 						<table border="0" cellspacing="0" cellpadding="0">
 							<tr>
 								<td width="17" height="23"><img

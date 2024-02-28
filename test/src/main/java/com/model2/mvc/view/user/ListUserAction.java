@@ -61,6 +61,9 @@ public class ListUserAction extends Action {
 		Page pageInfo = new Page(page,Integer.parseInt(map.get("count").toString()) ,pageUnit,pageSize);
 		System.out.println("pageInfo::" + pageInfo.toString());
 		
+		if(request.getParameter("removeUserId") != null) {
+			service.removeUser(request.getParameter("removeUserId"));
+		}
 		
 //		request.setAttribute("map", map);
 		request.setAttribute("count", map.get("count"));

@@ -75,7 +75,9 @@
 		<td class="ct_line02"></td>
 		<td class="ct_list_b" width="150">È¸¿ø¸í</td>
 		<td class="ct_line02"></td>
-		<td class="ct_list_b">ÀÌ¸ŞÀÏ</td>		
+		<td class="ct_list_b">ÀÌ¸ŞÀÏ</td>	
+		<td class="ct_line02"></td>
+		<td class="ct_list_b">Å»Åğ</td>	
 	</tr>
 	<tr>
 		<td colspan="11" bgcolor="808285" height="1"></td>
@@ -115,8 +117,10 @@
 		<td></td>
 		<td align="left">${user.userName}</td>
 		<td></td>
-		<td align="left">${user.email}
-		</td>		
+		<td align="left">${user.email}</td>
+		<td></td>
+		<td align="left"><a href="javascript:removeUser('1','${user.userId}')">Å»Åğ</a></td>
+		<input type="hidden" id="removeUserId" name="removeUserId" value=""/>
 	</tr>
 	<tr>
 		<td colspan="11" bgcolor="D6D7D6" height="1"></td>
