@@ -1,6 +1,7 @@
 package com.model2.mvc.view.user;
 
 import java.util.HashMap;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -56,9 +57,9 @@ public class ListUserAction extends Action {
 		
 		
 		UserService service=new UserServiceImpl();
-		HashMap<String,Object> map=service.getUserList(searchVO);
+		List<Object> map=service.getUserList(searchVO);
 
-		Page pageInfo = new Page(page,Integer.parseInt(map.get("count").toString()) ,pageUnit,pageSize);
+		Page pageInfo = new Page(page,service.getTotalCount() ,pageUnit,pageSize);
 		System.out.println("pageInfo::" + pageInfo.toString());
 		
 		if(request.getParameter("removeUserId") != null) {
@@ -66,8 +67,8 @@ public class ListUserAction extends Action {
 		}
 		
 //		request.setAttribute("map", map);
-		request.setAttribute("count", map.get("count"));
-		request.setAttribute("list", map.get("list"));
+		request.setAttribute("count", service.getTotalCount());
+		request.setAttribute("list", map);
 		request.setAttribute("searchVO", searchVO);
 		request.setAttribute("pageInfo",pageInfo);
 		

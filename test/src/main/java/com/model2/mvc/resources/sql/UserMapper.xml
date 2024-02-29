@@ -21,7 +21,7 @@
 	 	  
 	<!-- insert, select bu user_id, update by user_id, delete by user_id ,getUserList by Search-->
   	
-  	<resultMap id="userSelectMap" type="mybatis.service.domain.User">
+  	<resultMap id="userSelectMap" type="com.model2.mvc.service.domain.User">
   		<result property="userId" column="user_id" jdbcType="VARCHAR"/>
   		<result property="userName" column="user_name" jdbcType="VARCHAR"/>
   		<result property="password" column="password" jdbcType="VARCHAR"/>
@@ -33,11 +33,11 @@
   		<result property="regDate" column="reg_date" jdbcType="DATE"/>
   	</resultMap>
   	
-  	<insert id="insertUser" parameterType="mybatis.service.domain.User">
+  	<insert id="insertUser" parameterType="com.model2.mvc.service.domain.User">
   		INSERT
   		INTO users(user_id,user_name,password,role,ssn,cell_phone,addr,email,reg_date)
   		VALUES (
-  				#{userId:VARCHAR}, #{userName:VARCHAR}, #{password:VARCHAR}, #{role:VARCHAR}, #{ssn:VARCHAR}, #{phone:VARCHAR},
+  				#{userId:VARCHAR}, #{userName:VARCHAR}, #{password:VARCHAR}, 'user', #{ssn:VARCHAR}, #{phone:VARCHAR},
   				#{addr:VARCHAR}, #{email:VARCHAR}, sysdate
   		)
   		
@@ -49,7 +49,7 @@
   		WHERE user_id = #{value}
   	</select>
   	
-  	<update id="updateUser" parameterType="mybatis.service.domain.User">
+  	<update id="updateUser" parameterType="com.model2.mvc.service.domain.User">
   		UPDATE users
   		<set>
   			<if test="userId != null">user_id = #{userId},</if>
@@ -69,37 +69,42 @@
   		DELETE FROM users
   		WHERE user_id=#{value}
   	</delete>
-
-	<select id="getUserList"
-		parameterType="mybatis.service.domain.Search"
-		resultMap="userSelectMap">
-		SELECT user_id,user_name,password,role,ssn,cell_phone,addr,email,reg_date
-		FROM users
-
-		<where>
-			<choose>
-				<when test="searchCondition=='userId'">
-					user_id IN
-					<foreach item="value" collection="userId" open="("
-						separator="," close=")">
-						#{value}
-					</foreach>
-				</when>
-			</choose>
-		</where>		
+  	
+  	
+	<sql id="getUserListSubquery">
+  		SELECT user_id, user_name, email 
+  		FROM users
   		
   		<where>
-			<choose>
-				<when test="searchCondition=='userName'">
-					user_name IN
-					<foreach item="value" collection="userName" open="("
-						separator="," close=")">
-						#{value}
-					</foreach>
-				</when>
-			</choose>
-		</where>				
-  								
+  			<choose>
+  				<when test="searchCondition =='0' and searchKeyword != '' ">
+  					user_id = #{searchKeyword}
+  				</when>
+  				
+  				<when test="searchCondition =='1' and searchKeyword != '' ">
+  					user_name = #{searchKeyword}
+  				</when>
+  			</choose>
+  		</where>
+  		ORDER BY user_id
+  	</sql>
+
+	<select id="getUserList"
+		parameterType="com.model2.mvc.common.SearchVO"
+		resultMap="userSelectMap">
+		SELECT *
+		FROM (	SELECT inner_table. * ,  ROWNUM AS row_seq		
+  		FROM ( <include refid="getUserListSubquery"/> 	) inner_table	
+  		WHERE ROWNUM <![CDATA[<=]]> ( #{page} * #{pageSize} ) )
+  		WHERE row_seq 
+  		BETWEEN ( ( #{page} - 1 ) * #{pageSize} + 1) AND (#{page} * #{pageSize})
+  	</select>
+  	
+  	<select id="getTotalCount"
+  			resultType="int">
+  	
+  		SELECT COUNT(*)
+  		FROM ( <include refid="getUserListSubquery"/> )		
   	</select>
   	
 </mapper>

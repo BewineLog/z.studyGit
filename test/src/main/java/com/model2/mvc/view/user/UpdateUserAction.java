@@ -1,5 +1,7 @@
 package com.model2.mvc.view.user;
 
+import java.sql.Date;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -17,18 +19,20 @@ public class UpdateUserAction extends Action {
 												HttpServletResponse response) throws Exception {
 		String userId=(String)request.getParameter("userId");
 		
-		User User=new User();
-		User.setUserId(userId);
-		User.setUserName(request.getParameter("userName"));
-		User.setAddr(request.getParameter("addr"));
-		User.setPhone(request.getParameter("phone"));
-		User.setEmail(request.getParameter("email"));
+		User user=new User();
+		user.setUserId(userId);
+		user.setUserName(request.getParameter("userName"));
+		user.setAddr(request.getParameter("addr"));
+		user.setPhone(request.getParameter("phone"));
+		user.setEmail(request.getParameter("email"));
+		user.setRegDate(Date.valueOf(request.getParameter("regDate")));
+		user.setRole(request.getParameter("role"));
 		
 		UserService service=new UserServiceImpl();
-		service.updateUser(User);
+		service.updateUser(user);
 		
-		User = service.getUser(userId);
-		request.setAttribute("vo", User);
+		user = service.getUser(userId);
+		request.setAttribute("vo", user);
 //		System.out.println("updateUserAction foward:: " + "forward:/getUser.do?userId="+userId+"&isUpdate=clear");
 		return "forward:/user/readUser.jsp?isUpdate=clear";
 	}

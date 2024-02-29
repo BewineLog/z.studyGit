@@ -1,6 +1,8 @@
 package com.model2.mvc.service.user.impl;
 
+import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 
 import com.model2.mvc.common.SearchVO;
 import com.model2.mvc.service.user.UserService;
@@ -12,12 +14,12 @@ public class UserServiceImpl implements UserService{
 	
 	private UserDAO userDAO;
 	
-	public UserServiceImpl() {
+	public UserServiceImpl() throws IOException {
 		userDAO=new UserDAO();
 	}
 
-	public void addUser(User User) throws Exception {
-		userDAO.insertUser(User);
+	public int addUser(User User) throws Exception {
+		return userDAO.insertUser(User);
 	}
 
 	public User loginUser(User User) throws Exception {
@@ -33,12 +35,16 @@ public class UserServiceImpl implements UserService{
 		return userDAO.findUser(userId);
 	}
 
-	public HashMap<String,Object> getUserList(SearchVO searchVO) throws Exception {
+	public List<Object> getUserList(SearchVO searchVO) throws Exception {
 		return userDAO.getUserList(searchVO);
 	}
+	
+	public int getTotalCount() {
+		return userDAO.getTotalCount();
+	}
 
-	public void updateUser(User User) throws Exception {
-		userDAO.updateUser(User);
+	public int updateUser(User User) throws Exception {
+		return userDAO.updateUser(User);
 	}
 
 	public boolean checkDuplication(String userId) throws Exception {
@@ -50,7 +56,7 @@ public class UserServiceImpl implements UserService{
 		return result;
 	}
 	
-	public void removeUser(String userId) throws Exception{
-		userDAO.removeUser(userId);
+	public int removeUser(String userId) throws Exception{
+		return userDAO.removeUser(userId);
 	}
 }

@@ -51,7 +51,7 @@ function resetData() {
 
 <form name="detailForm"  method="post" >
 
-<input type="hidden" name="userId" value="${userVO.userId}">
+<input type="hidden" name="userId" value="${user.userId}">
 
 <table width="100%" height="37" border="0" cellpadding="0" cellspacing="0">
 	<tr>
@@ -71,6 +71,8 @@ function resetData() {
 </table>
 
 <table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top:13px;">
+	<input type="hidden" id="regDate" name="regDate" value="${user.regDate}"/>
+	<input type="hidden" id="role" name="role" value="${user.role}"/>
 	<tr>
 		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
 	</tr>
@@ -82,7 +84,7 @@ function resetData() {
 		<td class="ct_write01">
 			<table width="100%" border="0" cellspacing="0" cellpadding="0">
 				<tr>
-					<td width="105">${userVO.userId}</td>
+					<td width="105">${user.userId}</td>
 					<td>	</td>
 				</tr>
 			</table>
@@ -98,7 +100,7 @@ function resetData() {
 		</td>
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
-			<input type="text" name="userName" value="${userVO.userName}" class="ct_input_g" 
+			<input type="text" name="userName" value="${user.userName}" class="ct_input_g" 
 						style="width:100px; height:19px"  maxLength="50" >
 		</td>
 	</tr>
@@ -110,7 +112,7 @@ function resetData() {
 		<td width="104" class="ct_write">주소</td>
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
-			<input 	type="text" name="addr" value="${userVO.addr}" class="ct_input_g" 
+			<input 	type="text" name="addr" value="${user.addr}" class="ct_input_g" 
 							style="width:370px; height:19px"  maxLength="100">
 		</td>
 	</tr>
@@ -134,14 +136,14 @@ function resetData() {
 <%-- 							value="<%=vo.getPhone().split("-")[1] %>" --%>
 <%-- 						<%} %>  --%>
 						
-						value="${! empty userVO.phone ? (fn:split(userVO.phone,'-')[1]):''}"
+						value="${! empty user.phone ? (fn:split(user.phone,'-')[1]):''}"
 						class="ct_input_g" style="width:100px; height:19px"  maxLength="9" >
 			- 
 			<input type="text" name="phone3" 
 <%-- 						<%if (vo.getPhone() != null) {%>  --%>
 <%-- 							value="<%=vo.getPhone().split("-")[2] %>" --%>
 <%-- 						<%} %>  --%>
-						value="${! empty userVO.phone ? (fn:split(userVO.phone,'-')[2]):''}"
+						value="${! empty user.phone ? (fn:split(user.phone,'-')[2]):''}"
 						class="ct_input_g" style="width:100px; height:19px"  maxLength="9" >
 			<input type="hidden" name="phone" class="ct_input_g"  >
 		</td>
@@ -157,7 +159,7 @@ function resetData() {
 			<table border="0" cellspacing="0" cellpadding="0">
 				<tr>
 					<td height="26">
-						<input 	type="text" name="email" value="${userVO.email}" class="ct_input_g" 
+						<input 	type="text" name="email" value="${user.email}" class="ct_input_g" 
 										style="width:100px; height:19px" onChange="check_email(this.form);">
 					</td>
 				</tr>
