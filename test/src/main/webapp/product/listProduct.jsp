@@ -57,6 +57,24 @@
 			
 			<input type="text" name="searchKeyword" value="${! empty searchVO.searchKeyword ? searchVO.searchKeyword.trim() : ''}" class="ct_input_g" style="width: 200px; height: 19px" /> </a>
 			</td>
+			<td>
+				<!-- 
+				여기에 상세보기 버튼을 하나 생성
+				상세보기 버튼을 누르면, 새로운 window open by jsp ??
+				
+				기본검색
+				
+				가격대: ~ 1만원 1~2만원 2~3만원 직접 입력  ㅁ-ㅁ 검색 버튼   
+				
+				값을 입력하는 칸 안에 max 가격은 천만원으로 회색 글씨??
+				
+				그럼 적어도 query에 between price A AND B option
+				
+				SearchVO에 price range variable 필요
+				
+				
+				 -->
+			</td>
 
 			<td align="right" width="70">
 						<table border="0" cellspacing="0" cellpadding="0">
@@ -93,6 +111,11 @@
 <%-- 						value="${! empty searchVO.searchKeyword ? searchVO.searchKeyword.trim() : ''}" --%>
 <!-- 						class="ct_input_g" style="width: 200px; height: 19px" /></td> -->
 
+
+
+					<!-- 
+						얘네 위치를 네이버처럼 물품 위로 올리자
+					 -->
 					<c:if test="${! empty menu && menu == 'search' }">
 					<td align="right">
 						<table border="0" cellspacing="0" cellpadding="0">

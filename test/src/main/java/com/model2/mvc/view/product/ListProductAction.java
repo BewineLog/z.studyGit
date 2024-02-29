@@ -41,7 +41,6 @@ public class ListProductAction extends Action {
 			searchCondition = request.getParameter("searchCondition");
 			searchVO.setSearchCondition(searchCondition);
 			if(request.getParameter("searchKeyword") != null) {
-				
 				searchKeyword = request.getParameter("searchKeyword");
 				System.out.println("ListProductAction searchKeyword :: " + searchKeyword);
 				searchVO.setSearchKeyword(searchKeyword);
