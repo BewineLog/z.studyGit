@@ -68,52 +68,19 @@ public class UserDAO {
 		return User;
 	}
 
-	public HashMap<String,Object> getUserList(SearchVO searchVO) throws Exception {
+	public HashMap<String,Object> getUserList(SearchVO search) throws Exception {
 		
-		Connection con = DBUtil.getConnection();
-		
-//		String sql = "select * from USERS ";
-		
-//		Select  ROW_NUMBER() OVER(ORDER BY users.user_id), users.* from USERS users
-		
-		
-		//
-		//pageCount�� ������� ������ ���ϰ�, �ƴϸ� ��
-		//
-		
-		
-//		String sql = "select ( select count(*) as cnt from (";
-//		String subSql = "select * from (Select  ROW_NUMBER() OVER(ORDER BY users.user_id) as num, users.* from USERS users"; 
-//	
-//		
-//		if (searchVO.getSearchCondition() != null) {
-//			if (searchVO.getSearchCondition().equals("0")) {
-//				subSql += " where USER_ID LIKE '%" + searchVO.getSearchKeyword()
-//						+ "%'";
-//			} else if (searchVO.getSearchCondition().equals("1")) {
-//				subSql += " where USER_NAME LIKE '%" + searchVO.getSearchKeyword()
-//						+ "%'";
-//			}
-//		}
-//		
-//		subSql += ") where num between ? and ? ";
-//		subSql += " order by USER_ID";
-//		
-//		sql += subSql;
-//		sql += "), vt.* from (";
-//		sql += subSql;
-//		sql += ") vt";
-		
+		Connection con = DBUtil.getConnection();	
 		
 		String sql = "SELECT ( SELECT COUNT(*) FROM (";
 		String subSql = "SELECT * FROM (";
 		subSql += "SELECT ROW_NUMBER() OVER (ORDER BY users.user_id) AS num, users.* FROM USERS users";
 
-		if (searchVO.getSearchCondition() != null) {
-		    if (searchVO.getSearchCondition().equals("0") && !searchVO.getSearchKeyword().equals("")) {
-		        subSql += " WHERE USER_ID LIKE '%" + searchVO.getSearchKeyword() + "%'";
-		    } else if (searchVO.getSearchCondition().equals("1") && !searchVO.getSearchKeyword().equals("")) {
-		        subSql += " WHERE USER_NAME LIKE '%" + searchVO.getSearchKeyword() + "%'";
+		if (search.getSearchCondition() != null) {
+		    if (search.getSearchCondition().equals("0") && !search.getSearchKeyword().equals("")) {
+		        subSql += " WHERE USER_ID LIKE '%" + search.getSearchKeyword() + "%'";
+		    } else if (search.getSearchCondition().equals("1") && !search.getSearchKeyword().equals("")) {
+		        subSql += " WHERE USER_NAME LIKE '%" + search.getSearchKeyword() + "%'";
 		    }
 		}
 
@@ -135,17 +102,17 @@ public class UserDAO {
 														ResultSet.TYPE_SCROLL_INSENSITIVE,
 														ResultSet.CONCUR_UPDATABLE);
 		
-		int startNum = searchVO.getPage() * searchVO.getPageSize() - searchVO.getPageSize()+1;
+		int startNum = search.getPage() * search.getPageSize() - search.getPageSize()+1;
 		
-		System.out.println("getPage::" + searchVO.getPage() + "pageSize ::" + searchVO.getPageSize() );
+		System.out.println("getPage::" + search.getPage() + "pageSize ::" + search.getPageSize() );
 		
 		stmt.setInt(1, startNum);
-		stmt.setInt(2, startNum + searchVO.getPageSize()-1);
+		stmt.setInt(2, startNum + search.getPageSize()-1);
 //		stmt.setInt(3, startNum);
 //		stmt.setInt(4, startNum + searchVO.getPageSize()-1);
 		ResultSet rs = stmt.executeQuery();
 		
-		System.out.println("between value :: " + startNum +" " + (startNum + searchVO.getPageSize()-1));
+		System.out.println("between value :: " + startNum +" " + (startNum + search.getPageSize()-1));
 		
 
 		
@@ -161,12 +128,12 @@ public class UserDAO {
 		map.put("count", new Integer(total));
 
 //		rs.absolute(searchVO.getPage() * searchVO.getPageUnit() - searchVO.getPageUnit()+1);
-		System.out.println("searchVO.getPage():" + searchVO.getPage());
-		System.out.println("searchVO.getPageSize():" + searchVO.getPageSize());
+		System.out.println("searchVO.getPage():" + search.getPage());
+		System.out.println("searchVO.getPageSize():" + search.getPageSize());
 
 		ArrayList<User> list = new ArrayList<User>();
 		if (total > 0) {
-			for (int i = 0; i < searchVO.getPageSize(); i++) {
+			for (int i = 0; i < search.getPageSize(); i++) {
 				User vo = new User();
 				vo.setUserId(rs.getString("USER_ID"));
 				vo.setUserName(rs.getString("USER_NAME"));
