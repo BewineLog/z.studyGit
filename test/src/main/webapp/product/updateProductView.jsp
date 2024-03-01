@@ -86,9 +86,9 @@ function resetData(){
 			<table width="100%" border="0" cellspacing="0" cellpadding="0">
 				<tr>
 					<td width="105">
-						<input type="text" name="prodName" class="ct_input_g" value="${productVO.prodName}"
+						<input type="text" name="prodName" class="ct_input_g" value="${product.prodName}"
 									style="width: 100px; height: 19px" maxLength="20">
-						<input type="hidden" name="prodNo" class="ct_input_g" value="${productVO.prodNo}" >
+						<input type="hidden" name="prodNo" class="ct_input_g" value="${product.prodNo}" >
 					</td>
 				</tr>
 			</table>
@@ -103,7 +103,7 @@ function resetData(){
 		</td>
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
-			<input type="text" name="prodDetail" class="ct_input_g" value="${productVO.prodDetail}"
+			<input type="text" name="prodDetail" class="ct_input_g" value="${product.prodDetail}"
 						style="width: 100px; height: 19px" maxLength="10" minLength="6"/>
 		</td>
 	</tr>
@@ -117,7 +117,7 @@ function resetData(){
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
 			
-			<input type="text" name="manuDate" readonly="readonly" class="ct_input_g"  value="${fn:substring(productVO.manuDate,'0','4').concat('-').concat(fn:substring(productVO.manuDate,'4','6')).concat('-').concat(fn:substring(productVO.manuDate,'6','8'))}
+			<input type="text" name="manuDate" readonly="readonly" class="ct_input_g"  value="${fn:substring(product.manuDate,'0','4').concat('-').concat(fn:substring(product.manuDate,'4','6')).concat('-').concat(fn:substring(product.manuDate,'6','8'))}
 "
 						style="width: 100px; height: 19px"	maxLength="10" minLength="6"/>
 				&nbsp;<img src="../images/ct_icon_date.gif" width="15" height="15" 
@@ -133,7 +133,7 @@ function resetData(){
 		</td>
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
-			<input type="text" name="price" class="ct_input_g" value="${productVO.price}"
+			<input type="text" name="price" class="ct_input_g" value="${product.price}"
 						style="width: 100px; height: 19px" maxLength="10">&nbsp;원
 		</td>
 	</tr>
@@ -144,7 +144,7 @@ function resetData(){
 		<td width="104" class="ct_write">상품이미지</td>
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
-			<input		type="text" name="fileName" class="ct_input_g" value="${productVO.fileName}"
+			<input		type="text" name="fileName" class="ct_input_g" value="${product.fileName}"
 							style="width: 200px; height: 19px" maxLength="13"/>
 		</td>
 	</tr>

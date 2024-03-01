@@ -1,5 +1,5 @@
 <%@ page contentType="text/html; charset=euc-kr" %>
-
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <html>
 <head>

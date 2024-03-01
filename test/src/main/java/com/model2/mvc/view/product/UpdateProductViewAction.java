@@ -24,7 +24,7 @@ public class UpdateProductViewAction extends Action{
 		ProductServiceImpl impl = new ProductServiceImpl();
 		impl.updateProduct(Product);
 		
-		request.setAttribute("Product", impl.getProduct(Product.getProdNo()));
+		request.setAttribute("product", impl.getProduct(Product.getProdNo()));
 		
 		return "forward:/product/updateProduct.jsp";
 	}
