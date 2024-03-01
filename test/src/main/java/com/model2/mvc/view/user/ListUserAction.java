@@ -6,10 +6,18 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.ibatis.session.SqlSession;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
 import com.model2.mvc.common.Page;
 import com.model2.mvc.common.SearchVO;
+import com.model2.mvc.common.util.SpringUtil;
+import com.model2.mvc.common.util.SqlSessionFactoryBean;
 import com.model2.mvc.framework.Action;
 import com.model2.mvc.service.user.UserService;
+import com.model2.mvc.service.user.dao.UserDAO;
+import com.model2.mvc.service.user.impl.UserDaoImpl;
 import com.model2.mvc.service.user.impl.UserServiceImpl;
 
 
@@ -54,9 +62,25 @@ public class ListUserAction extends Action {
 		searchVO.setPageSize(pageSize);
 		
 		
+//		SqlSession sqlSession = new SqlSessionFactoryBean().getSqlSession();
+//		
+//		UserDAO userDao = new UserDaoImpl();
+//		userDao.setSqlSession(sqlSession);
+//		
+//		UserService service=new UserServiceImpl();
+//		service.setUserDao(userDao);
 		
+//		ApplicationContext context = new ClassPathXmlApplicationContext(
+//				new String[] {
+//						"com/model2/mvc/resources/config/commonService.xml",
+//						"com/model2/mvc/resources/config/userService.xml"
+//				}
+//			);
+//
+//		UserService service = (UserService)context.getBean("userServiceImpl");
 		
-		UserService service=new UserServiceImpl();
+		UserService service = SpringUtil.getUserService();
+
 		List<Object> map=service.getUserList(searchVO);
 
 		Page pageInfo = new Page(page,service.getTotalCount() ,pageUnit,pageSize);

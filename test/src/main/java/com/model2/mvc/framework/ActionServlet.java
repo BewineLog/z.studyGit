@@ -29,11 +29,11 @@ public class ActionServlet extends HttpServlet {
 		
 		String url = request.getRequestURI();
 		String contextPath = request.getContextPath();
-		String path = url.substring(contextPath.length());
-		System.out.println(path);
+		String requestPath = url.substring(contextPath.length());
+		System.out.println("\nActionServlet.service() RequestURI : "+requestPath);
 		
 		try{
-			Action action = mapper.getAction(path);
+			Action action = mapper.getAction(requestPath);
 			action.setServletContext(getServletContext());
 			
 			String resultPage=action.execute(request, response);

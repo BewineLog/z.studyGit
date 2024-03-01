@@ -14,8 +14,8 @@ public class UserServiceImpl implements UserService{
 	
 	private UserDAO userDAO;
 	
-	public UserServiceImpl() throws IOException {
-		userDAO=new UserDAO();
+	public void setUserDao(UserDAO userDAO) {
+		this.userDAO = userDAO;
 	}
 
 	public int addUser(User User) throws Exception {

@@ -5,9 +5,12 @@ import java.util.List;
 
 import com.model2.mvc.common.SearchVO;
 import com.model2.mvc.service.domain.User;
+import com.model2.mvc.service.user.dao.UserDAO;
 
 
 public interface UserService {
+	
+	public void setUserDao(UserDAO userDao);
 	
 	public int addUser(User User) throws Exception;
 	
