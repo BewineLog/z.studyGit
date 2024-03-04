@@ -7,7 +7,9 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.model2.mvc.common.util.SpringUtil;
 import com.model2.mvc.framework.Action;
+import com.model2.mvc.service.product.ProductService;
 import com.model2.mvc.service.product.impl.ProductServiceImpl;
 import com.model2.mvc.service.domain.Product;
 
@@ -16,17 +18,19 @@ public class GetProductAction extends Action{
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception{
 		
+//		Product product = new Product();
+//		
+//		ProductServiceImpl impl = new ProductServiceImpl();
 		Product product = new Product();
-		
-		ProductServiceImpl impl = new ProductServiceImpl();
+		ProductService impl = (ProductServiceImpl)SpringUtil.getProductService();
 		
 		List<Integer> history = null;
 		
 		
 		int prodNo = Integer.parseInt(request.getParameter("prodNo"));
+		System.out.println("GetProductAction prodNo::" + prodNo);
 		
 		product = impl.getProduct(prodNo);
-		
 		
 		
 		//

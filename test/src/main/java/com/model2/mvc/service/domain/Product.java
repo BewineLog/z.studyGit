@@ -13,10 +13,22 @@ public class Product {
 	private int prodNo; // 
 	private Date regDate; //
 	private String proTranCode; //
+	private String tranCode;
 	
 	public Product(){
 	}
 	
+	
+	
+	public Product(int price, String prodDetail, String prodName) {
+		super();
+		this.price = price;
+		this.prodDetail = prodDetail;
+		this.prodName = prodName;
+	}
+
+
+
 	public String getProTranCode() {
 		return proTranCode;
 	}
@@ -65,6 +77,18 @@ public class Product {
 	public void setRegDate(Date regDate) {
 		this.regDate = regDate;
 	}
+
+	public String getTranCode() {
+		return tranCode;
+	}
+
+
+
+	public void setTranCode(String tranCode) {
+		this.tranCode = tranCode;
+	}
+
+
 
 	@Override
 	public String toString() {

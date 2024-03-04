@@ -71,7 +71,7 @@
   	</delete>
   	
   	
-	<sql id="getUserListSubquery">
+	<sql id="getUserListSubQuery">
   		SELECT user_id, user_name, email 
   		FROM users
   		
@@ -94,7 +94,7 @@
 		resultMap="userSelectMap">
 		SELECT *
 		FROM (	SELECT inner_table. * ,  ROWNUM AS row_seq		
-  		FROM ( <include refid="getUserListSubquery"/> 	) inner_table	
+  		FROM ( <include refid="getUserListSubQuery"/> 	) inner_table	
   		WHERE ROWNUM <![CDATA[<=]]> ( #{page} * #{pageSize} ) )
   		WHERE row_seq 
   		BETWEEN ( ( #{page} - 1 ) * #{pageSize} + 1) AND (#{page} * #{pageSize})
@@ -104,7 +104,7 @@
   			resultType="int">
   	
   		SELECT COUNT(*)
-  		FROM ( <include refid="getUserListSubquery"/> )		
+  		FROM ( <include refid="getUserListSubQuery"/> )		
   	</select>
   	
 </mapper>

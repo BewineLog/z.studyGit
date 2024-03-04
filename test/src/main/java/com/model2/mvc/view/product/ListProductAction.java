@@ -2,7 +2,11 @@ package com.model2.mvc.view.product;
 
 import com.model2.mvc.common.Page;
 import com.model2.mvc.common.SearchVO;
+import com.model2.mvc.common.util.SpringUtil;
+import com.model2.mvc.common.util.SqlSessionFactoryBean;
 import com.model2.mvc.framework.Action;
+import com.model2.mvc.service.product.dao.ProductDao;
+import com.model2.mvc.service.product.impl.ProductDaoImpl;
 import com.model2.mvc.service.product.impl.ProductServiceImpl;
 import com.model2.mvc.service.domain.Product;
 import com.model2.mvc.service.purchase.impl.PurchaseServiceImpl;
@@ -17,6 +21,8 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.apache.ibatis.session.SqlSession;
 
 public class ListProductAction extends Action {
 	
@@ -84,17 +90,20 @@ public class ListProductAction extends Action {
 		}
 		
 		
+//		SqlSession sqlSession = new SqlSessionFactoryBean().getSqlSession();
+//		ProductDao productDao = new ProductDaoImpl();
+//		productDao.setSqlSession(sqlSession);
+//		
+//		ProductServiceImpl impl = new ProductServiceImpl();
+//		impl.setProductDao(productDao);
 		
-		HashMap<String,Object> map = new HashMap<String,Object>();
-		ProductServiceImpl impl = new ProductServiceImpl();
-		
+		ProductServiceImpl impl = (ProductServiceImpl)SpringUtil.getProductService();
 //		PurchaseVO purchaseVO = (PurchaseVO)request.getAttribute("purchaseVO");
 //		String tranCode = "";
 		
-		
-		PurchaseServiceImpl puImpl = new PurchaseServiceImpl();
-		Map<String,Object> puMap = new HashMap<String,Object>();
-		User User = (User)request.getSession().getAttribute("user");
+//		
+//		PurchaseServiceImpl puImpl = new PurchaseServiceImpl();
+		User user = (User)request.getSession().getAttribute("user");
 //		String tranCode = request.getParameter("tranCode");
 		
 //		System.out.println("listproductAction User::" + User);
@@ -109,12 +118,15 @@ public class ListProductAction extends Action {
 
 		
 		System.out.println("ListProductAction in puMap");
-		map = impl.getProductList(searchVO);
+		List<Object> map = impl.getProductList(searchVO);
+		new SqlSessionFactoryBean().printList(map);
+		
+		System.out.println("getTotalCount :: " + impl.getTotalCount(searchVO));
 //			request.setAttribute("map", map);
-		request.setAttribute("count", map.get("count"));
-		request.setAttribute("list", map.get("list"));
+		request.setAttribute("count", impl.getTotalCount(searchVO));
+		request.setAttribute("list", map);
 	
-		Page pageInfo = new Page(searchVO.getPage(),((Integer)map.get("count")).intValue(),searchVO.getPageUnit(),searchVO.getPageSize());
+		Page pageInfo = new Page(searchVO.getPage(),((Integer)impl.getTotalCount(searchVO)).intValue(),searchVO.getPageUnit(),searchVO.getPageSize());
 		
 		
 		request.setAttribute("map", map); // remove later
