@@ -30,7 +30,7 @@ public class UpdateUserAction extends Action {
 		user.setRole(request.getParameter("role"));
 		
 //		UserService service=new UserServiceImpl();
-		UserService service = SpringUtil.getUserService();
+		UserService service = (UserService)SpringUtil.getService();
 		service.updateUser(user);
 		
 		user = service.getUser(userId);

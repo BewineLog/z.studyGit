@@ -45,7 +45,7 @@ public class LoginAction extends Action{
 //										);
 //		
 //		UserService service = (UserService)context.getBean("userServiceImpl");
-		UserService service = SpringUtil.getUserService();
+		UserService service = (UserService)SpringUtil.getService();
 		User dbVO=service.loginUser(User);
 		
 		

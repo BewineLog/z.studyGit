@@ -24,7 +24,7 @@ public class UpdateProductViewAction extends Action{
 		Product.setPrice(Integer.parseInt(request.getParameter("price")));
 		
 //		ProductServiceImpl impl = new ProductServiceImpl();
-		ProductService impl = (ProductServiceImpl)SpringUtil.getProductService();
+		ProductService impl = (ProductService)SpringUtil.getProductService();
 		impl.updateProduct(Product);
 		
 		request.setAttribute("product", impl.getProduct(Product.getProdNo()));

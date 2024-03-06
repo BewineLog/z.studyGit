@@ -18,7 +18,7 @@ public class GetUserAction extends Action{
 		String userId=request.getParameter("userId");
 		
 //		UserService service=new UserServiceImpl();
-		UserService service = SpringUtil.getUserService();
+		UserService service = (UserService)SpringUtil.getService();
 		User vo=service.getUser(userId);
 		
 		System.out.println("getUserAction vo::" + vo.toString());

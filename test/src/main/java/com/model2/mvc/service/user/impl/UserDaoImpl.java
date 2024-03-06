@@ -1,18 +1,25 @@
 package com.model2.mvc.service.user.impl;
 
 import java.io.IOException;
+
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Repository;
 
 import com.model2.mvc.common.SearchVO;
 import com.model2.mvc.common.util.SqlSessionFactoryBean;
 import com.model2.mvc.service.domain.User;
 import com.model2.mvc.service.user.dao.UserDAO;
 
+
+@Repository("userDaoImpl")
 public class UserDaoImpl implements UserDAO {
 
-
+	@Autowired
+	@Qualifier("sqlSessionTemplate")
 	private SqlSession sqlSession;
 	
 	public void setSqlSession(SqlSession sqlSession) throws Exception{

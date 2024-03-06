@@ -77,7 +77,7 @@
   						p.prod_no = #{searchKeyword}
   					</when>
   					
-  					<when test="searchCondition == '1' and searchKeyword != '' ">
+  					<when test='searchCondition == "1" and searchKeyword != "" '>
 <!--   						p.prod_name = #{searchKeyword} -->
 						p.prod_name LIKE '%'||#{searchKeyword}||'%'
   					</when>

@@ -5,6 +5,7 @@ import com.model2.mvc.common.SearchVO;
 import com.model2.mvc.common.util.SpringUtil;
 import com.model2.mvc.common.util.SqlSessionFactoryBean;
 import com.model2.mvc.framework.Action;
+import com.model2.mvc.service.product.ProductService;
 import com.model2.mvc.service.product.dao.ProductDao;
 import com.model2.mvc.service.product.impl.ProductDaoImpl;
 import com.model2.mvc.service.product.impl.ProductServiceImpl;
@@ -23,6 +24,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.ibatis.session.SqlSession;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 public class ListProductAction extends Action {
 	
@@ -97,7 +100,7 @@ public class ListProductAction extends Action {
 //		ProductServiceImpl impl = new ProductServiceImpl();
 //		impl.setProductDao(productDao);
 		
-		ProductServiceImpl impl = (ProductServiceImpl)SpringUtil.getProductService();
+		ProductService impl = (ProductService)SpringUtil.getProductService();
 //		PurchaseVO purchaseVO = (PurchaseVO)request.getAttribute("purchaseVO");
 //		String tranCode = "";
 		

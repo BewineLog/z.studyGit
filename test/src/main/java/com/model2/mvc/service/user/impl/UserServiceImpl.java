@@ -4,14 +4,20 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
+
 import com.model2.mvc.common.SearchVO;
 import com.model2.mvc.service.user.UserService;
 import com.model2.mvc.service.user.dao.UserDAO;
 import com.model2.mvc.service.domain.User;
 
-
+@Service("userServiceImpl")
 public class UserServiceImpl implements UserService{
 	
+	@Autowired
+	@Qualifier("userDaoImpl")
 	private UserDAO userDAO;
 	
 	public void setUserDao(UserDAO userDAO) {
@@ -24,7 +30,7 @@ public class UserServiceImpl implements UserService{
 
 	public User loginUser(User User) throws Exception {
 			User dbUser=userDAO.findUser(User.getUserId());
-
+			System.out.println("Logon DAO ::" + dbUser.getPassword());
 			if(! dbUser.getPassword().equals(User.getPassword()))
 				throw new Exception("�α��ο� �����߽��ϴ�.");
 			

@@ -79,7 +79,7 @@ public class ListUserAction extends Action {
 //
 //		UserService service = (UserService)context.getBean("userServiceImpl");
 		
-		UserService service = SpringUtil.getUserService();
+		UserService service = (UserService)SpringUtil.getService();
 
 		List<Object> map=service.getUserList(searchVO);
 

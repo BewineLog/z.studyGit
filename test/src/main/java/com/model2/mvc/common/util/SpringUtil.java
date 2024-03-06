@@ -8,39 +8,40 @@ import com.model2.mvc.service.product.ProductService;
 import com.model2.mvc.service.user.UserService;
 
 public class SpringUtil {
-	private static ApplicationContext userContext;
+	private static ApplicationContext context;
 	private static ApplicationContext productContext;
 	
 
-	public static UserService getUserService() throws BeansException {
+	public static Object getService() throws BeansException {
 		
-		if(userContext == null) {
-			userContext = new ClassPathXmlApplicationContext(
+		if(context == null) {
+			context = new ClassPathXmlApplicationContext(
 							new String[] {
-									"com/model2/mvc/resources/config/commonService.xml",
-									"com/model2/mvc/resources/config/userService.xml"
+									"com/model2/mvc/resources/config/context-common.xml",
+									"com/model2/mvc/resources/config/context-aspect.xml",
+									"com/model2/mvc/resources/config/context-mybatis.xml",
+									"com/model2/mvc/resources/config/context-transaction.xml"
 							}
 						);
 		}
 		
-		UserService service = (UserService)userContext.getBean("userServiceImpl");
-		return service;
+		return context.getBean("userServiceImpl");
 	}
 	
-	
-	public static ProductService getProductService() throws BeansException{
+	public static Object getProductService() throws BeansException {
 		
 		if(productContext == null) {
 			productContext = new ClassPathXmlApplicationContext(
-					new String[] {
-							"com/model2/mvc/resources/config/commonService.xml",
-							"com/model2/mvc/resources/config/productService.xml"
-					}
-				);
+							new String[] {
+									"com/model2/mvc/resources/config/context-common.xml",
+									"com/model2/mvc/resources/config/context-aspect.xml",
+									"com/model2/mvc/resources/config/context-mybatis.xml",
+									"com/model2/mvc/resources/config/context-transaction.xml"
+							}
+						);
 		}
 		
-		ProductService service = (ProductService)productContext.getBean("productServiceImpl");
-		return service;
+		return productContext.getBean("productServiceImpl");
 	}
 
 }

@@ -28,7 +28,7 @@ public class AddUserAction extends Action {
 		System.out.println(User);
 		
 //		UserService service=new UserServiceImpl();
-		UserService service = SpringUtil.getUserService();
+		UserService service = (UserService)SpringUtil.getService();
 		service.addUser(User);
 		
 		return "redirect:/user/loginView.jsp";

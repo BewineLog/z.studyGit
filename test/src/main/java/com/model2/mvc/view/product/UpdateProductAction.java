@@ -22,7 +22,7 @@ public class UpdateProductAction extends Action{
 		Product Product = new Product();
 		
 //		ProductServiceImpl impl = new ProductServiceImpl();
-		ProductService impl = (ProductServiceImpl)SpringUtil.getProductService();
+		ProductService impl = (ProductService)SpringUtil.getProductService();
 		
 		List<Integer> history = null;
 		

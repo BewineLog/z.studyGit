@@ -17,7 +17,7 @@ public class CheckDuplicationAction extends Action{
 		String userId=request.getParameter("userId");
 		
 //		UserService service=new UserServiceImpl();
-		UserService service = SpringUtil.getUserService();
+		UserService service =(UserService)SpringUtil.getService();
 		boolean result=service.checkDuplication(userId);
 		
 		request.setAttribute("result",new Boolean(result) );

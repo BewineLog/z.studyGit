@@ -3,6 +3,9 @@ package com.model2.mvc.view.product;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+
 import com.model2.mvc.common.util.SpringUtil;
 import com.model2.mvc.framework.Action;
 import com.model2.mvc.service.product.ProductService;
@@ -25,7 +28,7 @@ public class AddProductAction extends Action {
 		
 //		ProductServiceImpl impl = new ProductServiceImpl();
 		
-		ProductService impl = (ProductServiceImpl)SpringUtil.getProductService();
+		ProductService impl = (ProductService)SpringUtil.getProductService();
 		impl.addProduct(productVO);
 		
 		request.setAttribute("productVO", productVO);

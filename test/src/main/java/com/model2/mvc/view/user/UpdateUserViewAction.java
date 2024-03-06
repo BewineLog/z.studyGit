@@ -18,7 +18,7 @@ public class UpdateUserViewAction extends Action{
 		String userId=request.getParameter("userId");
 		
 //		UserService service=new UserServiceImpl();
-		UserService service = SpringUtil.getUserService();
+		UserService service = (UserService)SpringUtil.getService();
 		User user=service.getUser(userId);
 		
 		System.out.println("UpdateUserViewAction::" + user.toString() );
