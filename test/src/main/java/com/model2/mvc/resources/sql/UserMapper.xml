@@ -78,11 +78,12 @@
   		<where>
   			<choose>
   				<when test="searchCondition =='0' and searchKeyword != '' ">
-  					user_id = #{searchKeyword}
+<!--   					user_id = #{searchKeyword} -->
+					user_id LIKE '%'||#{searchKeyword}||'%'
   				</when>
   				
   				<when test="searchCondition =='1' and searchKeyword != '' ">
-  					user_name = #{searchKeyword}
+  					user_name LIKE '%'||#{searchKeyword}||'%'
   				</when>
   			</choose>
   		</where>

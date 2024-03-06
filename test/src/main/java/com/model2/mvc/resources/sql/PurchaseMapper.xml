@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="PurchaseMapper">
+
+	<resultMap id="PurchaseSelectMap" type="com.model2.mvc.service.domain.Purchase">
+		<result property="buyer.buyerId" column ="buyer_id" jdbcType="VARCHAR"/>
+		<result property="purchaseProd.prodNo" column ="prod_no" jdbcType="NUMERIC"/>
+		<result property="divyAddr" column ="demailaddr" jdbcType="VARCHAR"/>
+		<result property="divyDate" column ="dlvy_date" jdbcType="DATE"/>
+		<result property="divyRequest" column ="dlvy_request" jdbcType="VARCHAR"/>
+		<result property="paymentOption" column ="payment_option" jdbcType="CHAR"/>
+		<result property="receiverName" column ="receiver_name" jdbcType="VARCHAR"/>
+		<result property="receiverPhone" column ="receiver_phone" jdbcType="VARCHAR"/>
+		<result property="tranCode" column ="tran_status_code" jdbcType="VARCHAR"/>
+		<result property="tranNo" column ="tran_no" jdbcType="NUMERIC"/>
+		<result property="orderDate" column ="order_data" jdbcType="DATE"/>
+	
+	</resultMap>
+	
+	<insert id="purchasePurchase" parameterType="com.model2.mvc.service.domain.Purchase">
+		INSERT
+		INTO transaction
+		VALUES (
+				seq_transaction_tran_no.nextval,
+				#{purchaseProd.prodNo:NUMERIC},
+				#{buyer.buyerId:VARCHAR},
+				#{paymentOption:CHAR},
+				#{receiverName:VARCHAR},
+				#{receiverPhone:VARCHAR},
+				#{divyAddr:VARCHAR},
+				#{divyRequest:VARCHAR},
+				#{tranCode:VARCHAR},
+				sysdate,
+				#{divyDate:DATE}
+				)
+	</insert>
+	
+	<select id="getPurchase" parameterType="int" resultMap="PurchaseSelectMap">
+		SELECT buyer_id, demailaddr, TO_CHAR(dlvy_date, 'YYYY-MM-DD') dlvy_date, dlvy_request, order_data,payment_option ,receiver_name,receiver_phone, tran_status_code, tran_no,prod_no 
+		FROM transaction 
+		WHERE prod_no = #{value}
+	</select>
+	
+	<select id="getPurchaseByTranNo" parameterType="int" resultMap="PurchaseSelectMap">
+		SELECT buyer_id, demailaddr, TO_CHAR(dlvy_date, 'YYYY-MM-DD') dlvy_date, dlvy_request, order_data,payment_option ,receiver_name,receiver_phone, tran_status_code, tran_no,prod_no 
+		FROM transaction 
+		WHERE tran_no = #{value}
+	</select>
+	
+	<update id="updatePurchase" parameterType="com.model2.mvc.service.domain.Purchase">
+		UPDATE transaction
+		SET
+				paymentOption = #{paymentOption:CHAR},
+				receiver_name = #{receiverName:VARCHAR},
+				receiver_phone = #{receiverPhone:VARCHAR},
+				dlvy_addr = #{divyAddr:VARCHAR},
+				dlvy_request = #{divyRequest:VARCHAR},
+				tran_status_code = #{tranCode:VARCHAR},
+				dlvy_date = #{divyDate:DATE}
+		WHERE tran_no = #{tranNo} AND prod_no=#{prodNo}
+		
+	</update>
+	
+	<delete id="deleteProduct" parameterType="int">
+		DELETE
+		FROM transaction
+		WHERE tran_no = #{value}
+	</delete>
+	
+	<sql id="getPurchaseSubQuery">
+		SELECT ROWNUM row_seq, buyer_id, demailaddr, TO_CHAR(dlvy_date, 'YYYY-MM-DD') dlvy_date, dlvy_request, order_data,payment_option ,receiver_name,receiver_phone, tran_status_code, tran_no,prod_no
+		FROM transaction
+		WHERE buyer_id = #{buyerId}
+	</sql>
+	
+	
+	<select id="getPurchaseList" parameterType="map" resultMap="PurchaseSelectMap">
+		SELECT *
+		FROM ( <include refid="getPurchaseListSubQuery"/> 
+			AND ROWNUM &lt;= #{search.page} * #{search.pageSize}
+			ORDER BY tran_no DESC
+			) vt
+		WHERE vt.row_seq BETWEEN ((#{search.page-1) * #{search.pageSize} + 1) AND (#{search.page} * #{search.pageSize})
+	
+	</select>
+	
+	<select id="getTotalCount" resultType="int">
+		SELECT COUNT(*) count
+		FROM (<include refid="getPurchaseSubQuery"/> )
+	</select>
+
+</mapper>
