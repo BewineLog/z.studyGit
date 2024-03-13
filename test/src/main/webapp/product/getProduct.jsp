@@ -122,7 +122,7 @@
 				</td>
 				
 				<td background="/images/ct_btnbg02.gif" class="ct_btn01" style="padding-top: 3px;">
-					<a href="/addPurchaseView.do?prodNo=${product.prodNo}">구매</a>
+					<a href="/product/addPurchaseView?prodNo=${product.prodNo}">구매</a>
 				
 				</td>
 

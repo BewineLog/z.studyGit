@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -19,6 +20,7 @@ import com.model2.mvc.service.domain.Product;
 import com.model2.mvc.service.product.ProductService;
 
 @Controller
+@RequestMapping("/product")
 public class ProductController {
 	
 	@Autowired
@@ -36,9 +38,9 @@ public class ProductController {
 	@Value("#{commonProperties['pageSize']}")
 	int pageSize;
 	
-	@RequestMapping("/addProduct.do")
+	@RequestMapping("addProduct")
 	public ModelAndView addProduct(@ModelAttribute("product") Product product) throws Exception{
-		System.out.println("/addProduct.do");
+		System.out.println("/addProduct");
 		
 		productService.addProduct(product);
 		
@@ -48,8 +50,8 @@ public class ProductController {
 		
 		return modelAndView;
 	}
-	
-	@RequestMapping("/getProduct.do")
+
+	@RequestMapping("/getProduct")
 	public ModelAndView getProduct(
 			HttpServletRequest request,
 			HttpServletResponse response,
@@ -73,11 +75,15 @@ public class ProductController {
 			boolean isCookie = false;
 			for (int i = 0; i < cookie.length; i++) {
 				if (cookie[i].getName().equals("history")) {
-//					System.out.println("Action for running");
+					System.out.println("Action for running");
 					isCookie = true;
-//					System.out.println("Action Cookie before::" + cookie[i].getValue());
+					System.out.println("Action Cookie before::" + cookie[i].getValue());
 					cookie[i].setValue(cookie[i].getValue() + "and" + Integer.toString(prodNo));
-//					System.out.println("Action Cookie::" + cookie[i].getValue());
+					System.out.println("Action Cookie::" + cookie[i].getValue());
+				
+					cookie[i].setPath("/");
+//					System.out.println(cookie[i].getPath().toString() + "::" + cookie[i].getDomain().toString() + "::" );
+					
 					response.addCookie(cookie[i]);
 				}
 			}
@@ -97,10 +103,11 @@ public class ProductController {
 		
 	}
 	
-	@RequestMapping("/listProduct.do")
+	@RequestMapping("/listProduct")
 	public ModelAndView listProduct(
 			@ModelAttribute("search") SearchVO search,
-			@RequestParam("menu") String menu
+			@RequestParam("menu") String menu,
+			Model model
 			
 			) throws Exception{
 		
@@ -109,7 +116,22 @@ public class ProductController {
 		}
 		search.setPageSize(pageSize);
 		
-		System.out.println("listProduct.do search :::" +search.toString() );
+		String rankingAscValue = search.getRankingAscValue();
+		String rankingDescValue = search.getRankingDescValue();
+		String inventoryValue = search.getInventoryValue();
+		
+		if(rankingAscValue != null && !rankingAscValue.equals("")) {
+			search.setOrderByOption(rankingAscValue);
+		}else if(rankingDescValue != null && !rankingDescValue.equals("")) {
+			search.setOrderByOption(rankingDescValue);
+		}
+		
+		if(inventoryValue != null && !inventoryValue.equals("")) {
+			search.setShowOption(inventoryValue);
+		}
+		
+		
+		System.out.println("listProduct search :::" +search.toString() );
 		
 		ModelAndView modelAndView = new ModelAndView();
 		int totalCount = productService.getTotalCount(search);
@@ -126,7 +148,7 @@ public class ProductController {
 	
 	}
 	
-	@RequestMapping("/updateProductView.do")
+	@RequestMapping("/updateProductView")
 	public ModelAndView updateProductView(@ModelAttribute("product") Product product) throws Exception{
 		productService.updateProduct(product);
 		
@@ -140,13 +162,13 @@ public class ProductController {
 	}
 	
 	
-	@RequestMapping("/updateProduct.do")
+	@RequestMapping("/updateProduct")
 	public ModelAndView updateProduct(@RequestParam("prodNo") int prodNo
 									) throws Exception{
 		
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.addObject(productService.getProduct(prodNo));
-		modelAndView.setViewName("forward:/listProduct.do");
+		modelAndView.setViewName("forward:/listProduct");
 		
 		return modelAndView;
 	}

@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.model2.mvc.common.Page;
@@ -23,6 +24,7 @@ import com.model2.mvc.service.user.UserService;
 
 //==> ȸ������ Controller
 @Controller
+@RequestMapping("/user/*")
 public class UserController {
 	
 	///Field
@@ -44,28 +46,32 @@ public class UserController {
 	
 	
 	// is need?
-	@RequestMapping("/addUserView.do")
-	public String addUserView() throws Exception {
+	
+//	@RequestMapping("/addUserView")
+	@RequestMapping(value="addUser", method=RequestMethod.GET)
+	public String addUser() throws Exception {
 
-		System.out.println("/addUserView.do");
+		System.out.println("/addUserView");
 		
 		return "redirect:/user/addUserView.jsp";
 	}
 	
-	@RequestMapping("/addUser.do")
+//	@RequestMapping("/addUser")
+	@RequestMapping(value="addUser", method=RequestMethod.POST)
 	public String addUser( @ModelAttribute("user") User user ) throws Exception {
 
-		System.out.println("/addUser.do");
+		System.out.println("/addUser");
 		//Business Logic
 		userService.addUser(user);
 		
 		return "redirect:/user/loginView.jsp";
 	}
 	
-	@RequestMapping("/getUser.do")
+//	@RequestMapping("/getUser")
+	@RequestMapping(value="getUser", method=RequestMethod.GET)
 	public String getUser( @RequestParam("userId") String userId , Model model ) throws Exception {
 		
-		System.out.println("/getUser.do");
+		System.out.println("/getUser");
 		//Business Logic
 		User user = userService.getUser(userId);
 		// Model �� View ����
@@ -74,10 +80,11 @@ public class UserController {
 		return "forward:/user/getUser.jsp";
 	}
 	
-	@RequestMapping("/updateUserView.do")
-	public String updateUserView( @RequestParam("userId") String userId , Model model ) throws Exception{
+//	@RequestMapping("/updateUserView")
+	@RequestMapping(value="updateUser", method=RequestMethod.GET)
+	public String updateUser( @RequestParam("userId") String userId , Model model ) throws Exception{
 
-		System.out.println("/updateUserView.do");
+		System.out.println("/updateUserView");
 		//Business Logic
 		User user = userService.getUser(userId);
 		// Model �� View ����
@@ -86,10 +93,11 @@ public class UserController {
 		return "forward:/user/updateUser.jsp";
 	}
 	
-	@RequestMapping("/updateUser.do")
+//	@RequestMapping("/updateUser")
+	@RequestMapping(value="updateUser", method=RequestMethod.POST)
 	public String updateUser( @ModelAttribute("user") User user , Model model , HttpSession session) throws Exception{
 
-		System.out.println("/updateUser.do");
+		System.out.println("/updateUser");
 		//Business Logic
 		userService.updateUser(user);
 		
@@ -98,21 +106,23 @@ public class UserController {
 			session.setAttribute("user", user);
 		}
 		
-		return "forward:/getUser.do?userId="+user.getUserId() + "&isUpdate=clear";
+		return "redirect:/user/getUser?userId="+user.getUserId() + "&isUpdate=clear";
 	}
 	
-	@RequestMapping("/loginView.do")
-	public String loginView() throws Exception{
+//	@RequestMapping("/loginView")
+	@RequestMapping(value="login", method=RequestMethod.GET)
+	public String login() throws Exception{
 		
-		System.out.println("/loginView.do");
+		System.out.println("/loginView");
 
 		return "redirect:/user/loginView.jsp";
 	}
 	
-	@RequestMapping("/login.do")
+//	@RequestMapping("/login")
+	@RequestMapping(value="login", method=RequestMethod.POST)
 	public String login(@ModelAttribute("user") User user , HttpSession session ) throws Exception{
 		
-		System.out.println("/login.do");
+		System.out.println("/login");
 		//Business Logic
 		User dbUser=userService.loginUser(user);
 		
@@ -123,20 +133,22 @@ public class UserController {
 		return "redirect:/index.jsp";
 	}
 	
-	@RequestMapping("/logout.do")
+//	@RequestMapping("/logout")
+	@RequestMapping(value="logout", method=RequestMethod.GET)
 	public String logout(HttpSession session ) throws Exception{
 		
-		System.out.println("/logout.do");
+		System.out.println("/logout");
 		
 		session.invalidate();
 		
 		return "redirect:/index.jsp";
 	}
 	
-	@RequestMapping("/checkDuplication.do")
+//	@RequestMapping("/checkDuplication")
+	@RequestMapping(value="checkDuplication", method=RequestMethod.POST)
 	public String checkDuplication( @RequestParam("userId") String userId , Model model ) throws Exception{
 		
-		System.out.println("/checkDuplication.do");
+		System.out.println("/checkDuplication");
 		//Business Logic
 		boolean result=userService.checkDuplication(userId);
 		// Model �� View ����
@@ -146,21 +158,28 @@ public class UserController {
 		return "forward:/user/checkDuplication.jsp";
 	}
 	
-	@RequestMapping("/listUser.do")
+//	@RequestMapping("/listUser")
+	@RequestMapping(value="listUser")
 	public String listUser( @ModelAttribute("search") SearchVO search , Model model , HttpServletRequest request) throws Exception{
 		
-		System.out.println("/listUser.do");
+		System.out.println("/listUser");
 		
 		if(search.getPage() ==0 ){
 			search.setPage(1);
 		}
 		search.setPageSize(pageSize);
 		
+		if(request.getParameter("removeUserId") != null) {
+			userService.removeUser(request.getParameter("removeUserId"));
+		}
+		
 		// Business logic ����
 		List<Object> map=userService.getUserList(search);
 		
 		Page pageInfo = new Page( search.getPage(), userService.getTotalCount(), pageUnit, pageSize);
 		System.out.println(pageInfo);
+		
+		
 		
 		// Model �� View ����
 		model.addAttribute("list", map);

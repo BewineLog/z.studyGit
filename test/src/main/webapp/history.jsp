@@ -20,6 +20,9 @@
 	if (cookies!=null && cookies.length > 0) {
 		for (int i = 0; i < cookies.length; i++) {
 			Cookie cookie = cookies[i];
+			System.out.println("history ::" + cookie.getName() +"::" + cookie.getValue()) ;
+			
+// 			System.out.println(""+ cookie.getPath().toString() + "::" + cookie.getDomain().toString() + "::" );
 			if (cookie.getName().equals("history")) {
 				history = cookie.getValue();
 				System.out.println("history:" + history);
@@ -31,7 +34,7 @@
 				System.out.println("h[i]::" + h[i]);
 				if (!h[i].equals("null")) {
 %>
-<a href="/getProduct.do?prodNo=<%=h[i]%>&menu=search"	target="rightFrame"><%=h[i]%></a>
+<a href="/product/getProduct?prodNo=<%=h[i]%>&menu=search"	target="rightFrame"><%=h[i]%></a>
 <br>
 <%
 				}

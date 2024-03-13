@@ -125,7 +125,7 @@
 				</td>
 				
 				<td background="/images/ct_btnbg02.gif" class="ct_btn01" style="padding-top: 3px;">
-					<a href="/updateProduct.do?prodNo=${product.prodNo}&menu=manage">확인</a>
+					<a href="/product/updateProduct?prodNo=${product.prodNo}&menu=manage">확인</a>
 				
 				</td>
 

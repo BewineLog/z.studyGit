@@ -8,6 +8,11 @@ public class SearchVO {
 	String orderByOption;
 	String searchCondition;
 	String searchKeyword;
+	
+	String inventoryValue;
+	String rankingAscValue;
+	String rankingDescValue;
+	
 	int pageUnit;
 	int pageSize;
 	
@@ -19,6 +24,30 @@ public class SearchVO {
 	int searchRangeHigh;
 	
 	
+	public String getInventoryValue() {
+		return inventoryValue;
+	}
+
+	public String getRankingAscValue() {
+		return rankingAscValue;
+	}
+
+	public String getRankingDescValue() {
+		return rankingDescValue;
+	}
+
+	public void setInventoryValue(String inventoryValue) {
+		this.inventoryValue = inventoryValue;
+	}
+
+	public void setRankingAscValue(String rankingAscValue) {
+		this.rankingAscValue = rankingAscValue;
+	}
+
+	public void setRankingDescValue(String rankingDescValue) {
+		this.rankingDescValue = rankingDescValue;
+	}
+
 	public SearchVO(){
 	}
 	
@@ -116,12 +145,14 @@ public class SearchVO {
 	@Override
 	public String toString() {
 		return "SearchVO [page=" + page + ", showOption=" + showOption + ", orderByOption=" + orderByOption
-				+ ", searchCondition=" + searchCondition + ", searchKeyword=" + searchKeyword + ", pageUnit=" + pageUnit
-				+ ", pageSize=" + pageSize + ", fixedSearchRangeOne=" + fixedSearchRangeOne + ", fixedSearchRangeTwo="
-				+ fixedSearchRangeTwo + ", fixedSearchRangeThree=" + fixedSearchRangeThree + ", searchRangeLow="
-				+ searchRangeLow + ", searchRangeHigh=" + searchRangeHigh + "]";
+				+ ", searchCondition=" + searchCondition + ", searchKeyword=" + searchKeyword + ", inventoryValue="
+				+ inventoryValue + ", rankingAscValue=" + rankingAscValue + ", rankingDescValue=" + rankingDescValue
+				+ ", pageUnit=" + pageUnit + ", pageSize=" + pageSize + ", fixedSearchRangeOne=" + fixedSearchRangeOne
+				+ ", fixedSearchRangeTwo=" + fixedSearchRangeTwo + ", fixedSearchRangeThree=" + fixedSearchRangeThree
+				+ ", searchRangeLow=" + searchRangeLow + ", searchRangeHigh=" + searchRangeHigh + "]";
 	}
-	
+
+
 	
 	
 	

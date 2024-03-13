@@ -8,12 +8,59 @@
 
 <link rel="stylesheet" href="/css/admin.css" type="text/css">
 
-<script src="../javascript/list.js"></script>
+<!-- <script src="../javascript/list.js"></script> -->
 <script>
-	function openDetailPage() {
-		alert('openDetailpage');
-		// 	window.open("/detailSearch.jsp","width=200,height=200");
+function fncGetList(page) {
+	document.getElementById("page").value = page;
+	document.detailForm.submit();
+}
+
+
+function rankingAsc(page){
+	if(document.getElementById("rankingAscValue").value ==="" || document.getElementById("rankingAscValue").value ==="null"){
+		document.getElementById("rankingAscValue").value = "asc";
+		document.getElementById("rankingDescValue").value = null;
+	}else{
+		document.getElementById("rankingAscValue").value = null;
 	}
+	
+	fncGetList(page);
+}
+
+
+function rankingDesc(page){
+	if(document.getElementById("rankingDescValue").value ==="" || document.getElementById("rankingDescValue").value ==="desc"){
+		document.getElementById("rankingDescValue").value = "desc";
+		document.getElementById("rankingAscValue").value = null;
+	}else{
+		document.getElementById("rankingDescValue").value = null;
+	}
+	
+	fncGetList(page);
+}
+
+
+function showInventory(page){
+	if(document.getElementById("inventoryValue").value === "" || document.getElementById("inventoryValue").value === "show"){
+		document.getElementById("inventoryValue").value = "notShow";
+	}else{
+		document.getElementById("inventoryValue").value = "show";
+	}
+	
+	fncGetList(page);
+}
+
+
+function removeUser(page,id){
+	document.getElementById("removeUserId").value = id;
+	fncGetList(page);
+}
+
+function openDetailPage(){
+	alert('openDetailpage');
+//	window.open("/detailSearch.jsp");
+}
+
 </script>
 </head>
 
@@ -21,7 +68,7 @@
 
 	<div style="width: 98%; margin-left: 10px;">
 
-		<form name="detailForm" action="/listProduct.do?menu=${param.menu}"
+		<form name="detailForm" action="/product/listProduct?menu=${param.menu}"
 			method="post">
 
 			<table width="100%" height="37" border="0" cellpadding="0"
@@ -51,14 +98,14 @@
 						class="ct_input_g" style="width: 80px">
 							<c:if test="${! empty menu && menu == 'manage'}">
 								<option value="0"
-									${! empty searchVO.searchCondition && searchVO.searchCondition.trim() == '0' ? 'selected' : '' }>상품번호</option>
+									${! empty search.searchCondition && search.searchCondition.trim() == '0' ? 'selected' : '' }>상품번호</option>
 							</c:if>
 							<option value="1"
-								${! empty searchVO.searchCondition && searchVO.searchCondition.trim() == '1' ? 'selected' : '' }>상품명</option>
-							<%-- 					<option value="2" ${! empty searchVO.searchCondition && searchVO.searchCondition.trim() == '2' ? 'selected' : '' } >상품가격</option> --%>
+								${! empty search.searchCondition && search.searchCondition.trim() == '1' ? 'selected' : '' }>상품명</option>
+							<%-- 					<option value="2" ${! empty search.searchCondition && search.searchCondition.trim() == '2' ? 'selected' : '' } >상품가격</option> --%>
 					</select> <input type="hidden" id="optionValue" name="optionValue"
 						value="${optionValue}" /> <input type="text" name="searchKeyword"
-						value="${! empty searchVO.searchKeyword ? searchVO.searchKeyword.trim() : ''}"
+						value="${! empty search.searchKeyword ? search.searchKeyword.trim() : ''}"
 						class="ct_input_g" style="width: 200px; height: 19px" /> </a></td>
 					<!-- 
 				여기에 상세보기 버튼을 하나 생성
@@ -72,11 +119,11 @@
 				
 				그럼 적어도 query에 between price A AND B option
 				
-				SearchVO에 price range variable 필요
+				search에 price range variable 필요
 				
 				
 				 -->
-					<c:if test="${empty searchVO.searchKeyword }">
+					<c:if test="${empty search.searchKeyword }">
 						<td align="right" width="70">
 							<table border="0" cellspacing="0" cellpadding="0">
 								<tr>
@@ -94,22 +141,22 @@
 				</tr>
 			</table>
 
-			<c:if test="${! empty searchVO.searchKeyword}">
+			<c:if test="${! empty search.searchKeyword}">
 				<table width="100%" border="0" cellspacing="0" cellpadding="0"
 					style="margin-top: 10px;">
 					<tr>
 						<td width=30><a><input type="checkbox"
 								name="fixedSearchRangeOne"
-								value="${searchVO.fixedSearchRangeOne}"
-								${searchVO.fixedSearchRangeOne ? 'checked' : ''} />1만원~2만원</a></td>
+								value="${search.fixedSearchRangeOne}"
+								${search.fixedSearchRangeOne ? 'checked' : ''} />1만원~2만원</a></td>
 						<td width=30><a><input type="checkbox"
 								name="fixedSearchRangeTwo"
-								value="${searchVO.fixedSearchRangeTwo}"
-								${searchVO.fixedSearchRangeTwo ? 'checked' : ''} />2만원~3만원</a></td>
+								value="${search.fixedSearchRangeTwo}"
+								${search.fixedSearchRangeTwo ? 'checked' : ''} />2만원~3만원</a></td>
 						<td width=30><a><input type="checkbox"
 								name="fixedSearchRangeThree"
-								value="${searchVO.fixedSearchRangeThree}"
-								${searchVO.fixedSearchRangeThree ? 'checked' : ''} />3만원~4만원</a></td>
+								value="${search.fixedSearchRangeThree}"
+								${search.fixedSearchRangeThree ? 'checked' : ''} />3만원~4만원</a></td>
 					</tr>
 
 
@@ -121,10 +168,10 @@
 
 					<tr>
 						<td align="right"><input type="text" name="searchRangeLow"
-							value="${! empty searchVO.searchRangeLow ? searchVO.searchRangeLow : ''}"
+							value="${! empty search.searchRangeLow ? search.searchRangeLow : ''}"
 							class="ct_input_g" style="width: 200px; height: 19px" /></td>
 						<td align="right"><input type="text" name="searchRangeHigh"
-							value="${! empty searchVO.searchRangeHigh ? searchVO.searchRangeHigh : ''}"
+							value="${! empty search.searchRangeHigh ? search.searchRangeHigh : ''}"
 							class="ct_input_g" style="width: 200px; height: 19px" /></td>
 
 						<td align="right" width="70">
@@ -159,20 +206,20 @@
 								<tr>
 									<a><input type="checkbox" id="orderAsc" name="orderAsc"
 										onclick="javascript:rankingAsc('1')"
-										${! empty rankingAscValue && rankingAscValue == "asc" ? 'checked' : '' }>가격
+										${! empty search.rankingAscValue && search.rankingAscValue == "asc" ? 'checked' : '' }>가격
 										낮은 순</a>
 									<input type="hidden" id="rankingAscValue"
 										name="rankingAscValue"
-										value="${! empty rankingAscValue ? rankingAscValue : '' }" />
+										value="${! empty search.rankingAscValue ? search.rankingAscValue : '' }" />
 								</tr>
 								<tr>
 									<a><input type="checkbox" id="orderDesc" name="orderDesc"
 										onclick="javascript:rankingDesc('1')"
-										${! empty rankingDescValue && rankingDescValue =="desc" ? 'checked' : '' }>가격
+										${! empty search.rankingDescValue && search.rankingDescValue =="desc" ? 'checked' : '' }>가격
 										높은 순</a>
 									<input type="hidden" id="rankingDescValue"
 										name="rankingDescValue"
-										value="${! empty rankingDescValue ? rankingDescValue : '' }" />
+										value="${! empty search.rankingDescValue ? search.rankingDescValue : '' }" />
 
 								</tr>
 							</table>
@@ -183,10 +230,10 @@
 								<tr>
 									<a><input type="checkbox" id="inventory" name="inventory"
 										onclick="javascript:showInventory('1')"
-										${! empty inventoryValue && inventoryValue =="notShow" ? 'checked' : '' }>재고없음
+										${! empty search.inventoryValue && search.inventoryValue =="notShow" ? 'checked' : '' }>재고없음
 										보지않기</a>
 									<input type="hidden" id="inventoryValue" name="inventoryValue"
-										value="${! empty inventoryValue ? inventoryValue : '' }" />
+										value="${! empty search.inventoryValue ? search.inventoryValue : '' }" />
 								</tr>
 
 							</table>
@@ -227,7 +274,7 @@
 						<td align="center">${idx+1}</td>
 						<td></td>
 
-						<td align="left">${! empty i.proTranCode && i.proTranCode.trim() == '판매중' ? '<a href="/getProduct.do?prodNo='.concat(i.prodNo).concat('&menu=').concat(menu).concat('">').concat(i.prodName).concat('</a>') : i.prodName}
+						<td align="left">${! empty i.proTranCode && i.proTranCode.trim() == '판매중' ? '<a href="/product/getProduct?prodNo='.concat(i.prodNo).concat('&menu=').concat(menu).concat('">').concat(i.prodName).concat('</a>') : i.prodName}
 						</td>
 
 						<td></td>
@@ -240,7 +287,7 @@
 
 							<c:if
 								test="${i.proTranCode.trim() == '구매완료' && menu.trim() == 'manage'}">
-								<a href="/updateTranCodeByProd.do?prodNo=${i.prodNo}&tranCode=2">배송하기</a>
+								<a href="/purchase/updateTranCodeByProd?prodNo=${i.prodNo}&tranCode=2">배송하기</a>
 							</c:if>
 
 						</td>
