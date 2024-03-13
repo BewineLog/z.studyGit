@@ -44,6 +44,11 @@ function removeUser(page,id){
 	fncGetList(page);
 }
 
+function openDetailPage(){
+	alert('openDetailpage');
+//	window.open("/detailSearch.jsp");
+}
+
 //function changeBox(page){
 //	if(document.getElementById("searchCondition") == 1){
 //		document.getElementById("optionValue").value = "1";

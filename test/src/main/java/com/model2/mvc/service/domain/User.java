@@ -69,8 +69,8 @@ public class User {
 	public Date getRegDate() {
 		return regDate;
 	}
-	public void setRegDate(Date regDate) {
-		this.regDate = regDate;
+	public void setRegDate(String regDate) {
+		this.regDate = Date.valueOf(regDate);
 	}
 
 	@Override

@@ -83,7 +83,7 @@ function resetData(){
 			<table width="100%" border="0" cellspacing="0" cellpadding="0">
 				<tr>
 					<td width="105">
-						${productVO.prodName}
+						${product.prodName}
 					</td>
 				</tr>
 			</table>
@@ -98,7 +98,7 @@ function resetData(){
 		</td>
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
-			${productVO.prodDetail}
+			${product.prodDetail}
 		</td>
 	</tr>
 	<tr>
@@ -110,7 +110,7 @@ function resetData(){
 		</td>
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
-			${productVO.manuDate}
+			${product.manuDate}
 				
 		</td>
 	</tr>
@@ -123,7 +123,7 @@ function resetData(){
 		</td>
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
-			${productVO.price}
+			${product.price}
 		</td>
 	</tr>
 	<tr>
@@ -133,7 +133,7 @@ function resetData(){
 		<td width="104" class="ct_write">상품이미지</td>
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
-			${productVO.fileName}
+			${product.fileName}
 		</td>
 	</tr>
 	<tr>

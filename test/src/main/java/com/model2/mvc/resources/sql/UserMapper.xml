@@ -44,7 +44,7 @@
   	</insert>
   	
   	<select id="selectUser" parameterType="string" resultMap="userSelectMap">
-  		SELECT user_id,user_name,password,role,ssn,cell_phone,addr,email,reg_date
+  		SELECT user_id,user_name,password,role,ssn,cell_phone,addr,email,TO_CHAR(reg_date,'YYYY-MM-DD') reg_date
   		FROM users
   		WHERE user_id = #{value}
   	</select>
@@ -77,12 +77,12 @@
   		
   		<where>
   			<choose>
-  				<when test="searchCondition =='0' and searchKeyword != '' ">
+  				<when test='searchCondition =="0" and searchKeyword != "" '>
 <!--   					user_id = #{searchKeyword} -->
 					user_id LIKE '%'||#{searchKeyword}||'%'
   				</when>
   				
-  				<when test="searchCondition =='1' and searchKeyword != '' ">
+  				<when test='searchCondition =="1" and searchKeyword != "" '>
   					user_name LIKE '%'||#{searchKeyword}||'%'
   				</when>
   			</choose>

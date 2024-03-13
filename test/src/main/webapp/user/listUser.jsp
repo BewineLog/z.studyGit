@@ -40,10 +40,10 @@
 	
 	<td align="right">
 			<select name="searchCondition" class="ct_input_g" style="width:80px">
-				<option value="0" ${! empty searchCondition && searchVO.getSearchCondition == "0" ? "selected" : "" }>회원ID</option>
-				<option value="1" ${! empty searchCondition && searchVO.getSearchCondition == "1" ? "selected" : "" }>회원명</option>
+				<option value="0" ${! empty searchCondition && search.getSearchCondition == "0" ? "selected" : "" }>회원ID</option>
+				<option value="1" ${! empty searchCondition && search.getSearchCondition == "1" ? "selected" : "" }>회원명</option>
 			</select>
-			<input type="text" name="searchKeyword" value="${! empty searchVO.searchKeyword ? searchVO.searchKeyword :''  }"  class="ct_input_g" style="width:200px; height:19px" >
+			<input type="text" name="searchKeyword" value="${! empty search.searchKeyword ? search.searchKeyword :''  }"  class="ct_input_g" style="width:200px; height:19px" >
 		</td>
 	
 		<td align="right" width="70">

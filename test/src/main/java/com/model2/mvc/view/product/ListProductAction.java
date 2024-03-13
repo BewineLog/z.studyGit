@@ -93,13 +93,34 @@ public class ListProductAction extends Action {
 		}
 		
 		
-//		SqlSession sqlSession = new SqlSessionFactoryBean().getSqlSession();
-//		ProductDao productDao = new ProductDaoImpl();
-//		productDao.setSqlSession(sqlSession);
-//		
-//		ProductServiceImpl impl = new ProductServiceImpl();
-//		impl.setProductDao(productDao);
+		if(request.getParameter("fixedSearchRangeOne") != null) {
+			System.out.println("fixedSearchRangeOne :: " + Boolean.getBoolean(request.getParameter("fixedSearchRangeOne").toString()));
+			searchVO.setFixedSearchRangeOne(Boolean.getBoolean(request.getParameter("fixedSearchRangeOne").toString()));
+		}
 		
+		if(request.getParameter("fixedSearchRangeTwo") != null) {
+			System.out.println("fixedSearchRangeTwo :: " + Boolean.getBoolean(request.getParameter("fixedSearchRangeTwo").toString()));
+			searchVO.setFixedSearchRangeOne(Boolean.getBoolean(request.getParameter("fixedSearchRangeTwo").toString()));
+		}
+		
+		if(request.getParameter("fixedSearchRangeThree") != null) {
+			System.out.println("fixedSearchRangeThree :: " + Boolean.getBoolean(request.getParameter("fixedSearchRangeThree").toString()));
+			searchVO.setFixedSearchRangeOne(Boolean.getBoolean(request.getParameter("fixedSearchRangeThree").toString()));
+		}
+		
+		
+		if(request.getParameter("searchRangeLow") != null) {
+			System.out.println("searchRangeLow :: " + request.getParameter("searchRangeLow"));
+			searchVO.setSearchRangeLow(Integer.parseInt(request.getParameter("searchRangeLow")));
+		}
+		
+		if(request.getParameter("searchRangeHigh") != null) {
+			System.out.println("searchRangeHigh :: " + request.getParameter("searchRangeHigh"));
+			searchVO.setSearchRangeHigh(Integer.parseInt(request.getParameter("searchRangeHigh")));
+		}
+		
+		
+
 		ProductService impl = (ProductService)SpringUtil.getProductService();
 //		PurchaseVO purchaseVO = (PurchaseVO)request.getAttribute("purchaseVO");
 //		String tranCode = "";

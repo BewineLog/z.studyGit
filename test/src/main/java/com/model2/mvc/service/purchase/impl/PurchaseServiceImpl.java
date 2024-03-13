@@ -1,19 +1,33 @@
 package com.model2.mvc.service.purchase.impl;
 
+import java.util.List;
 import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
 
 import com.model2.mvc.service.domain.Product;
 import com.model2.mvc.service.purchase.PurchaseService;
+import com.model2.mvc.common.Page;
 import com.model2.mvc.common.SearchVO;
 import com.model2.mvc.service.purchase.dao.PurchaseDao;
 import com.model2.mvc.service.domain.Purchase;
 
 
+@Service("purchaseServiceImpl")
 public class PurchaseServiceImpl implements PurchaseService{
-	PurchaseDao purchaseDao = new PurchaseDao();
 	
-	public void addPurchase(Purchase Purchase) throws Exception{
-		purchaseDao.addPurchase(Purchase);
+	@Autowired
+	@Qualifier("purchaseDaoImpl")
+	PurchaseDao purchaseDao;
+	
+	public void setPurchaseDao(PurchaseDao purchaseDao) {
+		this.purchaseDao = purchaseDao;
+	}
+	
+	public int addPurchase(Purchase Purchase) throws Exception{
+		return purchaseDao.addPurchase(Purchase);
 	}
 	
 	public Purchase getPurchase(int prodNo) throws Exception{
@@ -27,16 +41,24 @@ public class PurchaseServiceImpl implements PurchaseService{
 		return purchaseDao.getPurchaseByTranNo(tranNo);
 	}
 	
-	public Map<String,Object> getPurchaseList(String buyer_id,SearchVO searchVO) throws Exception{
-		return purchaseDao.getPurchaseList(buyer_id, searchVO);
+	public List<Object> getPurchaseList(String buyer_id,Page page) throws Exception{
+		return purchaseDao.getPurchaseList(buyer_id, page);
 	}
 	
+//	
+//	public Map<String,Object> getPurchaseListProdNo(String buyer_id, String tranCode) throws Exception{
+//		return purchaseDao.getPurchaseListProdNo(buyer_id,tranCode);
+//	}
 	
-	public Map<String,Object> getPurchaseListProdNo(String buyer_id, String tranCode) throws Exception{
-		return purchaseDao.getPurchaseListProdNo(buyer_id,tranCode);
+	public int getTotalCount(String buyer_id) throws Exception{
+		return purchaseDao.getTotalCount(buyer_id);
 	}
 	
-	public void updatePurchase(Purchase Purchase) throws Exception{
-		purchaseDao.updatePurchase(Purchase);
+	public int updatePurchase(Purchase Purchase) throws Exception{
+		return purchaseDao.updatePurchase(Purchase);
+	}
+	
+	public int deletePurchase(int tranNo) throws Exception{
+		return purchaseDao.deletePurchase(tranNo);
 	}
 }

@@ -73,7 +73,7 @@
   		<where>
   			<choose>
 <!--   				<if test="searchCondition != null"> -->
-  					<when test="searchCondition == '0' and searchKeyword != '' ">
+  					<when test='searchCondition == "0" and searchKeyword != "" '>
   						p.prod_no = #{searchKeyword}
   					</when>
   					
@@ -82,14 +82,14 @@
 						p.prod_name LIKE '%'||#{searchKeyword}||'%'
   					</when>
   					
-  					<when test="searchCondition == '2' and searchKeyword != '' ">
+  					<when test='searchCondition == "2" and searchKeyword != "" '>
   						p.price = #{searchKeyword}
   					</when>
 <!--   				</if> -->
   			</choose>
   			
 
-  			<if test="showOption != null and showOption == 'notShow'">
+  			<if test='showOption != null and showOption == "notShow"'>
   				AND t.tran_status_code IS NULL
   			</if>
   		
@@ -97,15 +97,15 @@
   			
   			<choose>
 <!--   				<if test="orderByOption != null"> -->
-  					<when test="orderByOption == '' ">
+  					<when test=' orderByOption == null or orderByOption == "" '>
   						ORDER BY reg_date DESC
   					</when>
   					
-  					<when test="orderByOption == 'asc'">
+  					<when test='orderByOption == "asc"'>
   						ORDER BY price ASC
   					</when>
   					
-  					<when test="orderByOption =='desc'">
+  					<when test='orderByOption =="desc"'>
   						ORDER BY price DESC
   					</when>
 <!--   				</if> -->
