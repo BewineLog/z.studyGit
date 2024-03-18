@@ -28,6 +28,7 @@
   		<result property="fileName" column="image_file" jdbcType="VARCHAR"/>
   		<result property="regDate" column="reg_date" jdbcType="DATE"/>
   		<result property="tranCode" column="tran_status_code" jdbcType="VARCHAR"/>
+  		<result property="tranNo" column="tran_no" jdbcType="NUMERIC"/>
   	</resultMap>
   	
   	<insert id="insertProduct" parameterType="com.model2.mvc.service.domain.Product">
@@ -41,7 +42,7 @@
   	</insert>
   	
   	<select id="selectProduct" parameterType="int" resultMap="productSelectMap">
-  		SELECT p.prod_no prod_no, p.prod_name prod_name, p.prod_detail prod_detail, p.manufacture_day manufacture_day, p.price price, p.image_file image_file, p.reg_date reg_date, t.tran_status_code tran_status_code
+  		SELECT p.prod_no prod_no, p.prod_name prod_name, p.prod_detail prod_detail, p.manufacture_day manufacture_day, p.price price, p.image_file image_file, p.reg_date reg_date, t.tran_status_code tran_status_code, t.tran_no tran_no
   		FROM product p, transaction t
   		WHERE p.prod_no = t.prod_no(+) AND p.prod_no = #{value}
   	</select>
@@ -67,7 +68,7 @@
   	
   	
   	<sql id="getProductListSubQuery">
-  		SELECT p.prod_no prod_no, p.prod_name prod_name, p.prod_detail prod_detail, p.manufacture_day manufacture_day, p.price price, p.image_file image_file, p.reg_date reg_date, t.tran_status_code tran_status_code
+  		SELECT p.prod_no prod_no, p.prod_name prod_name, p.prod_detail prod_detail, p.manufacture_day manufacture_day, p.price price, p.image_file image_file, p.reg_date reg_date, t.tran_status_code tran_status_code, t.tran_no tran_no
   		FROM product p, transaction t
   		
   		<where>
@@ -89,23 +90,27 @@
   			</choose>
   			
 
-  			<if test='showOption != null and showOption == "notShow"'>
+  			<if test='inventoryValue != null and inventoryValue == "notShow"'>
   				AND t.tran_status_code IS NULL
+  			</if>
+  			
+  			<if test='priceRangeHigh != 0'>
+  				AND p.price BETWEEN #{priceRangeLow} AND #{priceRangeHigh}
   			</if>
   		
   			AND p.prod_no = t.prod_no(+)
   			
   			<choose>
 <!--   				<if test="orderByOption != null"> -->
-  					<when test=' orderByOption == null or orderByOption == "" '>
+  					<when test='(rankingAscValue  == null or rankingAscValue == "") and (rankingDescValue == null or rankingDescValue == "")  '>
   						ORDER BY reg_date DESC
   					</when>
   					
-  					<when test='orderByOption == "asc"'>
+  					<when test='rankingAscValue == "asc"'>
   						ORDER BY price ASC
   					</when>
   					
-  					<when test='orderByOption =="desc"'>
+  					<when test='rankingDescValue =="desc"'>
   						ORDER BY price DESC
   					</when>
 <!--   				</if> -->

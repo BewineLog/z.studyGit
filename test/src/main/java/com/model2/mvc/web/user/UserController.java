@@ -128,6 +128,12 @@ public class UserController {
 		
 		if( user.getPassword().equals(dbUser.getPassword())){
 			session.setAttribute("user", dbUser);
+			
+			if(user.getRole() != null && user.getRole().equals("admin")) {
+				session.setAttribute("menu", "manage");
+			}else {
+				session.setAttribute("menu", "search");
+			}
 		}
 		
 		return "redirect:/index.jsp";

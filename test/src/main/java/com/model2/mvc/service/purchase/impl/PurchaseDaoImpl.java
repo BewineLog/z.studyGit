@@ -14,8 +14,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
+import com.model2.mvc.service.domain.Product;
 //import com.model2.mvc.common.util.DBUtil;
 import com.model2.mvc.service.domain.Purchase;
+import com.model2.mvc.service.domain.User;
 import com.model2.mvc.service.purchase.dao.PurchaseDao;
 import com.model2.mvc.common.Page;
 //import com.model2.mvc.service.product.impl.ProductServiceImpl;
@@ -254,8 +256,30 @@ public class PurchaseDaoImpl implements PurchaseDao {
 		map.put("page", page);
 		map.put("buyerId", buyer_id);
 		
+		System.out.println("::::::::" + buyer_id);
+		List<Object> list = sqlSession.selectList("PurchaseMapper.getPurchaseList",map);
 		
-		return sqlSession.selectList("PurchaseMapper.getPurchaseList",map);
+		for(int i = 0 ; i < list.size() ; i++) {
+			Purchase purchase = (Purchase)list.get(i);
+			Product product= (Product)(purchase.getPurchaseProd());		
+			
+			if(purchase.getTranCode() == null) {
+				product.setProTranCode("판매중");
+				purchase.setPurchaseProd(product);
+			}else if(purchase.getTranCode().equals("1")) {
+				product.setProTranCode("구매완료");
+				purchase.setPurchaseProd(product);
+			}else if(purchase.getTranCode().equals("2")) {
+				product.setProTranCode("배송중");
+				purchase.setPurchaseProd(product);
+			}else if(purchase.getTranCode().equals("3")) {
+				product.setProTranCode("배송완료");
+				purchase.setPurchaseProd(product);
+			}
+		}
+		
+		
+		return list;
 		
 	}
 	

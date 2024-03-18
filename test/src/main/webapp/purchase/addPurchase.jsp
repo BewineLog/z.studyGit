@@ -24,7 +24,7 @@ function fncFixPurchase() {
 
 <body>
 
-<form name="addPurchase" method="post" action="/updatePurchaseView.do">
+<form name="addPurchase" method="post" action="/purchase/updatePurchaseView">
 
 <table width="100%" height="37" border="0" cellpadding="0"	cellspacing="0">
 	<tr>
@@ -46,7 +46,7 @@ function fncFixPurchase() {
 </table>
 
 <input type="hidden" name="tranNo" value="${purchase.tranNo}" />
-<input type="hidden" name="prodNo" value="${purchase.getPurchaseProd.prodNo}" />
+<input type="hidden" name="prodNo" value="${purchase.purchaseProd.prodNo}" />
 
 <table width="600" border="0" cellspacing="0" cellpadding="0"	align="center" style="margin-top: 13px;">
 	<tr>
@@ -74,7 +74,7 @@ function fncFixPurchase() {
 		<td class="ct_write01" width="299">
 			<table width="100%" border="0" cellspacing="0" cellpadding="0">
 				<tr>
-					<td width="105">${purchase.getPurchaseProd.prodNo}</td>
+					<td width="105">${purchase.purchaseProd.prodNo}</td>
 				</tr>
 			</table>
 		</td>
@@ -197,7 +197,7 @@ function fncFixPurchase() {
 					
 					<c:if test="${empty param.isGetPurchase }">
 					<td background="/images/ct_btnbg02.gif" class="ct_btn01" style="padding-top: 3px;">
-						<a href="/listProduct.do" >확인</a>
+						<a href="/product/listProduct?menu=${menu}" >확인</a>
 					</td>
 					</c:if>
 					

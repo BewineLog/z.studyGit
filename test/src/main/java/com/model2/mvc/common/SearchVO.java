@@ -1,5 +1,9 @@
 package com.model2.mvc.common;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 public class SearchVO {
 	
@@ -22,6 +26,46 @@ public class SearchVO {
 	
 	int searchRangeLow;
 	int searchRangeHigh;
+	
+	int priceRangeLow;
+	int priceRangeHigh;
+	
+	public void setPriceRange() {
+		List<Integer> list = new ArrayList<Integer>();
+		
+		if(fixedSearchRangeOne) {
+			list.addAll(Arrays.asList(10000,19999));
+		}
+		
+		if(fixedSearchRangeTwo) {
+			list.addAll(Arrays.asList(20000,29999));
+		}
+		
+		if(fixedSearchRangeThree) {
+			list.addAll(Arrays.asList(30000,39999));
+		}
+		
+		if(priceRangeLow != 0) {
+			list.add(priceRangeLow);
+		}
+		
+		if(priceRangeHigh != 0) {
+			list.add(priceRangeHigh);
+			
+		}
+		
+		System.out.println("Search::" + list.toString());
+		
+		if(list.size() != 0) {
+			this.priceRangeLow = Collections.min(list);
+			this.priceRangeHigh = Collections.max(list);
+		}
+		
+		if(this.priceRangeHigh == 0) {
+			this.priceRangeHigh = 99999;
+		}
+		
+	}
 	
 	
 	public String getInventoryValue() {
@@ -141,6 +185,26 @@ public class SearchVO {
 	public void setSearchRangeHigh(int searchRangeHigh) {
 		this.searchRangeHigh = searchRangeHigh;
 	}
+
+	public int getPriceRangeLow() {
+		return priceRangeLow;
+	}
+
+
+	public int getPriceRangeHigh() {
+		return priceRangeHigh;
+	}
+
+
+	public void setPriceRangeLow(int priceRangeLow) {
+		this.priceRangeLow = priceRangeLow;
+	}
+
+
+	public void setPriceRangeHigh(int priceRangeHigh) {
+		this.priceRangeHigh = priceRangeHigh;
+	}
+
 
 	@Override
 	public String toString() {

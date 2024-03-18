@@ -3,6 +3,7 @@ package com.model2.mvc.web.product;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -105,45 +106,40 @@ public class ProductController {
 	
 	@RequestMapping("/listProduct")
 	public ModelAndView listProduct(
-			@ModelAttribute("search") SearchVO search,
-			@RequestParam("menu") String menu,
-			Model model
-			
+			@ModelAttribute(value="search") SearchVO search,
+			@RequestParam(value="menu", required=false) String menu,
+			Model model,
+			HttpSession session
 			) throws Exception{
 		
 		if(search.getPage() ==0 ){
 			search.setPage(1);
 		}
+		
+		search.setPageUnit(pageUnit);
 		search.setPageSize(pageSize);
 		
-		String rankingAscValue = search.getRankingAscValue();
-		String rankingDescValue = search.getRankingDescValue();
-		String inventoryValue = search.getInventoryValue();
-		
-		if(rankingAscValue != null && !rankingAscValue.equals("")) {
-			search.setOrderByOption(rankingAscValue);
-		}else if(rankingDescValue != null && !rankingDescValue.equals("")) {
-			search.setOrderByOption(rankingDescValue);
-		}
-		
-		if(inventoryValue != null && !inventoryValue.equals("")) {
-			search.setShowOption(inventoryValue);
-		}
+		search.setPriceRange();
 		
 		
-		System.out.println("listProduct search :::" +search.toString() );
+		System.out.println("listProduct search :::" +search.toString());
 		
 		ModelAndView modelAndView = new ModelAndView();
 		int totalCount = productService.getTotalCount(search);
 		Page pageInfo = new Page( search.getPage(), totalCount, pageUnit, pageSize);
-		
+	
 		modelAndView.addObject("list",productService.getProductList(search));
 		modelAndView.addObject("count",totalCount);
 		modelAndView.addObject("menu",menu);
 		modelAndView.addObject("pageInfo", pageInfo);
 		
-		modelAndView.setViewName("forward:/product/listProduct.jsp");
+		if(menu == null) {
+			modelAndView.addObject("menu", session.getAttribute("menu"));
+		}else {
+			modelAndView.addObject("menu",menu);
+		}
 		
+		modelAndView.setViewName("forward:/product/listProduct.jsp");
 		return modelAndView;
 	
 	}

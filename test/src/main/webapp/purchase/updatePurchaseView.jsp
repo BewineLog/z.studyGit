@@ -14,7 +14,7 @@
 <script type="text/javascript">
 <!--
 function fncFixPurchase() {
-	document.addPurchase.submit();
+	document.updatePurchase.submit();
 }
 -->
 </script>
@@ -23,7 +23,7 @@ function fncFixPurchase() {
 
 <body>
 
-<form name="addPurchase" method="post" action="/updatePurchase.do">
+<form name="updatePurchase" method="post" action="/purchase/updatePurchase">
 
 <table width="100%" height="37" border="0" cellpadding="0"	cellspacing="0">
 	<tr>
@@ -53,6 +53,7 @@ function fncFixPurchase() {
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">${user.userId}</td>
 		<input type="hidden" name="tranNo" value="${purchase.tranNo}" />
+		<input type="hidden" name="tranNo" value="${purchase.purchaseProd.prodNo}" />
 	</tr>
 	<tr>
 		<td height="1" colspan="3" bgcolor="D6D6D6"></td>

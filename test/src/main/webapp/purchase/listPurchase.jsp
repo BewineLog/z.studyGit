@@ -17,7 +17,7 @@
 
 <div style="width: 98%; margin-left: 10px;">
 
-<form name="detailForm" action="/listPurchase.do" method="post">
+<form name="detailForm" action="/purchase/listPurchase" method="post">
 
 <table width="100%" height="37" border="0" cellpadding="0"	cellspacing="0">
 	<tr>
@@ -35,7 +35,7 @@
 
 <table width="100%" border="0" cellspacing="0" cellpadding="0"	style="margin-top: 10px;">
 	<tr>
-		<td colspan="11">전체 ${requestScope.count} 건수, 현재 ${requestScope.pageInfo.currentPage} 페이지</td>
+		<td colspan="11">전체 ${count} 건수, 현재 ${pageInfo.currentPage} 페이지</td>
 	</tr>
 	<tr>
 		<td class="ct_list_b" width="100">No</td>
@@ -56,19 +56,19 @@
 		<td colspan="11" bgcolor="808285" height="1"></td>
 	</tr>
 
-<%-- 	<c:forEach var="idx" begin="1" end="${requestScope.count}"> --%>
-	<c:forEach var="i" items="${requestScope.list}" end="${requestScope.count}" varStatus = "status">
+<%-- 	<c:forEach var="idx" begin="1" end="${count}"> --%>
+	<c:forEach var="i" items="${list}" end="${count}" varStatus = "status">
 	
 	
 	<tr class="ct_list_pop">
 		<td align="center">
-			<a href="/getPurchase.do?tranNo=${i.tranNo}">${status.index + 1}</a>
+			<a href="/purchase/getPurchase?tranNo=${i.tranNo}">${status.index + 1}</a>
 		</td>
 		<td></td>
-		<td><a href="/getPurchase.do?tranNo=${i.tranNo}">${i.tranNo}</a></td>
+		<td><a href="/purchase/getPurchase?tranNo=${i.tranNo}">${i.tranNo}</a></td>
 		<td></td>
 		<td align="left">
-			<a href="/getUser.do?userId=${i.buyer.userId}">${i.buyer.userId}</a>
+			<a href="/user/getUser?userId=${i.buyer.userId}">${i.buyer.userId}</a>
 		</td>
 		<td></td>
 		<td align="left">${i.buyer.userName}</td>
@@ -81,7 +81,7 @@
 				상태 입니다.
 				
 				<c:if test="${i.purchaseProd.proTranCode.trim() == '배송중' }">
-					<a href="/updateTranCode.do?page=${status.index + 1}&tranNo=${i.tranNo}&tranCode=3">${'물건도착'}</a> 
+					<a href="/purchase/updateTranCode?page=${status.index + 1}&tranNo=${i.tranNo}&tranCode=3">${'물건도착'}</a> 
 				</c:if>
 				
 				

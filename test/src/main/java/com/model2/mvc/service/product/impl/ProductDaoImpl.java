@@ -42,13 +42,13 @@ public class ProductDaoImpl implements ProductDao {
 			if(product.getTranCode() == null) {
 				product.setProTranCode("판매중");
 				list.set(i, (Object)product);
-			}else if(product.getTranCode() == "1") {
+			}else if(product.getTranCode().equals("1")) {
 				product.setProTranCode("구매완료");
 				list.set(i, (Object)product);
-			}else if(product.getTranCode() == "2") {
+			}else if(product.getTranCode().equals("2")) {
 				product.setProTranCode("배송중");
 				list.set(i, (Object)product);
-			}else if(product.getTranCode() == "3") {
+			}else if(product.getTranCode().equals("3")) {
 				product.setProTranCode("배송완료");
 				list.set(i, (Object)product);
 			}

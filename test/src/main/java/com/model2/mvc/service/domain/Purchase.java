@@ -35,8 +35,8 @@ public class Purchase {
 	public void setDivyAddr(String divyAddr) {
 		this.divyAddr = divyAddr;
 	}
-	public String getDivyDate() {
-		return divyDate;
+	public Date getDivyDate() {
+		return Date.valueOf(divyDate);
 	}
 	public void setDivyDate(String divyDate) {
 		this.divyDate = divyDate;
@@ -57,7 +57,7 @@ public class Purchase {
 		return paymentOption;
 	}
 	public void setPaymentOption(String paymentOption) {
-		this.paymentOption = paymentOption;
+		this.paymentOption = paymentOption.trim();
 	}
 	public Product getPurchaseProd() {
 		return purchaseProd;
@@ -81,7 +81,7 @@ public class Purchase {
 		return tranCode;
 	}
 	public void setTranCode(String tranCode) {
-		this.tranCode = tranCode;
+		this.tranCode = tranCode.trim();
 	}
 	public int getTranNo() {
 		return tranNo;

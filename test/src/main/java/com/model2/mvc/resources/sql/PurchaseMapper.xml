@@ -6,9 +6,30 @@
 
 <mapper namespace="PurchaseMapper">
 
+	<resultMap id="userSelectMap" type="com.model2.mvc.service.domain.User">
+  		<result property="userId" column="user_id" jdbcType="VARCHAR"/>
+  		<result property="userName" column="user_name" jdbcType="VARCHAR"/>
+  		<result property="password" column="password" jdbcType="VARCHAR"/>
+		<result property="role" column="role" jdbcType="VARCHAR" />
+		<result property="ssn" column="ssn" jdbcType="VARCHAR" />
+		<result property="phone" column="cell_phone" jdbcType="VARCHAR" />
+		<result property="addr" column="addr" jdbcType="VARCHAR" />
+		<result property="email" column="email" jdbcType="VARCHAR" />
+  		<result property="regDate" column="reg_date" jdbcType="DATE"/>
+  	</resultMap>
+  	
+  	<resultMap id="productSelectMap" type="com.model2.mvc.service.domain.Product">
+  		<result property="prodNo" column="product_no" jdbcType="NUMERIC"/>
+  		<result property="prodName" column="prod_name" jdbcType="VARCHAR"/>
+  		<result property="prodDetail" column="prod_detail" jdbcType="VARCHAR"/>
+  		<result property="manuDate" column="manufacture_day" jdbcType="VARCHAR"/>
+  		<result property="price" column="price" jdbcType="NUMERIC"/>
+  		<result property="fileName" column="image_file" jdbcType="VARCHAR"/>
+  		<result property="regDate" column="product_reg_date" jdbcType="DATE"/>
+  		<result property="tranCode" column="tran_status_code" jdbcType="VARCHAR"/>
+  	</resultMap>
+
 	<resultMap id="PurchaseSelectMap" type="com.model2.mvc.service.domain.Purchase">
-		<result property="buyer.userId" column ="buyer_id" jdbcType="VARCHAR"/>
-		<result property="purchaseProd.prodNo" column ="prod_no" jdbcType="NUMERIC"/>
 		<result property="divyAddr" column ="demailaddr" jdbcType="VARCHAR"/>
 		<result property="divyDate" column ="dlvy_date" jdbcType="DATE"/>
 		<result property="divyRequest" column ="dlvy_request" jdbcType="VARCHAR"/>
@@ -18,6 +39,8 @@
 		<result property="tranCode" column ="tran_status_code" jdbcType="VARCHAR"/>
 		<result property="tranNo" column ="tran_no" jdbcType="NUMERIC"/>
 		<result property="orderDate" column ="order_data" jdbcType="DATE"/>
+		<association property="buyer" resultMap="userSelectMap"/>
+		<association property="purchaseProd" resultMap="productSelectMap"/>
 	
 	</resultMap>
 	
@@ -52,15 +75,15 @@
 	</select>
 	
 	<select id="getPurchase" parameterType="int" resultMap="PurchaseSelectMap">
-		SELECT buyer_id, demailaddr, TO_CHAR(dlvy_date, 'YYYY-MM-DD') dlvy_date, dlvy_request, order_data,payment_option ,receiver_name,receiver_phone, tran_status_code, tran_no,prod_no 
-		FROM transaction 
-		WHERE prod_no = #{value}
+		SELECT ROWNUM row_seq, t.buyer_id buyer_id, t.demailaddr demailaddr, TO_CHAR(t.dlvy_date, 'YYYY-MM-DD') dlvy_date, t.dlvy_request dlvy_request, t.order_data order_data,t.payment_option payment_option ,t.receiver_name receiver_name, t.receiver_phone receiver_phone, t.tran_status_code tran_status_code, t.tran_no tran_no,t.prod_no prod_no, u.user_id user_id,u.user_name user_name,u.password password ,u.role role,u.ssn ssn, u.cell_phone cell_phone,u.addr addr,u.email email ,TO_CHAR(u.reg_date,'YYYY-MM-DD') reg_date, p.prod_no product_no, p.prod_name prod_name, p.prod_detail prod_detail, p.manufacture_day manufacture_day, p.price price, p.image_file image_file, p.reg_date product_reg_date 
+		FROM transaction t, users u, product p 
+		WHERE prod_no = #{value} AND t.buyer_id = u.user_id AND t.prod_no = p.prod_no
 	</select>
 	
 	<select id="getPurchaseByTranNo" parameterType="int" resultMap="PurchaseSelectMap">
-		SELECT buyer_id, demailaddr, TO_CHAR(dlvy_date, 'YYYY-MM-DD') dlvy_date, dlvy_request, order_data,payment_option ,receiver_name,receiver_phone, tran_status_code, tran_no,prod_no 
-		FROM transaction 
-		WHERE tran_no = #{value}
+		SELECT ROWNUM row_seq, t.buyer_id buyer_id, t.demailaddr demailaddr, TO_CHAR(t.dlvy_date, 'YYYY-MM-DD') dlvy_date, t.dlvy_request dlvy_request, t.order_data order_data,t.payment_option payment_option ,t.receiver_name receiver_name, t.receiver_phone receiver_phone, t.tran_status_code tran_status_code, t.tran_no tran_no,t.prod_no prod_no, u.user_id user_id,u.user_name user_name,u.password password ,u.role role,u.ssn ssn, u.cell_phone cell_phone,u.addr addr,u.email email ,TO_CHAR(u.reg_date,'YYYY-MM-DD') reg_date, p.prod_no product_no, p.prod_name prod_name, p.prod_detail prod_detail, p.manufacture_day manufacture_day, p.price price, p.image_file image_file, p.reg_date product_reg_date 
+		FROM transaction t, product p, users u
+		WHERE tran_no = #{value} AND t.buyer_id = u.user_id AND t.prod_no = p.prod_no
 	</select>
 	
 	<update id="updatePurchase" parameterType="com.model2.mvc.service.domain.Purchase">
@@ -84,19 +107,18 @@
 	</delete>
 	
 	<sql id="getPurchaseListSubQuery">
-		SELECT ROWNUM row_seq, buyer_id, demailaddr, TO_CHAR(dlvy_date, 'YYYY-MM-DD') dlvy_date, dlvy_request, order_data,payment_option ,receiver_name,receiver_phone, tran_status_code, tran_no,prod_no
-		FROM transaction
-		WHERE buyer_id = #{buyerId}
+		SELECT ROWNUM row_seq, t.buyer_id buyer_id, t.demailaddr demailaddr, TO_CHAR(t.dlvy_date, 'YYYY-MM-DD') dlvy_date, t.dlvy_request dlvy_request, t.order_data order_data,t.payment_option payment_option ,t.receiver_name receiver_name, t.receiver_phone receiver_phone, t.tran_status_code tran_status_code, t.tran_no tran_no,t.prod_no prod_no, u.user_id user_id,u.user_name user_name,u.password password ,u.role role,u.ssn ssn, u.cell_phone cell_phone,u.addr addr,u.email email ,TO_CHAR(u.reg_date,'YYYY-MM-DD') reg_date, p.prod_no product_no, p.prod_name prod_name, p.prod_detail prod_detail, p.manufacture_day manufacture_day, p.price price, p.image_file image_file, p.reg_date product_reg_date 
+		FROM transaction t, users u, product p 
+		WHERE t.buyer_id = #{buyerId} AND t.buyer_id = u.user_id AND t.prod_no = p.prod_no
 	</sql>
-	
 	
 	<select id="getPurchaseList" parameterType="map" resultMap="PurchaseSelectMap">
 		SELECT *
 		FROM ( <include refid="getPurchaseListSubQuery"/> 
-			AND ROWNUM &lt;= #{search.page} * #{search.pageSize}
+			AND ROWNUM &lt;= #{page.currentPage} * #{page.pageSize}
 			ORDER BY tran_no DESC
 			) vt
-		WHERE vt.row_seq BETWEEN ((#{search.page}-1) * #{search.pageSize} + 1) AND (#{search.page} * #{search.pageSize})
+		WHERE vt.row_seq BETWEEN ((#{page.currentPage}-1) * #{page.pageSize} + 1) AND (#{page.currentPage} * #{page.pageSize})
 	
 	</select>
 	

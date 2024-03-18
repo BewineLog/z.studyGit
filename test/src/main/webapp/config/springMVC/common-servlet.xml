@@ -56,8 +56,10 @@
 
    	</mvc:interceptors>
 	<!-- //////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->					
-
-
+	<mvc:resources mapping="/css/**" location="/css/" />
+   	<mvc:resources mapping="/images/**" location="/images/" />
+   	<mvc:resources mapping="/javascript/**" location="/javascript/" />
+	<mvc:resources mapping="/sample/**" location="/sample/" />
 	<!--  :: ViewResolver 선언 -->	
     <bean id="viewResolver"
 				class="org.springframework.web.servlet.view.InternalResourceViewResolver" />
@@ -65,18 +67,20 @@
 
 	<!-- 	:: exception resolver  선언 :: 서술적 / 선언적 예외처리 
 			:: Servlet 에서의 선언적 예외처리를 다시 생각하며....  -->
-	<bean id="exceptionResolver"
-				class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+			
+			
+<!-- 	<bean id="exceptionResolver" -->
+<!-- 				class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver"> -->
 		
-		<property name="exceptionMappings">
-			<props>
-				<prop key="java.lang.NullPointerException">/common/nullError.jsp</prop>
-				<prop key="java.lang.NumberFormatException">/common/numberFormatError.jsp</prop>
-			</props>
-		</property>
+<!-- 		<property name="exceptionMappings"> -->
+<!-- 			<props> -->
+<!-- 				<prop key="java.lang.NullPointerException">/common/nullError.jsp</prop> -->
+<!-- 				<prop key="java.lang.NumberFormatException">/common/numberFormatError.jsp</prop> -->
+<!-- 			</props> -->
+<!-- 		</property> -->
 		
-		<property name="defaultErrorView"	value="/common/error.jsp" />
+<!-- 		<property name="defaultErrorView"	value="/common/error.jsp" /> -->
 		
-	</bean>
+<!-- 	</bean> -->
 
 </beans>

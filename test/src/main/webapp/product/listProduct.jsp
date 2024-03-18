@@ -15,7 +15,6 @@ function fncGetList(page) {
 	document.detailForm.submit();
 }
 
-
 function rankingAsc(page){
 	if(document.getElementById("rankingAscValue").value ==="" || document.getElementById("rankingAscValue").value ==="null"){
 		document.getElementById("rankingAscValue").value = "asc";
@@ -50,6 +49,18 @@ function showInventory(page){
 	fncGetList(page);
 }
 
+function setRange(element){
+	alert(element.name);
+	alert(element.value);
+	if(element.value == "" || element.value == null){
+		element.value = true;
+	}else{
+		element.value = false;
+	}
+	
+	fncGetList(1);
+}
+
 
 function removeUser(page,id){
 	document.getElementById("removeUserId").value = id;
@@ -68,7 +79,7 @@ function openDetailPage(){
 
 	<div style="width: 98%; margin-left: 10px;">
 
-		<form name="detailForm" action="/product/listProduct?menu=${param.menu}"
+		<form name="detailForm" action="/product/listProduct?menu=${menu}"
 			method="post">
 
 			<table width="100%" height="37" border="0" cellpadding="0"
@@ -146,17 +157,20 @@ function openDetailPage(){
 					style="margin-top: 10px;">
 					<tr>
 						<td width=30><a><input type="checkbox"
+								id="fixedSearchRangeOne"
 								name="fixedSearchRangeOne"
-								value="${search.fixedSearchRangeOne}"
-								${search.fixedSearchRangeOne ? 'checked' : ''} />1만원~2만원</a></td>
+								value="${! empty search.fixedSearchRangeOne ? search.fixedSearchRangeOne : ''}"
+								${search.fixedSearchRangeOne ? 'checked' : ''}  onclick="javascript:setRange(this)"/>1만원~2만원</a></td>
 						<td width=30><a><input type="checkbox"
+								id="fixedSearchRangeTwo"
 								name="fixedSearchRangeTwo"
-								value="${search.fixedSearchRangeTwo}"
-								${search.fixedSearchRangeTwo ? 'checked' : ''} />2만원~3만원</a></td>
+								value="${! empty search.fixedSearchRangeTwo ? search.fixedSearchRangeTwo : ''}"
+								${search.fixedSearchRangeTwo ? 'checked' : ''} onclick="javascript:setRange(this)" />2만원~3만원</a></td>
 						<td width=30><a><input type="checkbox"
+								id="fixedSearchRangeThree"
 								name="fixedSearchRangeThree"
-								value="${search.fixedSearchRangeThree}"
-								${search.fixedSearchRangeThree ? 'checked' : ''} />3만원~4만원</a></td>
+								value="${! empty search.fixedSearchRangeThree ? search.fixedSearchRangeThree : ''}"
+								${search.fixedSearchRangeThree ? 'checked' : ''} onclick="javascript:setRange(this)"/>3만원~4만원</a></td>
 					</tr>
 
 
@@ -167,10 +181,10 @@ function openDetailPage(){
 
 
 					<tr>
-						<td align="right"><input type="text" name="searchRangeLow"
+						<td align="right"><input type="text" id="searchRangeLow" name="searchRangeLow"
 							value="${! empty search.searchRangeLow ? search.searchRangeLow : ''}"
 							class="ct_input_g" style="width: 200px; height: 19px" /></td>
-						<td align="right"><input type="text" name="searchRangeHigh"
+						<td align="right"><input type="text" id="searchRangeHigh" name="searchRangeHigh"
 							value="${! empty search.searchRangeHigh ? search.searchRangeHigh : ''}"
 							class="ct_input_g" style="width: 200px; height: 19px" /></td>
 
@@ -287,7 +301,7 @@ function openDetailPage(){
 
 							<c:if
 								test="${i.proTranCode.trim() == '구매완료' && menu.trim() == 'manage'}">
-								<a href="/purchase/updateTranCodeByProd?prodNo=${i.prodNo}&tranCode=2">배송하기</a>
+								<a href="/purchase/updateTranCode?tranNo=${i.tranNo}&tranCode=2&menu=manage">배송하기</a>
 							</c:if>
 
 						</td>
