@@ -11,14 +11,14 @@ import com.model2.mvc.service.domain.User;
 
 /*
  * FileName : LogonCheckInterceptor.java
- *  ¤· Controller È£ÃâÀü interceptor ¸¦ ÅëÇØ ¼±Ã³¸®/ÈÄÃ³¸®/¿Ï·áÃ³¸®¸¦ ¼öÇà
- *  	- preHandle() : Controller È£ÃâÀü ¼±Ã³¸®   
- * 			(true return ==> Controller È£Ãâ / false return ==> Controller ¹ÌÈ£Ãâ ) 
- *  	- postHandle() : Controller È£Ãâ ÈÄ ÈÄÃ³¸®
- *    	- afterCompletion() : view »ı¼ºÈÄ Ã³¸®
+ *  ï¿½ï¿½ Controller È£ï¿½ï¿½ï¿½ï¿½ interceptor ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã³ï¿½ï¿½/ï¿½ï¿½Ã³ï¿½ï¿½/ï¿½Ï·ï¿½Ã³ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+ *  	- preHandle() : Controller È£ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã³ï¿½ï¿½   
+ * 			(true return ==> Controller È£ï¿½ï¿½ / false return ==> Controller ï¿½ï¿½È£ï¿½ï¿½ ) 
+ *  	- postHandle() : Controller È£ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½Ã³ï¿½ï¿½
+ *    	- afterCompletion() : view ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½
  *    
- *    ==> ·Î±×ÀÎÇÑ È¸¿øÀÌ¸é Controller È£Ãâ : true return
- *    ==> ºñ ·Î±×ÀÎÇÑ È¸¿øÀÌ¸é Controller ¹Ì È£Ãâ : false return
+ *    ==> ï¿½Î±ï¿½ï¿½ï¿½ï¿½ï¿½ È¸ï¿½ï¿½ï¿½Ì¸ï¿½ Controller È£ï¿½ï¿½ : true return
+ *    ==> ï¿½ï¿½ ï¿½Î±ï¿½ï¿½ï¿½ï¿½ï¿½ È¸ï¿½ï¿½ï¿½Ì¸ï¿½ Controller ï¿½ï¿½ È£ï¿½ï¿½ : false return
  */
 public class LogonCheckInterceptor extends HandlerInterceptorAdapter {
 
@@ -36,39 +36,39 @@ public class LogonCheckInterceptor extends HandlerInterceptorAdapter {
 		
 		System.out.println("\n[ LogonCheckInterceptor start........]");
 		
-		//==> ·Î±×ÀÎ À¯¹«È®ÀÎ
+		//==> ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½È®ï¿½ï¿½
 		HttpSession session = request.getSession(true);
 		User user = (User)session.getAttribute("user");
 
-		//==> ·Î±×ÀÎÇÑ È¸¿øÀÌ¶ó¸é...
+		//==> ï¿½Î±ï¿½ï¿½ï¿½ï¿½ï¿½ È¸ï¿½ï¿½ï¿½Ì¶ï¿½ï¿½...
 		if(   user != null   )  {
-			//==> ·Î±×ÀÎ »óÅÂ¿¡¼­ Á¢±Ù ºÒ°¡ URI
+			//==> ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Â¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ò°ï¿½ URI
 			String uri = request.getRequestURI();
 			if(		uri.indexOf("addUserView") != -1 	|| 	uri.indexOf("addUser") != -1 || 
 					uri.indexOf("loginView") != -1 			||	uri.indexOf("login") != -1 		|| 
 					uri.indexOf("checkDuplication") != -1 ){
 				request.getRequestDispatcher("/index.jsp").forward(request, response);
-				System.out.println("[ ·Î±×ÀÎ »óÅÂ.. ·Î±×ÀÎ ÈÄ ºÒÇÊ¿ä ÇÑ ¿ä±¸.... ]");
+				System.out.println("[ ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.. ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½Ê¿ï¿½ ï¿½ï¿½ ï¿½ä±¸.... ]");
 				System.out.println("[ LogonCheckInterceptor end........]\n");
 				return false;
 			}
 			
-			System.out.println("[ ·Î±×ÀÎ »óÅÂ ... ]");
+			System.out.println("[ ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ... ]");
 			System.out.println("[ LogonCheckInterceptor end........]\n");
 			return true;
-		}else{ //==> ¹Ì ·Î±×ÀÎÇÑ È­¿øÀÌ¶ó¸é...
-			//==> ·Î±×ÀÎ ½Ãµµ Áß.....
+		}else{ //==> ï¿½ï¿½ ï¿½Î±ï¿½ï¿½ï¿½ï¿½ï¿½ È­ï¿½ï¿½ï¿½Ì¶ï¿½ï¿½...
+			//==> ï¿½Î±ï¿½ï¿½ï¿½ ï¿½Ãµï¿½ ï¿½ï¿½.....
 			String uri = request.getRequestURI();
 			if(		uri.indexOf("addUserView") != -1 	|| 	uri.indexOf("addUser") != -1 || 
 					uri.indexOf("loginView") != -1 			||	uri.indexOf("login") != -1 		|| 
 					uri.indexOf("checkDuplication") != -1 ){
-				System.out.println("[ ·Î±× ½Ãµµ »óÅÂ .... ]");
+				System.out.println("[ ë¡œê·¸ì¸ ì‹œë„ì¤‘? .... ]");
 				System.out.println("[ LogonCheckInterceptor end........]\n");
 				return true;
 			}
 			
 			request.getRequestDispatcher("/index.jsp").forward(request, response);
-			System.out.println("[ ·Î±×ÀÎ ÀÌÀü ... ]");
+			System.out.println("[ ë¡œê·¸ì¸ ì‹œë„ì¤‘! ... ]");
 			System.out.println("[ LogonCheckInterceptor end........]\n");
 			return false;
 		}

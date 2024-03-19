@@ -47,14 +47,14 @@
    	        모든 기능을 사용 할 수 있는 아래의 설정으로 변경 -->
 	<mvc:annotation-driven />
 	
-	<mvc:interceptors>
+<!-- 	<mvc:interceptors> -->
 		
-   		<mvc:interceptor>
-			<mvc:mapping path="/user/**"/>
-			<bean class="com.model2.mvc.common.web.LogonCheckInterceptor" />
-   		</mvc:interceptor>
+<!--    		<mvc:interceptor> -->
+<!-- 			<mvc:mapping path="/user/**"/> -->
+<!-- 			<bean class="com.model2.mvc.common.web.LogonCheckInterceptor" /> -->
+<!--    		</mvc:interceptor> -->
 
-   	</mvc:interceptors>
+<!--    	</mvc:interceptors> -->
 	<!-- //////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->					
 	<mvc:resources mapping="/css/**" location="/css/" />
    	<mvc:resources mapping="/images/**" location="/images/" />

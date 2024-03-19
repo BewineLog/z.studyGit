@@ -70,7 +70,15 @@ public class User {
 		return regDate;
 	}
 	public void setRegDate(String regDate) {
-		this.regDate = Date.valueOf(regDate);
+//		this.regDate = Date.valueOf(regDate);
+		if(regDate != null) {
+			this.regDate = Date.valueOf(regDate);
+		}
+	}
+	
+	public void setRegDate(Date regDate) {
+		this.regDate = regDate;
+	
 	}
 
 	@Override
