@@ -28,13 +28,13 @@ $(function(){
 	$("#userId").focus();
 	
 	$('#userId').on("keydown", function(event){
-		alert("keyCode : " + event.keyCode);
+// 		alert("keyCode : " + event.keyCode);
 		
 		if(event.keyCode == '13'){
 			//fncCheckDuplication();
 		}
 	});
-})
+});
 
 // function fncCheckDuplication() {
 // 	// Form 유효성 검증
@@ -47,9 +47,13 @@ $(function(){
 // 	}
 // 	document.getElementById("userId").focus(); 
 // }
+$(function(){
+	alert($('td.ct_btn:contains("중복확인")').text());
+});
 
 $(function() {
-	$("td.ct_btn:contaions("중복확인")").on("click", function({
+	$('td.ct_btn:contains("중복확인")').on("click", function(){
+		alert("중복확인 action");
 		if($('#userId').val() != null && $('#userId').val().length > 0){
 			$('form').attr("method", "POST").attr("action","/user/checkDuplication").submit();
 		}else{
@@ -57,8 +61,8 @@ $(function() {
 		}
 		
 		$('#userId').focus();
-	}));
-})
+	});
+});
 
 // function fncUseId() {
 // 	if(opener) {
@@ -70,7 +74,7 @@ $(function() {
 $(function() {
 	$('td.ct_btn01:contains("사용")').on("click", function(){
 		if(opener){
-			opener.$('input[name="userId"]]').val('${userId}');
+			opener.$('input[name="userId"]').val('${userId}');
 			opener.$('input[name="password"]').focus();
 		}
 		
@@ -81,8 +85,8 @@ $(function() {
 $(function() {
 	$('td.ct_btn01:contains("닫기")').on("click", function(){
 		window.close();
-	})
-})
+	});
+});
 
 </script>
 </head>

@@ -41,7 +41,8 @@ function fncAddUser() {
 		
 	if($('input:text[name="phone2"]').val() != "" && $('input:text[name="phone3"]').val() != "") { //여기 조건이 이상한디? 
 // 		document.detailForm.phone.value = document.detailForm.phone1.value + "-" + document.detailForm.phone2.value + "-" + document.detailForm.phone3.value;
-		var value = $('input:text[name="phone1"]').val() + "-" +$('input:text[name="phone2"]').val() + "-"+$('input:text[name="phone3"]').val()
+		var value = $('option:selected').val() + "-" +$('input:text[name="phone2"]').val() + "-"+$('input:text[name="phone3"]').val();
+		alert("phone::" + value);
 	} 
 	
 	$('input:hidden[name="phone"]').val(value);
@@ -262,8 +263,7 @@ $(function () {
 		<td width="104" class="ct_write">휴대전화번호</td>
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
-			<select 	name="phone1" class="ct_input_g" style="width:50px" 
-							onChange="document.detailForm.phone2.focus();">
+			<select 	name="phone1" class="ct_input_g" style="width:50px" >
 				<option value="010" >010</option>
 				<option value="011" >011</option>
 				<option value="016" >016</option>
@@ -336,10 +336,5 @@ $(function () {
 </table>
 
 </form>
-
-<script type="text/javascript">
-document.getElementById("btnCmfID").focus();
-</script>
-
 </body>
 </html>

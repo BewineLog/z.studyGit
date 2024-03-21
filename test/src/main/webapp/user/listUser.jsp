@@ -5,19 +5,42 @@
 <title>È¸¿ø ¸ñ·ÏÁ¶È¸</title>
 
 <link rel="stylesheet" href="/css/admin.css" type="text/css">
-
+<script src="../javascript/jquery-2.1.4.js" type="text/javascript"></script>
 <script type="text/javascript">
 
 function fncGetList(page) {
-	document.getElementById("page").value = page;
-	document.detailForm.submit();
+	$('#page').val(page);
+	$('form').attr("method","POST").attr("action","/user/listUser").submit();
+	
 }
 
+$(function () {
+	$('td.ct_btn01:contains("°Ë»ö")').on("click", function(){
+		fncGetList(1);
+	});
+});
 
-function removeUser(page,id){
-	document.getElementById("removeUserId").value = id;
-	fncGetList(page);
-}
+$(function(){
+	$('.ct_list_pop td:nth-child(3)').on("click", function(){
+		self.location = "/user/getUser?userId="+$(this).text().trim();
+	});
+});
+
+
+$(function() {
+	$('td:contains("Å»Åð")').on("click", function(e){
+		
+// 		var userId = $('.ct_list_pop td:nth-child(3)').val();
+		
+		alert( $($(this).parent().children()[2]).text());
+		
+		$('input:hidden[name="removeUserId"]').val($($(this).parent().children()[2]).text());
+		
+		fncGetList(1);
+		
+	});
+});
+
 
 </script>
 
@@ -28,7 +51,7 @@ function removeUser(page,id){
 
 <div style="width:98%; margin-left:10px;">
 
-<form name="detailForm" action="/user/listUser" method="post">
+<form name="detailForm">
 
 <table width="100%" height="37" border="0" cellpadding="0"	cellspacing="0">
 	<tr>
@@ -67,7 +90,7 @@ function removeUser(page,id){
 						<img src="/images/ct_btnbg01.gif" width="17" height="23">
 					</td>
 					<td background="/images/ct_btnbg02.gif" class="ct_btn01" style="padding-top:3px;">
-						<a href="javascript:fncGetList('1');">°Ë»ö</a>
+							°Ë»ö
 					</td>
 					<td width="14" height="23">
 						<img src="/images/ct_btnbg03.gif" width="14" height="23">
@@ -96,54 +119,32 @@ function removeUser(page,id){
 	<tr>
 		<td colspan="11" bgcolor="808285" height="1"></td>
 	</tr>
-<%-- 	<% 	 
-// 		int no=list.size();
-// 		for(int i=0; i<list.size(); i++) {
-// 			UserVO vo = (UserVO)list.get(i);
-	%> --%>
-<!-- 	<tr class="ct_list_pop"> -->
-<%-- 		<td align="center"><%=no %></td> --%>
-<!-- 		<td></td> -->
-<!-- 		<td align="left"> -->
-<%-- 			<a href="/getUser.do?userId=<%=vo.getUserId() %>"><%= vo.getUserId() %></a> --%>
-<!-- 		</td> -->
-<!-- 		<td></td> -->
-<%-- 		<td align="left"><%= vo.getUserName() %></td> --%>
-<!-- 		<td></td> -->
-<%-- 		<td align="left"><%= vo.getEmail() %> --%>
-<!-- 		</td>		 -->
-<!-- 	</tr> -->
-<!-- 	<tr> -->
-<!-- 		<td colspan="11" bgcolor="D6D7D6" height="1"></td> -->
-<!-- 	</tr> -->
-<%-- 	<% } %> --%>
 	
 	<c:set var="idx" value="0">
 	</c:set>
 	
 	<c:forEach var="user" items="${list}" begin="${idx}" step="1" end="${idx+pageInfo.pageSize}">
 		<tr class="ct_list_pop">
-		<td align="center">${idx+1 + pageInfo.pageSize*(pageInfo.currentPage-1)}</td>
+		<td align="center">${idx+1+pageInfo.pageSize*(pageInfo.currentPage-1)}</td>
 		<td></td>
-		<td align="left">
-			<a href="/user/getUser?userId=${user.userId}">${user.userId}</a>
-		</td>
+		<td align="left">${user.userId}</td>
 		<td></td>
 		<td align="left">${user.userName}</td>
 		<td></td>
 		<td align="left">${user.email}</td>
 		<td></td>
-		<td align="left"><a href="javascript:removeUser('1','${user.userId}')">Å»Åð</a></td>
-		<input type="hidden" id="removeUserId" name="removeUserId" value=""/>
-	</tr>
-	<tr>
-		<td colspan="11" bgcolor="D6D7D6" height="1"></td>
-	</tr>
+		<td align="left">Å»Åð</td>
+		</tr>
 	
-	<c:set var="idx" value="${idx+1}">
-	</c:set>
+		<tr>
+			<td colspan="11" bgcolor="D6D7D6" height="1"></td>
+		</tr>
+	
+		<c:set var="idx" value="${idx+1}">
+		</c:set>
 	
 	</c:forEach>
+	<input type="hidden" id="removeUserId" name="removeUserId" value=""/>
 </table>
 
 <table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top:10px;">

@@ -12,8 +12,10 @@
 <script type="text/javascript">
 
 $(function(){
+	alert("${param.isUpdate}");
 	$('td.ct_btn01:contains("수정")').on("click", function(){
-		$('form').attr("method","POST").attr("action","/user/updateUser?userId=${user.userId}");
+// 		$('form').attr("method","POST").attr("action","/user/updateUser?userId=${user.userId}").submit();
+		self.location = "/user/updateUser?userId=${user.userId}";
 	});
 });
 

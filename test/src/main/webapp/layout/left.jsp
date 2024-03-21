@@ -18,10 +18,28 @@
 
 <link href="/css/left.css" rel="stylesheet" type="text/css">
 
+<script src="../javascript/jquery-2.1.4.js" type="text/javascript"></script>
 <script type="text/javascript">
 function history(){
 	popWin = window.open("/history.jsp","popWin","left=300, top=200, width=300, height=200, marginwidth=0, marginheight=0, scrollbars=no, scrolling=no, menubar=no, resizable=no");
 }
+
+$(function(){
+// 	$('.Depth03').hover(
+// 		$(this).css({"font-size:20px"});
+// 	);
+	
+	$('.Depth03:contains("개인정보조회")').on('click', function(){
+		alert(  $( ".Depth03:contains('개인정보조회')" ).html() );
+		$(window.parent.frames["rightFrame"].document.location).attr("href","/user/getUser?userId=$(user.userId)");
+	});
+	
+	$('.Depth03:contains("회원정보조회")').on('click', function(){
+		alert(  $( ".Depth03:contains('회원정보조회')" ) );
+		$(window.parent.frames["rightFrame"].document.location).attr("href","/user/listUser");
+	});
+	
+});
 </script>
 </head>
 
@@ -39,7 +57,7 @@ function history(){
 		%>
 		<tr>
 		<td class="Depth03">
-			<a href="/user/getUser?userId=<%=vo.getUserId() %>" target="rightFrame">개인정보조회</a>
+				개인정보조회
 		</td>
 		</tr>
 		<%
@@ -50,7 +68,7 @@ function history(){
 		%>
 		<tr>
 		<td class="Depth03" >
-			<a href="/user/listUser" target="rightFrame">회원정보조회</a>
+				회원정보조회
 		</td>
 		</tr>
 		<%

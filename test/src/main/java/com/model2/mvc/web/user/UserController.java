@@ -106,7 +106,7 @@ public class UserController {
 			session.setAttribute("user", user);
 		}
 		
-		return "redirect:/user/getUser?userId="+user.getUserId() + "&isUpdate=clear";
+		return "forward:/user/getUser?userId="+user.getUserId() + "&isUpdate=clear";
 	}
 	
 //	@RequestMapping("/loginView")
@@ -176,6 +176,7 @@ public class UserController {
 		search.setPageSize(pageSize);
 		
 		if(request.getParameter("removeUserId") != null) {
+			System.out.println("listUser removeUserId:" + request.getParameter("removeUserId").toString());
 			userService.removeUser(request.getParameter("removeUserId"));
 		}
 		
