@@ -30,6 +30,9 @@ public class SearchVO {
 	int priceRangeLow;
 	int priceRangeHigh;
 	
+	public SearchVO(){
+	}
+	
 	public void setPriceRange() {
 		List<Integer> list = new ArrayList<Integer>();
 		
@@ -90,9 +93,6 @@ public class SearchVO {
 
 	public void setRankingDescValue(String rankingDescValue) {
 		this.rankingDescValue = rankingDescValue;
-	}
-
-	public SearchVO(){
 	}
 	
 	public int getPageUnit() {
