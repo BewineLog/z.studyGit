@@ -36,7 +36,11 @@ public class Purchase {
 		this.divyAddr = divyAddr;
 	}
 	public Date getDivyDate() {
-		return Date.valueOf(divyDate);
+		if(divyDate != null  && divyDate != "") {
+			return Date.valueOf(divyDate);
+		}else {
+			return new Date(0);
+		}
 	}
 	public void setDivyDate(String divyDate) {
 		this.divyDate = divyDate;

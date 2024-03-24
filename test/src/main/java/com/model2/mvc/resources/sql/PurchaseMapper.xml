@@ -76,14 +76,14 @@
 	
 	<select id="getPurchase" parameterType="int" resultMap="PurchaseSelectMap">
 		SELECT ROWNUM row_seq, t.buyer_id buyer_id, t.demailaddr demailaddr, TO_CHAR(t.dlvy_date, 'YYYY-MM-DD') dlvy_date, t.dlvy_request dlvy_request, t.order_data order_data,t.payment_option payment_option ,t.receiver_name receiver_name, t.receiver_phone receiver_phone, t.tran_status_code tran_status_code, t.tran_no tran_no,t.prod_no prod_no, u.user_id user_id,u.user_name user_name,u.password password ,u.role role,u.ssn ssn, u.cell_phone cell_phone,u.addr addr,u.email email ,TO_CHAR(u.reg_date,'YYYY-MM-DD') reg_date, p.prod_no product_no, p.prod_name prod_name, p.prod_detail prod_detail, p.manufacture_day manufacture_day, p.price price, p.image_file image_file, p.reg_date product_reg_date 
-		FROM transaction t, users u, product p 
-		WHERE prod_no = #{value} AND t.buyer_id = u.user_id AND t.prod_no = p.prod_no
+		FROM transaction t, product p, users u
+		WHERE t.prod_no = #{value} AND t.buyer_id = u.user_id AND t.prod_no = p.prod_no
 	</select>
 	
 	<select id="getPurchaseByTranNo" parameterType="int" resultMap="PurchaseSelectMap">
 		SELECT ROWNUM row_seq, t.buyer_id buyer_id, t.demailaddr demailaddr, TO_CHAR(t.dlvy_date, 'YYYY-MM-DD') dlvy_date, t.dlvy_request dlvy_request, t.order_data order_data,t.payment_option payment_option ,t.receiver_name receiver_name, t.receiver_phone receiver_phone, t.tran_status_code tran_status_code, t.tran_no tran_no,t.prod_no prod_no, u.user_id user_id,u.user_name user_name,u.password password ,u.role role,u.ssn ssn, u.cell_phone cell_phone,u.addr addr,u.email email ,TO_CHAR(u.reg_date,'YYYY-MM-DD') reg_date, p.prod_no product_no, p.prod_name prod_name, p.prod_detail prod_detail, p.manufacture_day manufacture_day, p.price price, p.image_file image_file, p.reg_date product_reg_date 
 		FROM transaction t, product p, users u
-		WHERE tran_no = #{value} AND t.buyer_id = u.user_id AND t.prod_no = p.prod_no
+		WHERE t.tran_no = #{value} AND t.buyer_id = u.user_id AND t.prod_no = p.prod_no
 	</select>
 	
 	<update id="updatePurchase" parameterType="com.model2.mvc.service.domain.Purchase">

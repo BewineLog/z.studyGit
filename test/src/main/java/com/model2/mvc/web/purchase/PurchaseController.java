@@ -131,13 +131,15 @@ public class PurchaseController {
 	
 	@RequestMapping("updatePurchaseView")
 	public String updatePurchaseView(
-			@RequestParam("prodNo") int prodNo,
+			@RequestParam("tranNo") int tranNo,
 			Model model
 			) throws Exception{
 		
-		model.addAttribute("purchase", purchaseService.getPurchase(prodNo));
+		model.addAttribute("purchase", purchaseService.getPurchase(tranNo));
 		return "forward:/purchase/updatePurchaseView.jsp";
 	}
+	
+	
 	
 	@RequestMapping("updatePurchase")
 	public String updatePurchase(
@@ -155,6 +157,8 @@ public class PurchaseController {
 		return "forward:/purchase/listPurchase";
 	}
 	
+	
+	//page 변수 넘어오는데 어떻게 처리할까 ...
 	@RequestMapping("updateTranCodeByProd")
 	public String updateTranCodeByProd(
 			@RequestParam("prodNo") int prodNo,
