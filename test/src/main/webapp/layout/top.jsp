@@ -12,6 +12,22 @@
 
 <link href="/css/left.css" rel="stylesheet" type="text/css">
 
+<script src="../javascript/jquery-2.1.4.js" type="text/javascript"></script>
+<script type="text/javascript">
+
+	$(function() {
+		$('td:contains("login")').on("click", function(){
+			$(window.parent.frames["rightFrame"].document.location).attr("href","/user/loginView.jsp");
+		});
+		
+		$('td:contains("logout")').on("click", function(){
+// 			self.location = "/user/logout";
+			$(window.parent.document.location).attr("href","/user/logout");
+		});
+	});
+
+</script>
+
 </head>
 
 <body topmargin="0" leftmargin="0">
@@ -29,7 +45,8 @@
 	          <%
 	          	if(vo == null) {
 	          %>
-	              <a href="/user/loginView.jsp" target="rightFrame">login</a>   
+<!-- 	              <a href="/user/loginView.jsp" target="rightFrame">login</a>    -->
+					login
 	          <%
 	          	}
 	          %>        
@@ -39,7 +56,8 @@
 	          <%
 	          	if(vo != null) {
 	          %>
-	            <a href="/user/logout" target="_parent">logout</a>  
+<!-- 	            <a href="/user/logout" target="_parent">logout</a>   -->
+					logout
 	           <%
 	          	}
 	           %>

@@ -39,7 +39,7 @@ public class ProductController {
 	@Value("#{commonProperties['pageSize']}")
 	int pageSize;
 	
-	@RequestMapping("addProduct")
+	@RequestMapping("/addProduct")
 	public ModelAndView addProduct(@ModelAttribute("product") Product product) throws Exception{
 		System.out.println("/addProduct");
 		

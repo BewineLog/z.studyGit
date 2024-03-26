@@ -9,18 +9,31 @@
 <link rel="stylesheet" href="/css/admin.css" type="text/css">
 
 <!-- <script src="../javascript/list.js"></script> -->
+<script src="../javascript/jquery-2.1.4.js" type="text/javascript"></script>
 <script>
 function fncGetList(page) {
-	document.getElementById("page").value = page;
-	document.detailForm.submit();
+// 	document.getElementById("page").value = page;
+// 	document.detailForm.submit();
+// action="/product/listProduct?menu=${menu}" method="post"
+	$("#page").val(page);
+	$('form').attr("method","POST").attr("action","/product/listProduct?menu=${menu}").submit();
 }
 
 function rankingAsc(page){
-	if(document.getElementById("rankingAscValue").value ==="" || document.getElementById("rankingAscValue").value ==="null"){
-		document.getElementById("rankingAscValue").value = "asc";
-		document.getElementById("rankingDescValue").value = null;
+// 	if(document.getElementById("rankingAscValue").value ==="" || document.getElementById("rankingAscValue").value ==="null"){
+// 		document.getElementById("rankingAscValue").value = "asc";
+// 		document.getElementById("rankingDescValue").value = null;
+// 	}else{
+// 		document.getElementById("rankingAscValue").value = null;
+// 	}
+	 
+	var val = $("#rankingAscValue").val();
+
+	if(val === "" || val ==="null"){
+		$("#rankingAscValue").val("asc");
+		$("#rankingDescValue").val(null);
 	}else{
-		document.getElementById("rankingAscValue").value = null;
+		$("#rankingAscValue").val(null);
 	}
 	
 	fncGetList(page);
@@ -28,11 +41,20 @@ function rankingAsc(page){
 
 
 function rankingDesc(page){
-	if(document.getElementById("rankingDescValue").value ==="" || document.getElementById("rankingDescValue").value ==="desc"){
-		document.getElementById("rankingDescValue").value = "desc";
-		document.getElementById("rankingAscValue").value = null;
+// 	if(document.getElementById("rankingDescValue").value ==="" || document.getElementById("rankingDescValue").value ==="desc"){
+// 		document.getElementById("rankingDescValue").value = "desc";
+// 		document.getElementById("rankingAscValue").value = null;
+// 	}else{
+// 		document.getElementById("rankingDescValue").value = null;
+// 	}
+
+	var val = $("#rankingDescValue").val();
+	
+	if(val === "" || val === "desc"){
+		$("#rankingDescValue").val("desc");
+		$("#rankingAscValue").val(null);
 	}else{
-		document.getElementById("rankingDescValue").value = null;
+		$("#rankingDescValue").val(null);
 	}
 	
 	fncGetList(page);
@@ -40,18 +62,26 @@ function rankingDesc(page){
 
 
 function showInventory(page){
-	if(document.getElementById("inventoryValue").value === "" || document.getElementById("inventoryValue").value === "show"){
-		document.getElementById("inventoryValue").value = "notShow";
+// 	if(document.getElementById("inventoryValue").value === "" || document.getElementById("inventoryValue").value === "show"){
+// 		document.getElementById("inventoryValue").value = "notShow";
+// 	}else{
+// 		document.getElementById("inventoryValue").value = "show";
+// 	}
+	var val = $("#inventoryValue").val();
+	
+	if(val === "" || val === "show"){
+		$("#inventoryValue").val("notShow");
 	}else{
-		document.getElementById("inventoryValue").value = "show";
+		$("#inventoryValue").val("show");
 	}
+	
 	
 	fncGetList(page);
 }
 
 function setRange(element){
-	alert(element.name);
-	alert(element.value);
+
+	alert("setRange: "+ element.html());
 	if(element.value == "" || element.value == null){
 		element.value = true;
 	}else{
@@ -63,7 +93,8 @@ function setRange(element){
 
 
 function removeUser(page,id){
-	document.getElementById("removeUserId").value = id;
+// 	document.getElementById("removeUserId").value = id;
+	$("#removeUserId").val(id);
 	fncGetList(page);
 }
 
@@ -72,6 +103,69 @@ function openDetailPage(){
 //	window.open("/detailSearch.jsp");
 }
 
+$(function() {
+	$('select.ct_input_g[name="searchCondition"]').on("change", function(){
+		$('input.ct_input_g[name="searchKeyword"]').focus();
+	});
+	
+	
+	$('td.ct_btn01:contains("검색")').on("click", function(){
+		fncGetList(1);
+	});
+	
+	$('#fixedSearchRangeOne').on("click", function(){
+		alert("fixedSearchRangeOne:" + $(this).html());
+		setRange($(this));
+	});
+	
+	$('#fixedSearchRangeTwo').on("click", function(){
+		alert("fixedSearchRangeTwo:" + $(this).html());
+		setRange($(this));
+	});
+	
+	$('#fixedSearchRangeThree').on("click", function(){
+		alert("fixedSearchRangeThree:" + $(this).html());
+		setRange($(this));
+	});
+	
+	$('#orderAsc').on("click", function(){
+		rankingAsc(1);
+	});
+	
+	$('#orderDesc').on("click", function(){
+		rankingDesc(1);
+	});
+	
+	$('#inventory').on("click", function(){
+		showInventory(1);
+	});
+	
+	$('.ct_list_pop td:nth-child(3)').on("click", function(){
+		
+		alert($('.ct_list_pop td:nth-child(9)').html());
+		alert($($(this).children()[0]).val());
+		alert($($(this).children()[1]).val());
+		
+		if($($(this).children()[0]).val().trim() == '판매중'){
+			self.location = "/product/getProduct?prodNo="+$($(this).children()[1]).val().trim()+"&menu=${menu}";
+		}
+		
+		
+	});
+	
+	$('.ct_list_pop td:nth-child(9):contains("배송하기")').on("click", function(){
+		alert("/purchase/updateTranCode?tranNo="+$($('.ct_list_pop td:nth-child(3)').children()[2]).val().trim() +"&tranCode=2&menu=manage");
+		self.location = "/purchase/updateTranCode?tranNo="+$($('.ct_list_pop td:nth-child(3)').children()[2]).val().trim() +"&tranCode=2&menu=manage";
+	});
+	
+	$('.ct_list_pop td:nth-child(3)').css('color','aqua');
+	$('.ct_list_pop td:nth-child(9)').css('color','red');
+	$('table[id="list"] tr:nth-child(4n)').css('background-color','whitesmoke');
+	
+	
+	
+});
+
 </script>
 </head>
 
@@ -79,8 +173,7 @@ function openDetailPage(){
 
 	<div style="width: 98%; margin-left: 10px;">
 
-		<form name="detailForm" action="/product/listProduct?menu=${menu}"
-			method="post">
+		<form name="detailForm">
 
 			<table width="100%" height="37" border="0" cellpadding="0"
 				cellspacing="0">
@@ -141,8 +234,10 @@ function openDetailPage(){
 									<td width="17" height="23"><img
 										src="/images/ct_btnbg01.gif" width="17" height="23"></td>
 									<td background="/images/ct_btnbg02.gif" class="ct_btn01"
-										style="padding-top: 3px;"><a
-										href="javascript:fncGetList('1');">검색</a></td>
+										style="padding-top: 3px;">
+												검색
+										
+<!-- 										<a href="javascript:fncGetList('1');">검색</a></td> -->
 									<td width="14" height="23"><img
 										src="/images/ct_btnbg03.gif" width="14" height="23"></td>
 								</tr>
@@ -160,17 +255,17 @@ function openDetailPage(){
 								id="fixedSearchRangeOne"
 								name="fixedSearchRangeOne"
 								value="${! empty search.fixedSearchRangeOne ? search.fixedSearchRangeOne : ''}"
-								${search.fixedSearchRangeOne ? 'checked' : ''}  onclick="javascript:setRange(this)"/>1만원~2만원</a></td>
+								${search.fixedSearchRangeOne ? 'checked' : ''} />1만원~2만원</a></td>
 						<td width=30><a><input type="checkbox"
 								id="fixedSearchRangeTwo"
 								name="fixedSearchRangeTwo"
 								value="${! empty search.fixedSearchRangeTwo ? search.fixedSearchRangeTwo : ''}"
-								${search.fixedSearchRangeTwo ? 'checked' : ''} onclick="javascript:setRange(this)" />2만원~3만원</a></td>
+								${search.fixedSearchRangeTwo ? 'checked' : ''} />2만원~3만원</a></td>
 						<td width=30><a><input type="checkbox"
 								id="fixedSearchRangeThree"
 								name="fixedSearchRangeThree"
 								value="${! empty search.fixedSearchRangeThree ? search.fixedSearchRangeThree : ''}"
-								${search.fixedSearchRangeThree ? 'checked' : ''} onclick="javascript:setRange(this)"/>3만원~4만원</a></td>
+								${search.fixedSearchRangeThree ? 'checked' : ''} />3만원~4만원</a></td>
 					</tr>
 
 
@@ -194,8 +289,10 @@ function openDetailPage(){
 									<td width="17" height="23"><img
 										src="/images/ct_btnbg01.gif" width="17" height="23"></td>
 									<td background="/images/ct_btnbg02.gif" class="ct_btn01"
-										style="padding-top: 3px;"><a
-										href="javascript:fncGetList('1');">검색</a></td>
+										style="padding-top: 3px;">
+											검색
+<!-- 										<a href="javascript:fncGetList('1');">검색</a> -->
+									</td>
 									<td width="14" height="23"><img
 										src="/images/ct_btnbg03.gif" width="14" height="23"></td>
 								</tr>
@@ -219,7 +316,6 @@ function openDetailPage(){
 							<table border="0" cellspacing="0" cellpadding="0">
 								<tr>
 									<a><input type="checkbox" id="orderAsc" name="orderAsc"
-										onclick="javascript:rankingAsc('1')"
 										${! empty search.rankingAscValue && search.rankingAscValue == "asc" ? 'checked' : '' }>가격
 										낮은 순</a>
 									<input type="hidden" id="rankingAscValue"
@@ -228,7 +324,6 @@ function openDetailPage(){
 								</tr>
 								<tr>
 									<a><input type="checkbox" id="orderDesc" name="orderDesc"
-										onclick="javascript:rankingDesc('1')"
 										${! empty search.rankingDescValue && search.rankingDescValue =="desc" ? 'checked' : '' }>가격
 										높은 순</a>
 									<input type="hidden" id="rankingDescValue"
@@ -243,7 +338,6 @@ function openDetailPage(){
 							<table border="0" cellspacing="0" cellpadding="0">
 								<tr>
 									<a><input type="checkbox" id="inventory" name="inventory"
-										onclick="javascript:showInventory('1')"
 										${! empty search.inventoryValue && search.inventoryValue =="notShow" ? 'checked' : '' }>재고없음
 										보지않기</a>
 									<input type="hidden" id="inventoryValue" name="inventoryValue"
@@ -258,7 +352,7 @@ function openDetailPage(){
 			</table>
 
 
-			<table width="100%" border="0" cellspacing="0" cellpadding="0"
+			<table id="list" width="100%" border="0" cellspacing="0" cellpadding="0"
 				style="margin-top: 10px;">
 				<tr>
 					<td colspan="11">전체 ${count} 건수, 현재 ${pageInfo.currentPage}페이지</td>
@@ -285,10 +379,19 @@ function openDetailPage(){
 				</c:set>
 				<c:forEach var="i" items="${list}">
 					<tr class="ct_list_pop">
+<!-- 						<div id="getProTranCode" style="display:none">{i.proTranCode}</div> -->
+<!-- 						<div id="getProdNo" style="display:none">{i.prodNo}</div> -->
+<!-- 						div hidden은 jQuery로 못 잡음 -->
+						
 						<td align="center">${idx+1}</td>
 						<td></td>
 
-						<td align="left">${! empty i.proTranCode && i.proTranCode.trim() == '판매중' ? '<a href="/product/getProduct?prodNo='.concat(i.prodNo).concat('&menu=').concat(menu).concat('">').concat(i.prodName).concat('</a>') : i.prodName}
+						<td align="left">
+							${i.prodName}
+							<input type="hidden" id="getProTranCode" value="${i.proTranCode}">
+							<input type="hidden" id="getProdNo" value="${i.prodNo}">
+							<input type="hidden" id="getTranCode" value="${i.tranCode}">
+						
 						</td>
 
 						<td></td>
@@ -299,20 +402,23 @@ function openDetailPage(){
 						<td></td>
 						<td align="left">${menu == 'manage' && i.proTranCode.trim() !='판매중' ? i.proTranCode : i.proTranCode.trim() == '판매중' ? '판매중' : '재고없음'}
 
-							<c:if
-								test="${i.proTranCode.trim() == '구매완료' && menu.trim() == 'manage'}">
-								<a href="/purchase/updateTranCode?tranNo=${i.tranNo}&tranCode=2&menu=manage">배송하기</a>
+							<c:if test="${i.proTranCode.trim() == '구매완료' && menu.trim() == 'manage'}">
+<%-- 								<a href="/purchase/updateTranCode?tranNo=${i.tranNo}&tranCode=2&menu=manage">배송하기</a> --%>
+								배송하기
+								<!-- 여기에 td 걸고 check -->
 							</c:if>
 
 						</td>
+					</tr>
+					<tr>
+						<td colspan="11" bgcolor="D6D7D6" height="1"></td>
+					</tr>
 
-						<c:set var="idx" value="${idx+1}">
-						</c:set>
+					<c:set var="idx" value="${idx+1}">
+					</c:set>
 				</c:forEach>
 
-				<tr>
-					<td colspan="11" bgcolor="D6D7D6" height="1"></td>
-				</tr>
+				
 
 			</table>
 

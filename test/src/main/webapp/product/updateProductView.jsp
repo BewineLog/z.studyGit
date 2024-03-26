@@ -17,10 +17,15 @@
 
 function fncAddProduct(){
 	//Form 유효성 검증
- 	var name = document.detailForm.prodName.value;
-	var detail = document.detailForm.prodDetail.value;
-	var manuDate = document.detailForm.manuDate.value;
-	var price = document.detailForm.price.value;
+//  	var name = document.detailForm.prodName.value;
+	var name = $('input:text[name="prodName"]').val();
+	
+// 	var detail = document.detailForm.prodDetail.value;
+	var detail = $('input:text[name="prodDetail"]').val();
+// 	var manuDate = document.detailForm.manuDate.value;
+	var manuDate = $('input:text[name="manuDate"]').val();
+// 	var price = document.detailForm.price.value;
+	var price = $('input:text[name="price"]').val();
 
 	if(name == null || name.length<1){
 		alert("상품명은 반드시 입력하여야 합니다.");

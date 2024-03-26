@@ -39,6 +39,17 @@ $(function() {
 		fncGetList(1);
 		
 	});
+	
+	alert($('.ct_list_pop td:nth-child(3)').html());
+	
+	$('.ct_list_pop td:nth-child(3)').css('color','aqua');
+	$('.ct_list_pop td:nth-child(9)').css('color','red');
+// 	$('.ct_list_pop td:nth-child(3)').css('background-color','whiteSmoke');
+
+	alert($('table[id="list"] tr:nth-child(even)'));
+	$('table[id="list"] tr:nth-child(4n)').css('background-color','whitesmoke');
+	
+	
 });
 
 
@@ -101,7 +112,7 @@ $(function() {
 	</tr>
 </table>
 
-<table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top:10px;">
+<table id="list" width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top:10px;">
 	<tr>
 		<td colspan="11" >전체  ${pageInfo.totalCount} 건수, 현재 ${pageInfo.currentPage} 페이지</td>
 	</tr>
