@@ -54,6 +54,7 @@ public class PurchaseRestController {
 
 	public PurchaseRestController() {
 		// TODO Auto-generated constructor stub
+		System.out.println(this.getClass());
 	}
 	
 	@RequestMapping(value="json/addPurchase/{prodNo}/{userId}", method=RequestMethod.GET)

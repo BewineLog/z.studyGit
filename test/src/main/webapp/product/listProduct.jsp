@@ -142,7 +142,7 @@ $(function() {
 	
 	$('.ct_list_pop td:nth-child(3)').on("click", function(){
 		
-		alert($('.ct_list_pop td:nth-child(9)').html());
+		alert($('.ct_list_pop td:nth-child(11)').html());
 		alert($($(this).children()[0]).val());
 		alert($($(this).children()[1]).val());
 		
@@ -153,15 +153,58 @@ $(function() {
 		
 	});
 	
-	$('.ct_list_pop td:nth-child(9):contains("배송하기")').on("click", function(){
+	$('.ct_list_pop td:nth-child(11):contains("배송하기")').on("click", function(){
 		alert("/purchase/updateTranCode?tranNo="+$($('.ct_list_pop td:nth-child(3)').children()[2]).val().trim() +"&tranCode=2&menu=manage");
 		self.location = "/purchase/updateTranCode?tranNo="+$($('.ct_list_pop td:nth-child(3)').children()[2]).val().trim() +"&tranCode=2&menu=manage";
 	});
 	
 	$('.ct_list_pop td:nth-child(3)').css('color','aqua');
-	$('.ct_list_pop td:nth-child(9)').css('color','red');
+	$('.ct_list_pop td:nth-child(11)').css('color','red');
 	$('table[id="list"] tr:nth-child(4n)').css('background-color','whitesmoke');
 	
+	$('.ct_list_pop td:nth-child(9):contains("펼치기")').on("click", function(){
+		var prodNo = $($(this).parent().children()[2]).find('input:hidden[id="getProdNo"]').val();
+// 		alert( $($(this).parent().children()[2]).html() );
+// 		alert( $($(this).parent().children()[2]).val() );
+		alert("prodNo:"+$($(this).parent().children()[2]).find('input:hidden[id="getProdNo"]').val());
+		
+		
+		alert($(this).text());
+		
+		if($(this).text().trim() == '닫기'){
+			$("h3").remove();
+	 		$('td[id="detailInfo'+ prodNo+'"]').text("펼치기");
+		}else if($(this).text().trim() == '펼치기'){
+		
+			$.ajax({	
+				url:"/product/json/getProduct/" + prodNo + "/" + "${menu}",
+				method:"GET",
+				dataType:"json",
+				headers:{
+					"Accept":"application/json",
+					"Content-Type" : "application/json"
+				},
+				success: function(JSONData, status){
+					var displayValue = "<h3>"
+								 + "상품번호:" + JSONData.prodNo + "<br/>"
+								 + "상세정보:" + JSONData.prodDetail + "<br/>"
+								 + "제조일자:" + JSONData.manuDate + "<br/>"
+								 + "</h3>";
+								 
+					$('td:contains("닫기")').text("펼치기");
+					$('td[id="detailInfo'+ prodNo+'"]').text("닫기");
+					$("h3").remove();
+					$('#' + prodNo+'').html(displayValue);				
+				}
+			});
+		}
+	});
+	
+// 	$('td:contains("닫기")').on("click", function(){
+// 		var prodNo = $($(this).parent().children()[2]).find('input:hidden[id="getProdNo"]').val();
+// 		$("h3").remove();
+// 		$('td[id="detailInfo'+ prodNo+'"]').text("펼치기");
+// 	});
 	
 	
 });
@@ -366,6 +409,8 @@ $(function() {
 					<td class="ct_line02"></td>
 					<td class="ct_list_b">등록일</td>
 					<td class="ct_line02"></td>
+					<td class="ct_list_b">상세정보</td>
+					<td class="ct_line02"></td>
 					<td class="ct_list_b">현재상태</td>
 				</tr>
 				<tr>
@@ -400,6 +445,8 @@ $(function() {
 						<td></td>
 						<td align="left">${i.regDate}</td>
 						<td></td>
+						<td id="detailInfo${i.prodNo}" align="left">펼치기</td>
+						<td></td>
 						<td align="left">${menu == 'manage' && i.proTranCode.trim() !='판매중' ? i.proTranCode : i.proTranCode.trim() == '판매중' ? '판매중' : '재고없음'}
 
 							<c:if test="${i.proTranCode.trim() == '구매완료' && menu.trim() == 'manage'}">
@@ -411,7 +458,7 @@ $(function() {
 						</td>
 					</tr>
 					<tr>
-						<td colspan="11" bgcolor="D6D7D6" height="1"></td>
+						<td id="${i.prodNo}" colspan="11" bgcolor="D6D7D6" height="1"></td>
 					</tr>
 
 					<c:set var="idx" value="${idx+1}">

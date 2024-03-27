@@ -13,7 +13,8 @@ public class User {
 	private String phone;
 	private String addr;
 	private String email;
-	private Date regDate;
+	private Date regDate; 
+	private String regDateString;
 	
 	public User(){
 	}
@@ -73,12 +74,25 @@ public class User {
 //		this.regDate = Date.valueOf(regDate);
 		if(regDate != null) {
 			this.regDate = Date.valueOf(regDate);
+			this.regDateString = regDate;
 		}
 	}
 	
 	public void setRegDate(Date regDate) {
 		this.regDate = regDate;
+		
+		if(this.regDate != null) {
+			this.regDateString = this.regDate.toString();
+		}
 	
+	}
+
+	public String getRegDateString() {
+		return regDateString;
+	}
+
+	public void setRegDateString(String regDateString) {
+		this.regDateString = regDateString;
 	}
 
 	@Override

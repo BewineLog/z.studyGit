@@ -164,7 +164,7 @@ public class ProductController {
 		
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.addObject(productService.getProduct(prodNo));
-		modelAndView.setViewName("forward:/listProduct");
+		modelAndView.setViewName("forward:/product/listProduct");
 		
 		return modelAndView;
 	}

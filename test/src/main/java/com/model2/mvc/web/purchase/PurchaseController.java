@@ -48,6 +48,7 @@ public class PurchaseController {
 
 	public PurchaseController() {
 		// TODO Auto-generated constructor stub
+		System.out.println(this.getClass());
 	}
 	
 	@RequestMapping(value="addPurchase", method=RequestMethod.GET)

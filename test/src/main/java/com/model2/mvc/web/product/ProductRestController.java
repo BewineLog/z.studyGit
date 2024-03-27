@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -56,12 +57,12 @@ public class ProductRestController {
 //		return productService.getProduct(product.getProdNo());
 	}
 
-	@RequestMapping(value = "json/getProduct", method=RequestMethod.GET)
+	@RequestMapping(value = "json/getProduct/{prodNo}/{menu}", method=RequestMethod.GET)
 	public Product getProduct(
 			HttpServletRequest request,
 			HttpServletResponse response,
-			@RequestParam("prodNo") int prodNo,
-			@RequestParam("menu") String menu) throws Exception{
+			@PathVariable("prodNo") int prodNo,
+			@PathVariable("menu") String menu) throws Exception{
 		
 		Product product = productService.getProduct(prodNo);
 		

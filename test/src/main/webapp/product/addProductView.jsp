@@ -53,10 +53,10 @@ function resetData(){
 }
 
 $(function(){
-// 	$('img[src="../images/ct_icon_date.gif"]').on("click", function(){
+	$('img[src="../images/ct_icon_date.gif"]').on("click", function(){
 // 		onclick="show_calendar('document.detailForm.manuDate', document.detailForm.manuDate.value)"
-// 		show_calendar($('input:text[name="manuDate"]'), $('input:text[name="manuDate"]').val());
-// 	});
+		show_calendar('document.detailForm.manuDate', $('input:text[name="manuDate"]').val());
+	});
 	
 // 	<a href="javascript:fncAddProduct();">등록</a>
 // 	<a href="javascript:resetData();">취소</a>
@@ -141,7 +141,7 @@ $(function(){
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
 			<input type="text" name="manuDate" readonly="readonly" class="ct_input_g"  
-						style="width: 100px; height: 19px"	maxLength="10" minLength="6" onclick="show_calendar('document.detailForm.manuDate', document.detailForm.manuDate.value)"/>
+						style="width: 100px; height: 19px"	maxLength="10" minLength="6"/>
 				&nbsp;<img src="../images/ct_icon_date.gif" width="15" height="15" />
 		</td>
 	</tr>

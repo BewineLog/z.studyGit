@@ -43,11 +43,54 @@ $(function() {
 	alert($('.ct_list_pop td:nth-child(3)').html());
 	
 	$('.ct_list_pop td:nth-child(3)').css('color','aqua');
-	$('.ct_list_pop td:nth-child(9)').css('color','red');
+	$('.ct_list_pop td:nth-child(9)').css('color','#4aa8d8');
+	$('.ct_list_pop td:nth-child(11)').css('color','red');
 // 	$('.ct_list_pop td:nth-child(3)').css('background-color','whiteSmoke');
 
 	alert($('table[id="list"] tr:nth-child(even)'));
 	$('table[id="list"] tr:nth-child(4n)').css('background-color','whitesmoke');
+	
+	$('td:contains("ÆîÄ¡±â")').on("click", function(){
+		alert($(this).parent());
+// 		alert($($(this).parent().children()[4]).html());
+		var userId = $($(this).parent().children()[2]).text().trim();
+		alert("userId:" + userId);
+		
+		alert($(this).text());
+		
+		if($(this).text().trim() == '´Ý±â'){
+			$("h3").remove();
+	 		$('td[id="detailInfo'+ userId+'"]').text("ÆîÄ¡±â");
+		}else if($(this).text().trim() == 'ÆîÄ¡±â'){
+			$.ajax({
+				url:"/user/json/getUser/" + userId,
+				method:"GET",
+				dataType:"json",
+				headers : {
+					"Accept" : "application/json",
+					"Content-Type" : "application/json"
+				},
+				success : function (JSONData, status){
+					alert("JSONData: " + JSONData);
+					alert("status:" + status);
+				
+					var displayValue = "<h3>" + "¾ÆÀÌµð:" + JSONData.userId + "<br/>"
+										  + "ÀÌ ¸§:" + JSONData.userName + "<br/>"
+										  + "ÀÌ¸ÞÀÏ:" + JSONData.email + "<br/>"
+										  + "ROLE:" + JSONData.role + "<br/>"
+										  + "µî·ÏÀÏ:" + JSONData.regDateString + "<br/>"
+										  + "</h3>";
+				
+					$('td:contains("´Ý±â")').text("ÆîÄ¡±â");
+					$('td[id="detailInfo' + userId + '"]').text("´Ý±â");
+					$("h3").remove();
+					$("#" + userId+"").html(displayValue);
+				}
+			});
+		}
+	});
+
+	
 	
 	
 });
@@ -125,6 +168,8 @@ $(function() {
 		<td class="ct_line02"></td>
 		<td class="ct_list_b">ÀÌ¸ÞÀÏ</td>	
 		<td class="ct_line02"></td>
+		<td class="ct_list_b">¼¼ºÎÁ¤º¸</td>	
+		<td class="ct_line02"></td>
 		<td class="ct_list_b">Å»Åð</td>	
 	</tr>
 	<tr>
@@ -144,11 +189,13 @@ $(function() {
 		<td></td>
 		<td align="left">${user.email}</td>
 		<td></td>
+		<td id="detailInfo${user.userId}" align="left">ÆîÄ¡±â</td>
+		<td></td>
 		<td align="left">Å»Åð</td>
 		</tr>
 	
 		<tr>
-			<td colspan="11" bgcolor="D6D7D6" height="1"></td>
+			<td id="${user.userId}" colspan="11" bgcolor="D6D7D6" height="1"></td>
 		</tr>
 	
 		<c:set var="idx" value="${idx+1}">
