@@ -169,13 +169,15 @@ $(function() {
 		alert("prodNo:"+$($(this).parent().children()[2]).find('input:hidden[id="getProdNo"]').val());
 		
 		
-		alert($(this).text());
+		alert("text:" +$(this).text());
 		
 		if($(this).text().trim() == '닫기'){
-			$("h3").remove();
+			$("h5").remove();
+			$("#detailInfoSpace" + prodNo+"").css("display","none");
 	 		$('td[id="detailInfo'+ prodNo+'"]').text("펼치기");
 		}else if($(this).text().trim() == '펼치기'){
-		
+			console.log("/product/json/getProduct/" + prodNo + "/" + "${menu}");
+			
 			$.ajax({	
 				url:"/product/json/getProduct/" + prodNo + "/" + "${menu}",
 				method:"GET",
@@ -185,16 +187,19 @@ $(function() {
 					"Content-Type" : "application/json"
 				},
 				success: function(JSONData, status){
-					var displayValue = "<h3>"
+					var displayValue = "<h5>"
 								 + "상품번호:" + JSONData.prodNo + "<br/>"
 								 + "상세정보:" + JSONData.prodDetail + "<br/>"
 								 + "제조일자:" + JSONData.manuDate + "<br/>"
-								 + "</h3>";
+								 + "</h5>";
 								 
 					$('td:contains("닫기")').text("펼치기");
 					$('td[id="detailInfo'+ prodNo+'"]').text("닫기");
-					$("h3").remove();
+					$("h5").remove();
+					$("#detailInfoSpace" + prodNo +"").css("display","");
 					$('#' + prodNo+'').html(displayValue);				
+				
+					alert(displayValue);
 				}
 			});
 		}
@@ -457,7 +462,7 @@ $(function() {
 
 						</td>
 					</tr>
-					<tr>
+					<tr id="detailInfoSpace${i.prodNo}" style="display:none;">
 						<td id="${i.prodNo}" colspan="11" bgcolor="D6D7D6" height="1"></td>
 					</tr>
 

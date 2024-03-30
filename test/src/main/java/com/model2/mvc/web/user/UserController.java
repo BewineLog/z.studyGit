@@ -69,6 +69,18 @@ public class UserController {
 	
 //	@RequestMapping("/getUser")
 	@RequestMapping(value="getUser", method=RequestMethod.GET)
+	public String getUserGET( @RequestParam("userId") String userId , Model model ) throws Exception {
+		
+		System.out.println("/getUser");
+		//Business Logic
+		User user = userService.getUser(userId);
+		// Model �� View ����
+		model.addAttribute("user", user);
+		
+		return "forward:/user/getUser.jsp";
+	}
+	
+	@RequestMapping(value="getUser", method=RequestMethod.POST)
 	public String getUser( @RequestParam("userId") String userId , Model model ) throws Exception {
 		
 		System.out.println("/getUser");

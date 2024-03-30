@@ -1,0 +1,15 @@
+@charset "UTF-8";
+
+        
+         .navbar{ 
+         	background-color:#3174AE; 
+         } 
+        
+        .navbar-brand{
+        	color:white;
+        }
+        
+        .navbar-nav{
+        	color:white;
+        }
+

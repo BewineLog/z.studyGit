@@ -95,6 +95,37 @@ $(function() {
 
 <form>
 
+	<!-- ToolBar Start /////////////////////////////////////-->
+<%-- 	<jsp:include page="/layout/toolbar.jsp" /> --%>
+   	<!-- ToolBar End /////////////////////////////////////-->
+   	<jsp:include page="/common/topBar.jsp"/>
+   	<!-- ToolBar End /////////////////////////////////////-->
+   	
+	<!--  화면구성 div Start /////////////////////////////////////-->
+	<div class="container">
+		
+		<!-- 다단레이아웃  Start /////////////////////////////////////-->
+		<div class="row">
+	
+			<!--  Menu 구성 Start /////////////////////////////////////-->     	
+			<div class="col-md-3">
+		        
+		       	<!--  회원관리 목록에 제목 -->
+				<jsp:include page="/common/bodyMenu.jsp"/>
+				
+			</div>
+		
+
+	<!--  아래의 내용은 http://getbootstrap.com/getting-started/  참조 -->	
+		<div class="col-md-9">
+
+	<!-- 참조 : http://getbootstrap.com/css/   : container part..... -->
+			<div class="container-md">
+			<!--  -->
+			<!--  -->
+			<!--  -->
+			
+       	
 <input type="hidden" name="name" value=""/>
 
 <!-- 타이틀 시작 -->
@@ -232,6 +263,15 @@ $(function() {
 </table>
 <!-- 버튼 끝 -->
 
+       		
+       		<!--  -->
+       		<!--  -->
+       		<!--  -->
+       			
+  	 		</div>
+  	 	</div> <!-- col md -->
+  	</div>
+</div>
 </form>
 
 </body>
