@@ -47,6 +47,12 @@
   		WHERE p.prod_no = t.prod_no(+) AND p.prod_no = #{value}
   	</select>
   	
+<!--   	<select id="selectProduct" parameterType="int" resultMap="productSelectMap"> -->
+<!--   		SELECT p.prod_no prod_no, p.prod_name prod_name, p.prod_detail prod_detail, p.manufacture_day manufacture_day, p.price price, i.image_file image_file, p.reg_date reg_date, t.tran_status_code tran_status_code, t.tran_no tran_no -->
+<!--   		FROM product p, transaction t, images i -->
+<!--   		WHERE p.prod_no = t.prod_no(+) AND p.prod_no(+) = i.prod_no AND p.prod_no = #{value} -->
+<!--   	</select> -->
+  	
   	<update id="updateProduct" parameterType="com.model2.mvc.service.domain.Product">
   		UPDATE product
   		SET	prod_no = #{prodNo},

@@ -1,6 +1,11 @@
 package com.model2.mvc.service.domain;
 
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+
+import org.springframework.web.multipart.MultipartFile;
 
 
 public class Product {
@@ -17,6 +22,10 @@ public class Product {
 	
 	private String tranCode;
 	private int tranNo;
+	
+	private List<String> fileNames;
+	private List<MultipartFile> file;
+	
 	
 	
 	public Product(){
@@ -43,7 +52,12 @@ public class Product {
 		return fileName;
 	}
 	public void setFileName(String fileName) {
-		this.fileName = fileName;
+		
+		if(this.fileName == null || this.fileName.equals("") ) {
+			this.fileName = fileName;
+		}else {
+			this.fileName += ("," + fileName);
+		}
 	}
 	public String getManuDate() {
 		return manuDate;
@@ -104,6 +118,55 @@ public class Product {
 		this.tranNo = tranNo;
 	}
 
+
+
+	public List<MultipartFile> getFile() {
+		return file;
+	}
+
+
+
+	public void setFile(List<MultipartFile> files) {
+		this.file = files;
+		
+		if(files != null) {
+			
+			this.fileNames = new ArrayList<String>();
+			
+			for(MultipartFile file : files) {
+				System.out.println(file.getOriginalFilename());
+				System.out.println(files.size());
+				
+				UUID uuid = UUID.randomUUID();
+				System.out.println("domain uuid :: " + uuid.toString());
+				System.out.println("uuid split :: " + uuid.toString().split("-")[0]);
+				System.out.println("fileNames::" + fileNames.toString());
+				fileNames.add(uuid.toString().split("-")[0].toString()); //파일 명을 unique 하게 바꾼 다면..?
+				
+				System.out.println("fileNames::" + fileNames.toString());
+				
+			}
+			System.out.println("Product set UUID FileNames::" + fileNames.toString());
+			
+			
+			
+		}
+	}
+
+
+
+	public List<String> getFileNames() {
+		return fileNames;
+	}
+	
+	public String getFileNames(int idx) {
+		return fileNames.get(idx);
+	}
+
+
+	public void setFileNames(List<String> fileNames) {
+		this.fileNames = fileNames;
+	}
 
 
 	@Override

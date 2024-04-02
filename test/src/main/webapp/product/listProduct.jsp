@@ -6,16 +6,42 @@
 <meta charset="utf-8">
 <title>상품 목록조회</title>
 
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	
+	<!--   jQuery , Bootstrap CDN  -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
+	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
+	
+	<!-- Bootstrap Dropdown Hover CSS -->
+   <link href="/css/animate.min.css" rel="stylesheet">
+   <link href="/css/bootstrap-dropdownhover.min.css" rel="stylesheet">
+   <link href="/css/custom.css" rel="stylesheet">
+   
+    <!-- Bootstrap Dropdown Hover JS -->
+   <script src="/javascript/bootstrap-dropdownhover.min.js"></script>
 <link rel="stylesheet" href="/css/admin.css" type="text/css">
 
 <!-- <script src="../javascript/list.js"></script> -->
 <script src="../javascript/jquery-2.1.4.js" type="text/javascript"></script>
+	 <script>
+		var userId = "${user.userId}";
+	
+	</script>
+	<script src="/javascript/custom.js" charset='utf-8'>
+	</script>
+
+<link rel="stylesheet" href="/css/admin.css" type="text/css">
 <script>
 function fncGetList(page) {
 // 	document.getElementById("page").value = page;
 // 	document.detailForm.submit();
 // action="/product/listProduct?menu=${menu}" method="post"
 	$("#page").val(page);
+	
+	alert("form ::" + $('form').html());
+	
 	$('form').attr("method","POST").attr("action","/product/listProduct?menu=${menu}").submit();
 }
 
@@ -103,13 +129,22 @@ function openDetailPage(){
 //	window.open("/detailSearch.jsp");
 }
 
+$(function(){
+	
+	$('button.btn-default').on("click",function(){
+		alert($(this).html().trim());
+		fncGetList($(this).html().trim());
+	});
+});
+
 $(function() {
 	$('select.ct_input_g[name="searchCondition"]').on("change", function(){
 		$('input.ct_input_g[name="searchKeyword"]').focus();
 	});
 	
 	
-	$('td.ct_btn01:contains("검색")').on("click", function(){
+	$('button.btn:contains("검색")').on("click", function(){
+		alert("검색 click");
 		fncGetList(1);
 	});
 	
@@ -142,23 +177,27 @@ $(function() {
 	
 	$('.ct_list_pop td:nth-child(3)').on("click", function(){
 		
-		alert($('.ct_list_pop td:nth-child(11)').html());
-		alert($($(this).children()[0]).val());
-		alert($($(this).children()[1]).val());
+// 		alert($('.ct_list_pop td:nth-child(11)').html());
+// 		alert($($(this).children()[0]).val());
+// 		alert($($(this).children()[1]).val());
 		
 		if($($(this).children()[0]).val().trim() == '판매중'){
 			self.location = "/product/getProduct?prodNo="+$($(this).children()[1]).val().trim()+"&menu=${menu}";
 		}
 		
 		
+		
+		
 	});
 	
 	$('.ct_list_pop td:nth-child(11):contains("배송하기")').on("click", function(){
-		alert("/purchase/updateTranCode?tranNo="+$($('.ct_list_pop td:nth-child(3)').children()[2]).val().trim() +"&tranCode=2&menu=manage");
-		self.location = "/purchase/updateTranCode?tranNo="+$($('.ct_list_pop td:nth-child(3)').children()[2]).val().trim() +"&tranCode=2&menu=manage";
+// 		alert($($(this).parent().children()[2]).html());
+// 		alert("/purchase/updateTranCode?tranNo="+$($(this).parent().children()[2]).find('input:hidden[id="getTranNo"]').val() +"&tranCode=2&menu=manage");
+		self.location = "/purchase/updateTranCode?tranNo="+$($(this).parent().children()[2]).find('input:hidden[id="getTranNo"]').val() +"&tranCode=2&menu=manage";
 	});
 	
-	$('.ct_list_pop td:nth-child(3)').css('color','aqua');
+	$('.ct_list_pop td:nth-child(3)').css('color','blue');
+	$('.ct_list_pop td:nth-child(9)').css('color','#4aa8d8');
 	$('.ct_list_pop td:nth-child(11)').css('color','red');
 	$('table[id="list"] tr:nth-child(4n)').css('background-color','whitesmoke');
 	
@@ -166,10 +205,13 @@ $(function() {
 		var prodNo = $($(this).parent().children()[2]).find('input:hidden[id="getProdNo"]').val();
 // 		alert( $($(this).parent().children()[2]).html() );
 // 		alert( $($(this).parent().children()[2]).val() );
-		alert("prodNo:"+$($(this).parent().children()[2]).find('input:hidden[id="getProdNo"]').val());
+
+
+
+// 		alert("prodNo:"+$($(this).parent().children()[2]).find('input:hidden[id="getProdNo"]').val());
 		
 		
-		alert("text:" +$(this).text());
+// 		alert("text:" +$(this).text());
 		
 		if($(this).text().trim() == '닫기'){
 			$("h5").remove();
@@ -221,44 +263,69 @@ $(function() {
 
 	<div style="width: 98%; margin-left: 10px;">
 
-		<form name="detailForm">
+<!-- 		<form name="detailForm"> -->
 
-			<table width="100%" height="37" border="0" cellpadding="0"
-				cellspacing="0">
-				<tr>
-					<td width="15" height="37"><img src="/images/ct_ttl_img01.gif"
-						width="15" height="37" /></td>
-					<td background="/images/ct_ttl_img02.gif" width="100%"
-						style="padding-left: 10px;">
-						<table width="100%" border="0" cellspacing="0" cellpadding="0">
-							<tr>
-								<td width="93%" class="ct_ttl01">상품 목록조회</td>
-							</tr>
-						</table>
-					</td>
-					<td width="12" height="37"><img src="/images/ct_ttl_img03.gif"
-						width="12" height="37" /></td>
-				</tr>
-			</table>
+<!-- 			<table width="100%" height="37" border="0" cellpadding="0" -->
+<!-- 				cellspacing="0"> -->
+<!-- 				<tr> -->
+<!-- 					<td width="15" height="37"><img src="/images/ct_ttl_img01.gif" -->
+<!-- 						width="15" height="37" /></td> -->
+<!-- 					<td background="/images/ct_ttl_img02.gif" width="100%" -->
+<!-- 						style="padding-left: 10px;"> -->
+<!-- 						<table width="100%" border="0" cellspacing="0" cellpadding="0"> -->
+<!-- 							<tr> -->
+<!-- 								<td width="93%" class="ct_ttl01">상품 목록조회</td> -->
+<!-- 							</tr> -->
+<!-- 						</table> -->
+<!-- 					</td> -->
+<!-- 					<td width="12" height="37"><img src="/images/ct_ttl_img03.gif" -->
+<!-- 						width="12" height="37" /></td> -->
+<!-- 				</tr> -->
+<!-- 			</table> -->
 
+	 <jsp:include page="/common/topBar.jsp"/>
+		
+	<div class="container">
+		
+		<!-- 다단레이아웃  Start /////////////////////////////////////-->
+		<div class="row">
+	
+			<!--  Menu 구성 Start /////////////////////////////////////-->     	
+			<div class="col-md-3">
+		        
+		       	<!--  회원관리 목록에 제목 -->
+				<jsp:include page="/common/bodyMenu.jsp"/>
+				
+			</div>
+		
 
-			<table width="100%" border="0" cellspacing="0" cellpadding="0"
-				style="margin-top: 10px;">
-				<tr>
+	<!--  아래의 내용은 http://getbootstrap.com/getting-started/  참조 -->	
+	<form class="form-inline" name="detailForm">
+		<div class="col-md-9">
+			<div class="container">
 
-					<td align="right"><select name="searchCondition"
-						class="ct_input_g" style="width: 80px">
-							<c:if test="${! empty menu && menu == 'manage'}">
-								<option value="0"
-									${! empty search.searchCondition && search.searchCondition.trim() == '0' ? 'selected' : '' }>상품번호</option>
-							</c:if>
-							<option value="1"
-								${! empty search.searchCondition && search.searchCondition.trim() == '1' ? 'selected' : '' }>상품명</option>
+				<div class="page-header text-info">
+	       			<h3>상품목록조회</h3>
+	   			 </div>
+				<div class="row">
+					<div class="col-md-4 text-left">
+						<p>전체  ${pageInfo.totalCount} 건수, 현재 ${pageInfo.currentPage} 페이지</p>
+					</div>
+					<div class="col-md-5 text-right">
+						
+							<div class="form-group">
+								<select class="form-control" name="searchCondition">
+									<c:if test="${! empty menu && menu == 'manage'}">
+										<option value="0" ${! empty search.searchCondition && search.searchCondition.trim() == '0' ? 'selected' : '' }>상품번호</option>
+									</c:if>
+									<option value="1"${! empty search.searchCondition && search.searchCondition.trim() == '1' ? 'selected' : '' }>상품명</option>
 							<%-- 					<option value="2" ${! empty search.searchCondition && search.searchCondition.trim() == '2' ? 'selected' : '' } >상품가격</option> --%>
-					</select> <input type="hidden" id="optionValue" name="optionValue"
-						value="${optionValue}" /> <input type="text" name="searchKeyword"
-						value="${! empty search.searchKeyword ? search.searchKeyword.trim() : ''}"
-						class="ct_input_g" style="width: 200px; height: 19px" /> </a></td>
+								</select> 
+							</div>
+							<input type="hidden" id="optionValue" name="optionValue"
+								value="${optionValue}" />
+						
+					
 					<!-- 
 				여기에 상세보기 버튼을 하나 생성
 				상세보기 버튼을 누르면, 새로운 window open by jsp ??
@@ -275,129 +342,64 @@ $(function() {
 				
 				
 				 -->
-					<c:if test="${empty search.searchKeyword }">
-						<td align="right" width="70">
-							<table border="0" cellspacing="0" cellpadding="0">
-								<tr>
-									<td width="17" height="23"><img
-										src="/images/ct_btnbg01.gif" width="17" height="23"></td>
-									<td background="/images/ct_btnbg02.gif" class="ct_btn01"
-										style="padding-top: 3px;">
-												검색
-										
-<!-- 										<a href="javascript:fncGetList('1');">검색</a></td> -->
-									<td width="14" height="23"><img
-										src="/images/ct_btnbg03.gif" width="14" height="23"></td>
-								</tr>
-							</table>
-						</td>
-					</c:if>
-				</tr>
-			</table>
+<%-- 					<c:if test="${empty search.searchKeyword }"> --%>
+						<div class="form-group">
+							<label class="sr-only" for="searchKeyword">검색어</label> 
+							<input type="text" class="form-control" name="searchKeyword" value="${! empty search.searchKeyword ? search.searchKeyword.trim() : ''}"/> 
+						</div>
+						<button type="button" class="btn" >
+							검색
+<!-- 							<input type="hidden" id="buttonNumber" val="1"> -->
+						</button>
+						<input type="hidden" id="currentPage" name="currentPage" value="" />
+						
+<%-- 					</c:if> --%>
+				</div>
+			</div>
+			
+			
 
+			<div class="row">
+	
+					<!--  Menu 구성 Start /////////////////////////////////////-->     	
+					<div class="col-md-4"> <!-- 영역 잡기 --></div>
+					<div class="col-md-5 text-right">
+<!-- 						<form class="form-inline" name="detailForm"> -->
 			<c:if test="${! empty search.searchKeyword}">
-				<table width="100%" border="0" cellspacing="0" cellpadding="0"
-					style="margin-top: 10px;">
-					<tr>
-						<td width=30><a><input type="checkbox"
-								id="fixedSearchRangeOne"
-								name="fixedSearchRangeOne"
-								value="${! empty search.fixedSearchRangeOne ? search.fixedSearchRangeOne : ''}"
-								${search.fixedSearchRangeOne ? 'checked' : ''} />1만원~2만원</a></td>
-						<td width=30><a><input type="checkbox"
-								id="fixedSearchRangeTwo"
-								name="fixedSearchRangeTwo"
-								value="${! empty search.fixedSearchRangeTwo ? search.fixedSearchRangeTwo : ''}"
-								${search.fixedSearchRangeTwo ? 'checked' : ''} />2만원~3만원</a></td>
-						<td width=30><a><input type="checkbox"
-								id="fixedSearchRangeThree"
-								name="fixedSearchRangeThree"
-								value="${! empty search.fixedSearchRangeThree ? search.fixedSearchRangeThree : ''}"
-								${search.fixedSearchRangeThree ? 'checked' : ''} />3만원~4만원</a></td>
-					</tr>
-
-
-					<!-- 
-				위 아래 중복 안되도록 처리 필요
-			 -->
+				
+							<input type="checkbox" id="fixedSearchRangeOne" name="fixedSearchRangeOne" value="${! empty search.fixedSearchRangeOne ? search.fixedSearchRangeOne : ''}" ${search.fixedSearchRangeOne ? 'checked' : ''} />1만원~2만원
+							<input type="checkbox" id="fixedSearchRangeTwo" name="fixedSearchRangeTwo" value="${! empty search.fixedSearchRangeTwo ? search.fixedSearchRangeTwo : ''}" ${search.fixedSearchRangeTwo ? 'checked' : ''} />2만원~3만원
+							<input type="checkbox" id="fixedSearchRangeThree" name="fixedSearchRangeThree" value="${! empty search.fixedSearchRangeThree ? search.fixedSearchRangeThree : ''}" ${search.fixedSearchRangeThree ? 'checked' : ''} />3만원~4만원
 
 
 
-					<tr>
-						<td align="right"><input type="text" id="searchRangeLow" name="searchRangeLow"
-							value="${! empty search.searchRangeLow ? search.searchRangeLow : ''}"
-							class="ct_input_g" style="width: 200px; height: 19px" /></td>
-						<td align="right"><input type="text" id="searchRangeHigh" name="searchRangeHigh"
-							value="${! empty search.searchRangeHigh ? search.searchRangeHigh : ''}"
-							class="ct_input_g" style="width: 200px; height: 19px" /></td>
 
-						<td align="right" width="70">
-							<table border="0" cellspacing="0" cellpadding="0">
-								<tr>
-									<td width="17" height="23"><img
-										src="/images/ct_btnbg01.gif" width="17" height="23"></td>
-									<td background="/images/ct_btnbg02.gif" class="ct_btn01"
-										style="padding-top: 3px;">
-											검색
-<!-- 										<a href="javascript:fncGetList('1');">검색</a> -->
-									</td>
-									<td width="14" height="23"><img
-										src="/images/ct_btnbg03.gif" width="14" height="23"></td>
-								</tr>
+							<input type="text" class="form-control" id="searchRangeLow" name="searchRangeLow" value="${! empty search.searchRangeLow ? search.searchRangeLow : ''}" />
+							<input type="text" class="form-control" id="searchRangeHigh" name="searchRangeHigh" value="${! empty search.searchRangeHigh ? search.searchRangeHigh : ''}" />
 
-							</table>
-						</td>
-					</tr>
+					<!-- 검색 -->
 
-				</table>
+			
 			</c:if>
 
-			<table width="100%" border="0" cellspacing="0" cellpadding="0"
-				style="margin-top: 10px;">
-				<tr>
 
 					<!-- 
 						얘네 위치를 네이버처럼 물품 위로 올리자
 					 -->
 					<c:if test="${! empty menu && menu == 'search' }">
-						<td align="right">
-							<table border="0" cellspacing="0" cellpadding="0">
-								<tr>
-									<a><input type="checkbox" id="orderAsc" name="orderAsc"
-										${! empty search.rankingAscValue && search.rankingAscValue == "asc" ? 'checked' : '' }>가격
-										낮은 순</a>
-									<input type="hidden" id="rankingAscValue"
-										name="rankingAscValue"
-										value="${! empty search.rankingAscValue ? search.rankingAscValue : '' }" />
-								</tr>
-								<tr>
-									<a><input type="checkbox" id="orderDesc" name="orderDesc"
-										${! empty search.rankingDescValue && search.rankingDescValue =="desc" ? 'checked' : '' }>가격
-										높은 순</a>
-									<input type="hidden" id="rankingDescValue"
-										name="rankingDescValue"
-										value="${! empty search.rankingDescValue ? search.rankingDescValue : '' }" />
+						<input type="checkbox" id="orderAsc" name="orderAsc" ${! empty search.rankingAscValue && search.rankingAscValue == "asc" ? 'checked' : '' }>가격 낮은 순
+						<input type="hidden" id="rankingAscValue" name="rankingAscValue" value="${! empty search.rankingAscValue ? search.rankingAscValue : '' }" />
+						<input type="checkbox" id="orderDesc" name="orderDesc" ${! empty search.rankingDescValue && search.rankingDescValue =="desc" ? 'checked' : '' }>가격 높은 순
+						<input type="hidden" id="rankingDescValue" name="rankingDescValue" value="${! empty search.rankingDescValue ? search.rankingDescValue : '' }" />
+						<input type="checkbox" id="inventory" name="inventory" ${! empty search.inventoryValue && search.inventoryValue =="notShow" ? 'checked' : '' }>재고없음 보지않기
+						<input type="hidden" id="inventoryValue" name="inventoryValue" value="${! empty search.inventoryValue ? search.inventoryValue : '' }" />
 
-								</tr>
-							</table>
-						</td>
-
-						<td align="right" width="70">
-							<table border="0" cellspacing="0" cellpadding="0">
-								<tr>
-									<a><input type="checkbox" id="inventory" name="inventory"
-										${! empty search.inventoryValue && search.inventoryValue =="notShow" ? 'checked' : '' }>재고없음
-										보지않기</a>
-									<input type="hidden" id="inventoryValue" name="inventoryValue"
-										value="${! empty search.inventoryValue ? search.inventoryValue : '' }" />
-								</tr>
-
-							</table>
-						</td>
 					</c:if>
+<!-- 					</form> -->
+				</div>
+				</div>
+			</div><!-- Container -->
 
-				</tr>
-			</table>
 
 
 			<table id="list" width="100%" border="0" cellspacing="0" cellpadding="0"
@@ -440,7 +442,7 @@ $(function() {
 							${i.prodName}
 							<input type="hidden" id="getProTranCode" value="${i.proTranCode}">
 							<input type="hidden" id="getProdNo" value="${i.prodNo}">
-							<input type="hidden" id="getTranCode" value="${i.tranCode}">
+							<input type="hidden" id="getTranNo" value="${i.tranNo}">
 						
 						</td>
 
@@ -483,8 +485,11 @@ $(function() {
 			</table>
 			<!--  페이지 Navigator 끝 -->
 
+<!-- 		</form> -->
+		</div> <!-- col-md-9 -->
 		</form>
-
+	</div> <!-- ROW -->
+	</div>
 	</div>
 </body>
 </html>

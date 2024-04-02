@@ -43,7 +43,7 @@ function fncGetList(page) {
 }
 
 $(function () {
-	$('td.ct_btn01:contains("검색")').on("click", function(){
+	$('button.btn:contains("검색")').on("click", function(){
 		fncGetList(1);
 	});
 });
@@ -51,6 +51,14 @@ $(function () {
 $(function(){
 	$('.ct_list_pop td:nth-child(2)').on("click", function(){
 		self.location = "/user/getUser?userId="+$(this).text().trim();
+	});
+});
+
+$(function(){
+	
+	$('button.btn-default').on("click",function(){
+		alert($(this).html().trim());
+		fncGetList($(this).html().trim());
 	});
 });
 
@@ -70,7 +78,7 @@ $(function() {
 	
 	alert($('.ct_list_pop td:nth-child(2)').html());
 	
-	$('.ct_list_pop td:nth-child(2)').css('color','aqua');
+	$('.ct_list_pop td:nth-child(2)').css('color','blue');
 	$('.ct_list_pop td:nth-child(5)').css('color','#4aa8d8');
 	$('.ct_list_pop td:nth-child(6)').css('color','red');
 // 	$('.ct_list_pop td:nth-child(3)').css('background-color','whiteSmoke');
@@ -129,13 +137,15 @@ $(function() {
 </script>
 
 
+
+
 </head>
 
 <body bgcolor="#ffffff" text="#000000">
 
 <div style="width:98%; margin-left:10px;">
 
-<form name="detailForm">
+<!-- <form name="detailForm"> -->
 
 	<!-- ToolBar Start /////////////////////////////////////-->
 <%-- 	<jsp:include page="/layout/toolbar.jsp" /> --%>
@@ -161,60 +171,71 @@ $(function() {
 	<!--  아래의 내용은 http://getbootstrap.com/getting-started/  참조 -->	
 		<div class="col-md-9">
 
-	<!-- 참조 : http://getbootstrap.com/css/   : container part..... -->
-			<div class="container-md">
-			<table width="100%" height="37" border="0" cellpadding="0"	cellspacing="0">
-	<tr>
-		<td width="15" height="37">
-			<img src="/images/ct_ttl_img01.gif" width="15" height="37">
-		</td>
-		<td background="/images/ct_ttl_img02.gif" width="100%" style="padding-left:10px;">
-			<table width="100%" border="0" cellspacing="0" cellpadding="0">
-				<tr>
-					<td width="93%" class="ct_ttl01">회원 목록조회</td>
-				</tr>
-			</table>
-		</td>
-		<td width="12" height="37">
-			<img src="/images/ct_ttl_img03.gif" width="12" height="37">
-		</td>
-	</tr>
-</table>
+<!-- 	<!-- 참조 : http://getbootstrap.com/css/   : container part..... --> 
+<!-- 			<div class="container-md"> -->
+<!-- 			<table width="100%" height="37" border="0" cellpadding="0"	cellspacing="0"> -->
+<!-- 	<tr> -->
+<!-- 		<td width="15" height="37"> -->
+<!-- 			<img src="/images/ct_ttl_img01.gif" width="15" height="37"> -->
+<!-- 		</td> -->
+<!-- 		<td background="/images/ct_ttl_img02.gif" width="100%" style="padding-left:10px;"> -->
+<!-- 			<table width="100%" border="0" cellspacing="0" cellpadding="0"> -->
+<!-- 				<tr> -->
+<!-- 					<td width="93%" class="ct_ttl01">회원 목록조회</td> -->
+<!-- 				</tr> -->
+<!-- 			</table> -->
+<!-- 		</td> -->
+<!-- 		<td width="12" height="37"> -->
+<!-- 			<img src="/images/ct_ttl_img03.gif" width="12" height="37"> -->
+<!-- 		</td> -->
+<!-- 	</tr> -->
+<!-- </table> -->
 
-<table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top:10px;">
-	<tr>
+<!-- <table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top:10px;"> -->
+<div class="container">
+
+<div class="page-header text-info">
+	       <h3>회원목록조회</h3>
+	    </div>
+	    
+<div class="row">
+	<div class="col-md-4 text-left">
 	
+	<p>전체  ${pageInfo.totalCount} 건수, 현재 ${pageInfo.currentPage} 페이지</p>
+	</div>
 	
-	<td align="right">
-			<select name="searchCondition" class="ct_input_g" style="width:80px">
+	<div class="col-md-5 text-right">
+	<form class="form-inline" name="detailForm">
+		<div class="form-group">
+			<select class="form-control" name="searchCondition">
 				<option value="0" ${! empty searchCondition && search.getSearchCondition == "0" ? "selected" : "" }>회원ID</option>
 				<option value="1" ${! empty searchCondition && search.getSearchCondition == "1" ? "selected" : "" }>회원명</option>
 			</select>
-			<input type="text" name="searchKeyword" value="${! empty search.searchKeyword ? search.searchKeyword :''  }"  class="ct_input_g" style="width:200px; height:19px" >
-		</td>
+			</div>
 	
-		<td align="right" width="70">
-			<table border="0" cellspacing="0" cellpadding="0">
-				<tr>
-					<td width="17" height="23">
-						<img src="/images/ct_btnbg01.gif" width="17" height="23">
-					</td>
-					<td background="/images/ct_btnbg02.gif" class="ct_btn01" style="padding-top:3px;">
-							검색
-					</td>
-					<td width="14" height="23">
-						<img src="/images/ct_btnbg03.gif" width="14" height="23">
-					</td>
-				</tr>
-			</table>
-		</td>
-	</tr>
-</table>
+		
+			<div class="form-group">
+				<label class="sr-only" for="searchKeyword">검색어</label> 
+				<input
+								type="text" class="form-control" id="searchKeyword"
+								name="searchKeyword" placeholder="검색어" 
+								value="">
+			</div>
+			<button type="button" class="btn" >검색</button>
+			<input type="hidden" id="currentPage" name="currentPage" value="" />
+			</form>
+	</div>
+	
 
-<table id="list" class="table table-hover" width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top:10px;">
-	<tr>
-		<td colspan="11" >전체  ${pageInfo.totalCount} 건수, 현재 ${pageInfo.currentPage} 페이지</td>
-	</tr>
+</div>
+</div>
+<!-- </table> -->
+
+<table id="list" class="table table-hover table-striped" width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top:10px;">
+<!-- 	<tr> -->
+<%-- 		<td colspan="11" >전체  ${pageInfo.totalCount} 건수, 현재 ${pageInfo.currentPage} 페이지</td> --%>
+<!-- 	</tr> -->
+	<thead>
 	<tr>
 		<td class="ct_list_b" width="100">No</td>
 <!-- 		<td class="ct_line02"></td> -->
@@ -228,10 +249,12 @@ $(function() {
 <!-- 		<td class="ct_line02"></td> -->
 		<td class="ct_list_b">탈퇴</td>	
 	</tr>
+	</thead>
 <!-- 	<tr> -->
 <!-- 		<td colspan="11" bgcolor="808285" height="1"></td> -->
 <!-- 	</tr> -->
 	
+	<tbody>
 	<c:set var="idx" value="0">
 	</c:set>
 	
@@ -258,6 +281,7 @@ $(function() {
 		</c:set>
 	
 	</c:forEach>
+	</tbody>
 	<input type="hidden" id="removeUserId" name="removeUserId" value=""/>
 </table>
 
@@ -278,8 +302,8 @@ $(function() {
 </div>
 
 <!--  페이지 Navigator 끝 -->
-</form>
-</div>
+<!-- </form> -->
+
 
 </body>
 </html>

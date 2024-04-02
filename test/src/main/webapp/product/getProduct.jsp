@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <html>
 <head>
@@ -82,9 +84,15 @@
 			상품이미지 <img 	src="/images/ct_icon_red.gif" width="3" height="3" align="absmiddle"/>
 		</td>
 		<td bgcolor="D6D6D6" width="1"></td>
+		
+		
 		<td class="ct_write01">
-			<img src = "${product.fileName}"/>
+			<c:forEach var="i" items="${product.fileNames}">
+				<img src = "../images/uploadFiles/${i}"/>
+			</c:forEach>
 		</td>
+		
+		
 	</tr>
 	<tr>
 		<td height="1" colspan="3" bgcolor="D6D6D6"></td>

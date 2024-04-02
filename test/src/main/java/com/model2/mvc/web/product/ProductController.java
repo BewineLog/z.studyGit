@@ -1,5 +1,9 @@
 package com.model2.mvc.web.product;
 
+import java.io.File;
+import java.util.Arrays;
+import java.util.List;
+
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -13,6 +17,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.model2.mvc.common.Page;
@@ -40,8 +45,49 @@ public class ProductController {
 	int pageSize;
 	
 	@RequestMapping("/addProduct")
-	public ModelAndView addProduct(@ModelAttribute("product") Product product) throws Exception{
+	public ModelAndView addProduct(@ModelAttribute("product") Product product, HttpServletRequest request) throws Exception{
 		System.out.println("/addProduct");
+		
+		//
+		//
+		//
+		List<MultipartFile> files = product.getFile();
+		int idx = 0;
+		for (MultipartFile file : files) {
+			String fileName = file.getOriginalFilename();
+
+			long size = file.getSize();
+
+			System.out.println("fileName & size :: " + product.getFileName() + " " + size);
+
+			String fileExtension = fileName.substring(fileName.indexOf('.'), fileName.length());
+			
+			System.out.println("file Extension: " + fileExtension);
+
+			System.out.println("path::" + request.getServletContext().getRealPath("/images/uploadFiles/"));
+
+			String uploadFolder = request.getServletContext().getRealPath("/images/uploadFiles/"); // 동작원리 알아야할
+			
+			System.out.println("uploadPath: " + uploadFolder + product.getFileNames(idx) + fileExtension);
+
+			File saveFile = new File(uploadFolder + product.getFileNames(idx)+ fileExtension);
+
+			product.setFileName(product.getFileNames(idx) + fileExtension);
+
+			try {
+				file.transferTo(saveFile);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			idx ++;
+		}
+		
+		
+		//
+		//
+		//
+		
+		System.out.println("final fileName:" + product.getFileName());
 		
 		productService.addProduct(product);
 		
@@ -62,6 +108,15 @@ public class ProductController {
 		ModelAndView modelAndView = new ModelAndView();
 		
 		Product product = productService.getProduct(prodNo);
+		
+		String fileName = product.getFileName();
+		
+		if(fileName != null && fileName.contains(",")) {
+			product.setFileNames(Arrays.asList(product.getFileName().split(",")));
+		}else {
+			product.setFileNames(Arrays.asList(product.getFileName()));
+		}
+		
 		modelAndView.addObject("product", product);
 		
 		if(menu.equals("manage")){

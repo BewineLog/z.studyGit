@@ -122,6 +122,8 @@ public class PurchaseController {
 		
 		//User 어떻게 담을지 고민해보자 
 		
+		System.out.println("listPurchase");
+		
 //		model.addAttribute("userName",user.getUserName());
 		model.addAttribute("list", list);
 		model.addAttribute("count", count);

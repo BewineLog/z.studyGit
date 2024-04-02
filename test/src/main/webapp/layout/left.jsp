@@ -42,7 +42,7 @@ $(function(){
 // 	<a href="../product/addProductView.jsp;" target="rightFrame">판매상품등록</a>
 	$('.Depth03:contains("판매상품등록")').on('click', function(){
 		alert(  $( ".Depth03:contains('판매상품등록')" ).text() );
-		$(window.parent.frames["rightFrame"].document.location).attr("href","../product/addProductView.jsp;");
+		$(window.parent.frames["rightFrame"].document.location).attr("href","/product/addProductView.jsp;");
 	});
 	
 	

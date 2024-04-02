@@ -144,23 +144,23 @@
 				
 				$($('div.text-center')).prepend(
 						
-						'<table width="100%" height="220" border="0" cellpadding="0" cellspacing="0">'+
+						'<table width="100%" height="150" border="0" cellpadding="0" cellspacing="0">'+
+// 			              '<tr>'+ 
+// 			                '<td width="30" height="100">'+'&nbsp;'+'</td>'+
+// 			                '<td width="100" height="100">'+'&nbsp;'+'</td>'+
+// 			                '<td height="100">'+'&nbsp;'+'</td>'+
+// 			                '<td width="20" height="100">'+'&nbsp;'+'</td>'+
+// 			              '</tr>'+
+// 			              '<tr>'+ 
+// 			                '<td width="30" height="0">'+'&nbsp;'+'</td>'+
+// 			                '<td width="100" height="0">'+
+// // 			                	'<img src="/images/text_login.gif" width="91" height="32">'+
+// 			                '</td>'+
+// 			                '<td height="50">'+'&nbsp;'+'</td>'+
+// 			                '<td width="20" height="0">'+'&nbsp;'+'</td>'+
+// 			              '</tr>'+
 			              '<tr>'+ 
-			                '<td width="30" height="100">'+'&nbsp;'+'</td>'+
-			                '<td width="100" height="100">'+'&nbsp;'+'</td>'+
-			                '<td height="100">'+'&nbsp;'+'</td>'+
-			                '<td width="20" height="100">'+'&nbsp;'+'</td>'+
-			              '</tr>'+
-			              '<tr>'+ 
-			                '<td width="30" height="50">'+'&nbsp;'+'</td>'+
-			                '<td width="100" height="50">'+
-			                	'<img src="/images/text_login.gif" width="91" height="32">'+
-			                '</td>'+
-			                '<td height="50">'+'&nbsp;'+'</td>'+
-			                '<td width="20" height="50">'+'&nbsp;'+'</td>'+
-			              '</tr>'+
-			              '<tr>'+ 
-			                '<td width="200" height="50" colspan="4">'+
+			                '<td width="200" height="0" colspan="4">'+
 			                '</td>'+
 			              '</tr>'+              
 			              '<tr>'+ 
@@ -191,7 +191,7 @@
 			                '</td>'+
 			                '<td width="20" height="30">'+'&nbsp;'+'</td>'+
 			              '</tr>'+
-// 			              '<tr height="10">'+'</tr>'+
+			              '<tr height="20">'+'</tr>'+
 // 			              '<tr>'+ 
 // 			                '<td width="30" height="20">'+'&nbsp;'+'</td>'+
 // 			                '<td width="100" height="20">'+'&nbsp;'+'</td>'+

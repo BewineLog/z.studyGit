@@ -116,9 +116,9 @@
               </tr>
               <tr> 
                 <td width="30" height="50">&nbsp;</td>
-                <td width="100" height="50">
-                	<img src="/images/text_login.gif" width="91" height="32">
-                </td>
+<!--                 <td width="100" height="50"> -->
+<!--                 	<img src="/images/text_login.gif" width="91" height="32"> -->
+<!--                 </td> -->
                 <td height="50">&nbsp;</td>
                 <td width="20" height="50">&nbsp;</td>
               </tr>
@@ -161,7 +161,7 @@
                 </td>
                 <td width="20" height="30">&nbsp;</td>
               </tr>
-              <tr height="10"></tr>
+              <tr height="20"></tr>
               <tr> 
                 <td width="30" height="20">&nbsp;</td>
                 <td width="100" height="20">&nbsp;</td>
