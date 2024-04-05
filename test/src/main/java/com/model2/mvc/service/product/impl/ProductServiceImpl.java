@@ -48,4 +48,8 @@ public class ProductServiceImpl implements ProductService {
 		return productDao.getTotalCount(search);
 	}
 	
+	public List<String> getAutocompleteList(String keyword) throws Exception{
+		return productDao.getAutocompleteList(keyword);
+	}
+	
 }

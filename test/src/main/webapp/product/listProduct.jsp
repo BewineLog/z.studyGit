@@ -11,8 +11,12 @@
 	<!--   jQuery , Bootstrap CDN  -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
+	 <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+  	<link rel="stylesheet" href="/resources/demos/style.css">
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
+	
 	
 	<!-- Bootstrap Dropdown Hover CSS -->
    <link href="/css/animate.min.css" rel="stylesheet">
@@ -21,10 +25,10 @@
    
     <!-- Bootstrap Dropdown Hover JS -->
    <script src="/javascript/bootstrap-dropdownhover.min.js"></script>
-<link rel="stylesheet" href="/css/admin.css" type="text/css">
+	<link rel="stylesheet" href="/css/admin.css" type="text/css">
 
 <!-- <script src="../javascript/list.js"></script> -->
-<script src="../javascript/jquery-2.1.4.js" type="text/javascript"></script>
+<!-- <script src="../javascript/jquery-2.1.4.js" type="text/javascript"></script> -->
 	 <script>
 		var userId = "${user.userId}";
 	
@@ -34,6 +38,9 @@
 
 <link rel="stylesheet" href="/css/admin.css" type="text/css">
 <script>
+
+var page = 2; // infinite scroll
+
 function fncGetList(page) {
 // 	document.getElementById("page").value = page;
 // 	document.detailForm.submit();
@@ -107,14 +114,14 @@ function showInventory(page){
 
 function setRange(element){
 
-	alert("setRange: "+ element.html());
-	if(element.value == "" || element.value == null){
-		element.value = true;
+// 	alert("setRange: "+ element.html());
+	if(element.val() == "false" || element.val() == null){
+		element.val(true);
 	}else{
-		element.value = false;
+		element.val(false);
 	}
 	
-	fncGetList(1);
+// 	fncGetList(1);
 }
 
 
@@ -138,6 +145,61 @@ $(function(){
 });
 
 $(function() {
+	$('input[name="searchKeyword"]').on("keyup", function(){
+// 		alert("keydown event");
+// 		alert($(this).val());
+		
+		$.ajax({
+			url:"/product/json/listProduct?menu=${menu}&isAutoComplete=true",			
+			method:"POST",
+			dataType:"json",
+			data: JSON.stringify({
+				searchKeyword:$(this).val()
+			}),
+			headers:{
+				"Accept" : "application/json",
+				"Content-Type" : "application/json"
+			},
+			success : function(JSONData,status){
+				$('input[name="searchKeyword"]').autocomplete({
+					source: JSONData.autoCompleteList
+				});
+// 				console.log(typeof JSONData.autoCompleteList);//object
+// 				console.log(JSONData.autoCompleteList);//array
+// 				console.log(JSONData.autoCompleteList.length);
+				
+				for(let i = 0 ; i < JSONData.autoCompleteList.length; i++){
+					console.log(i+":"+JSONData.autoCompleteList[i]);
+				}
+				
+// 				alert("JSONData:" + JSONData.autoCompleteList);
+// 				alert("JSONData:" + JSONData.autoCompleteList.data);
+// 				alert("status:" + status);
+				
+// 				let list = JSONData.autoCompleteList.split(",");
+// 				for(const i = 0; i < list.length; i++){
+// 					console.log(list[i]);
+// 				}
+// 				if(JSONData.autoCompleteList != null){
+// 					let htmlCode = '<div class="btn-group">\n';
+// 					htmlCode += '<ul class="dropdown-menu">\n';
+				
+// 					for(let i = 0; i < JSONData.autoCompleteList.length ; i ++){
+// 						htmlCode += "<li>" + JSONData.autoCompleteList[i] + "</li>\n";
+// 					}
+				
+// 				htmlCode +="</ul>\n";
+// 				htmlCode +="</div>\n";
+				
+// 				console.log(htmlCode);
+// 				$(this).html(htmlCode);
+// 				}
+			}
+		});
+	});
+});
+
+$(function() {
 	$('select.ct_input_g[name="searchCondition"]').on("change", function(){
 		$('input.ct_input_g[name="searchKeyword"]').focus();
 	});
@@ -149,12 +211,12 @@ $(function() {
 	});
 	
 	$('#fixedSearchRangeOne').on("click", function(){
-		alert("fixedSearchRangeOne:" + $(this).html());
+		alert("fixedSearchRangeOne:" + $(this).val());
 		setRange($(this));
 	});
 	
 	$('#fixedSearchRangeTwo').on("click", function(){
-		alert("fixedSearchRangeTwo:" + $(this).html());
+		alert("fixedSearchRangeTwo:" + $(this).next().attr("id"));
 		setRange($(this));
 	});
 	
@@ -246,6 +308,18 @@ $(function() {
 			});
 		}
 	});
+	
+	$(function() {
+		$(window).scroll(function(){
+			console.log('scroll');
+			console.log('value: ' + $(window).scrollTop() + ' ' + $(document).height() + ' ' + $(window).height());
+			if($(window).scrollTop() == $(document).height() - $(window).height()){
+				console.log('scroll event 발생');
+			}
+			
+		});
+		
+	});//infinite scroll //나중에 하자.. 귀찮다...
 	
 // 	$('td:contains("닫기")').on("click", function(){
 // 		var prodNo = $($(this).parent().children()[2]).find('input:hidden[id="getProdNo"]').val();
@@ -346,6 +420,7 @@ $(function() {
 						<div class="form-group">
 							<label class="sr-only" for="searchKeyword">검색어</label> 
 							<input type="text" class="form-control" name="searchKeyword" value="${! empty search.searchKeyword ? search.searchKeyword.trim() : ''}"/> 
+							<!--  -->
 						</div>
 						<button type="button" class="btn" >
 							검색
@@ -365,7 +440,7 @@ $(function() {
 					<div class="col-md-4"> <!-- 영역 잡기 --></div>
 					<div class="col-md-5 text-right">
 <!-- 						<form class="form-inline" name="detailForm"> -->
-			<c:if test="${! empty search.searchKeyword}">
+<%-- 			<c:if test="${! empty search.searchKeyword}"> --%>
 				
 							<input type="checkbox" id="fixedSearchRangeOne" name="fixedSearchRangeOne" value="${! empty search.fixedSearchRangeOne ? search.fixedSearchRangeOne : ''}" ${search.fixedSearchRangeOne ? 'checked' : ''} />1만원~2만원
 							<input type="checkbox" id="fixedSearchRangeTwo" name="fixedSearchRangeTwo" value="${! empty search.fixedSearchRangeTwo ? search.fixedSearchRangeTwo : ''}" ${search.fixedSearchRangeTwo ? 'checked' : ''} />2만원~3만원
@@ -380,13 +455,13 @@ $(function() {
 					<!-- 검색 -->
 
 			
-			</c:if>
+<%-- 			</c:if> --%>
 
 
 					<!-- 
 						얘네 위치를 네이버처럼 물품 위로 올리자
 					 -->
-					<c:if test="${! empty menu && menu == 'search' }">
+<%-- 					<c:if test="${! empty menu && menu == 'search' }"> --%>
 						<input type="checkbox" id="orderAsc" name="orderAsc" ${! empty search.rankingAscValue && search.rankingAscValue == "asc" ? 'checked' : '' }>가격 낮은 순
 						<input type="hidden" id="rankingAscValue" name="rankingAscValue" value="${! empty search.rankingAscValue ? search.rankingAscValue : '' }" />
 						<input type="checkbox" id="orderDesc" name="orderDesc" ${! empty search.rankingDescValue && search.rankingDescValue =="desc" ? 'checked' : '' }>가격 높은 순
@@ -394,9 +469,9 @@ $(function() {
 						<input type="checkbox" id="inventory" name="inventory" ${! empty search.inventoryValue && search.inventoryValue =="notShow" ? 'checked' : '' }>재고없음 보지않기
 						<input type="hidden" id="inventoryValue" name="inventoryValue" value="${! empty search.inventoryValue ? search.inventoryValue : '' }" />
 
-					</c:if>
+<%-- 					</c:if> --%>
 <!-- 					</form> -->
-				</div>
+					</div>
 				</div>
 			</div><!-- Container -->
 
@@ -472,9 +547,8 @@ $(function() {
 					</c:set>
 				</c:forEach>
 
-				
-
 			</table>
+			
 
 			<table width="100%" border="0" cellspacing="0" cellpadding="0"
 				style="margin-top: 10px;">

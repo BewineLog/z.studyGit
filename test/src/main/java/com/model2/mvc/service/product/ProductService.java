@@ -21,5 +21,6 @@ public interface ProductService{
 	
 	public int getTotalCount(SearchVO search) throws Exception;
 	
+	public List<String> getAutocompleteList(String keyword) throws Exception;
 	
 }

@@ -48,12 +48,12 @@ public class SearchVO {
 			list.addAll(Arrays.asList(30000,39999));
 		}
 		
-		if(priceRangeLow != 0) {
-			list.add(priceRangeLow);
+		if(searchRangeLow != 0) {
+			list.add(searchRangeLow);
 		}
 		
-		if(priceRangeHigh != 0) {
-			list.add(priceRangeHigh);
+		if(searchRangeHigh != 0) {
+			list.add(searchRangeHigh);
 			
 		}
 		
@@ -63,7 +63,7 @@ public class SearchVO {
 			this.priceRangeLow = Collections.min(list);
 			this.priceRangeHigh = Collections.max(list);
 		}
-		
+		System.out.println("Low & High ::" + priceRangeLow + " " + priceRangeHigh);		
 		if(this.priceRangeHigh == 0) {
 			this.priceRangeHigh = 99999;
 		}

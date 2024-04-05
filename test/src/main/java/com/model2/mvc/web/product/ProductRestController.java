@@ -102,9 +102,10 @@ public class ProductRestController {
 	
 	@RequestMapping(value="json/listProduct", method=RequestMethod.GET)
 	public Map listProductGET(
-
 			@RequestParam(value="menu", required=false) String menu
 			) throws Exception{
+		
+		
 		SearchVO search = new SearchVO();
 		
 		if(search.getPage() ==0 ){
@@ -148,8 +149,22 @@ public class ProductRestController {
 	@RequestMapping(value="json/listProduct", method=RequestMethod.POST)
 	public Map listProduct(
 			@RequestBody(required=false) SearchVO search,
-			@RequestParam(value="menu", required=false) String menu
+			@RequestParam(value="menu", required=false) String menu,
+			@RequestParam(value="isAutoComplete", required=false) String isAutoComplete
 			) throws Exception{
+		
+		System.out.println("product List RestController");
+		System.out.println("search::" + search.toString());
+		System.out.println("isAutoComplete::" + isAutoComplete);
+		Map map = new HashMap();
+		
+		if(search.getSearchKeyword() != null && search.getSearchKeyword() != "" &&  isAutoComplete != null && isAutoComplete.equals("true")) {
+			map.put("autoCompleteList", productService.getAutocompleteList(search.getSearchKeyword()));
+			return map;
+			//
+			// 나중에 searchKeyword 변수화 하기
+			//
+		}
 		
 		if(search.getPage() ==0 ){
 			search.setPage(1);
@@ -166,7 +181,7 @@ public class ProductRestController {
 		int totalCount = productService.getTotalCount(search);
 		Page pageInfo = new Page( search.getPage(), totalCount, pageUnit, pageSize);
 		
-		Map map = new HashMap();
+		
 		
 		map.put("list", productService.getProductList(search));
 		map.put("count", totalCount);

@@ -127,29 +127,33 @@ public class Product {
 
 
 	public void setFile(List<MultipartFile> files) {
-		this.file = files;
-		
-		if(files != null) {
-			
-			this.fileNames = new ArrayList<String>();
-			
-			for(MultipartFile file : files) {
-				System.out.println(file.getOriginalFilename());
-				System.out.println(files.size());
-				
-				UUID uuid = UUID.randomUUID();
-				System.out.println("domain uuid :: " + uuid.toString());
-				System.out.println("uuid split :: " + uuid.toString().split("-")[0]);
-				System.out.println("fileNames::" + fileNames.toString());
-				fileNames.add(uuid.toString().split("-")[0].toString()); //파일 명을 unique 하게 바꾼 다면..?
-				
-				System.out.println("fileNames::" + fileNames.toString());
-				
+		this.fileNames = new ArrayList<String>();
+
+		for (MultipartFile file : files) {
+			if(file.getOriginalFilename().equals("")) {
+				System.out.println("pass");
+				continue;
 			}
+			System.out.println(file.getOriginalFilename());
+			System.out.println(files.size());
+
+			UUID uuid = UUID.randomUUID();
+			System.out.println("domain uuid :: " + uuid.toString());
+			System.out.println("uuid split :: " + uuid.toString().split("-")[0]);
+			System.out.println("fileNames::" + fileNames.toString());
+			fileNames.add(uuid.toString().split("-")[0].toString()); // 파일 명을 unique 하게 바꾼 다면..?
+
+			System.out.println("fileNames::" + fileNames.toString());
+
 			System.out.println("Product set UUID FileNames::" + fileNames.toString());
 			
 			
-			
+		}
+		
+		if(fileNames.size() == 0) {
+			this.file = null;
+		}else {
+			this.file= files;
 		}
 	}
 

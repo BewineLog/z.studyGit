@@ -52,6 +52,9 @@
         .nav{
         	color:white;
         }
+/*         .btn:hover{ */
+/*         	color:pink; */
+/*         } */
         
        
 	</style>

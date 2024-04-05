@@ -53,36 +53,43 @@ public class ProductController {
 		//
 		List<MultipartFile> files = product.getFile();
 		int idx = 0;
-		for (MultipartFile file : files) {
-			String fileName = file.getOriginalFilename();
+		
+		if (product.getFile() != null) {
+			for (MultipartFile file : files) {
+				String fileName = file.getOriginalFilename();
 
-			long size = file.getSize();
+				if (product.getFileName() == null || product.getFileName().equals("null")) {
+					System.out.println("pass"); // 안돌면 지워도 됨
+					continue;
+				}
 
-			System.out.println("fileName & size :: " + product.getFileName() + " " + size);
+				long size = file.getSize();
 
-			String fileExtension = fileName.substring(fileName.indexOf('.'), fileName.length());
-			
-			System.out.println("file Extension: " + fileExtension);
+				System.out.println("fileName & size :: " + product.getFileName() + " " + size);
 
-			System.out.println("path::" + request.getServletContext().getRealPath("/images/uploadFiles/"));
+				String fileExtension = fileName.substring(fileName.indexOf('.'), fileName.length()); // 여기서 터짐
 
-			String uploadFolder = request.getServletContext().getRealPath("/images/uploadFiles/"); // 동작원리 알아야할
-			
-			System.out.println("uploadPath: " + uploadFolder + product.getFileNames(idx) + fileExtension);
+				System.out.println("file Extension: " + fileExtension);
 
-			File saveFile = new File(uploadFolder + product.getFileNames(idx)+ fileExtension);
+				System.out.println("path::" + request.getServletContext().getRealPath("/images/uploadFiles/"));
 
-			product.setFileName(product.getFileNames(idx) + fileExtension);
+				String uploadFolder = request.getServletContext().getRealPath("/images/uploadFiles/"); // 동작원리 알아야할
 
-			try {
-				file.transferTo(saveFile);
-			} catch (Exception e) {
-				e.printStackTrace();
+				System.out.println("uploadPath: " + uploadFolder + product.getFileNames(idx) + fileExtension);
+
+				File saveFile = new File(uploadFolder + product.getFileNames(idx) + fileExtension);
+
+				product.setFileName(product.getFileNames(idx) + fileExtension);
+
+				try {
+					file.transferTo(saveFile);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				idx++;
 			}
-			idx ++;
 		}
-		
-		
+
 		//
 		//
 		//
@@ -223,6 +230,7 @@ public class ProductController {
 		
 		return modelAndView;
 	}
+	
 	
 
 }

@@ -73,4 +73,8 @@ public class ProductDaoImpl implements ProductDao {
 		return sqlSession.delete("ProductMapper.deleteProduct", prodName);
 	}
 	
+	public List<String> getAutocompleteList(String keyword) throws Exception{
+		return sqlSession.selectList("ProductMapper.getAutoCompleteList",keyword);
+	}
+	
 }

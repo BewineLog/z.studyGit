@@ -23,4 +23,5 @@ public interface ProductDao {
 	public int updateProduct(Product product) throws Exception;
 	public int getTotalCount(SearchVO search) throws Exception;
 	public int removeProduct(String prodName);
+	public List<String> getAutocompleteList(String keyword) throws Exception;
 }
