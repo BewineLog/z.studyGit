@@ -31,20 +31,22 @@
 		<result property="addr" column="addr" jdbcType="VARCHAR" />
 		<result property="email" column="email" jdbcType="VARCHAR" />
   		<result property="regDate" column="reg_date" jdbcType="DATE"/>
+  		<result property="isKakao" column="is_kakao"  jdbcType="CHAR"/>
+  		<result property="isNaver" column="is_naver"  jdbcType="CHAR"/>
   	</resultMap>
   	
   	<insert id="insertUser" parameterType="com.model2.mvc.service.domain.User">
   		INSERT
-  		INTO users(user_id,user_name,password,role,ssn,cell_phone,addr,email,reg_date)
+  		INTO users(user_id,user_name,password,role,ssn,cell_phone,addr,email,reg_date,is_kakao, is_naver)
   		VALUES (
   				#{userId:VARCHAR}, #{userName:VARCHAR}, #{password:VARCHAR}, 'user', #{ssn:VARCHAR}, #{phone:VARCHAR},
-  				#{addr:VARCHAR}, #{email:VARCHAR}, sysdate
+  				#{addr:VARCHAR}, #{email:VARCHAR}, sysdate, #{isKakao}, #{isNaver}
   		)
   		
   	</insert>
   	
   	<select id="selectUser" parameterType="string" resultMap="userSelectMap">
-  		SELECT user_id,user_name,password,role,ssn,cell_phone,addr,email,TO_CHAR(reg_date,'YYYY-MM-DD') reg_date
+  		SELECT user_id,user_name,password,role,ssn,cell_phone,addr,email,TO_CHAR(reg_date,'YYYY-MM-DD') reg_date, is_kakao, is_naver
   		FROM users
   		WHERE user_id = #{value}
   	</select>

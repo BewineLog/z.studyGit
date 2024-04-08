@@ -19,6 +19,13 @@
 <head>
 	<meta charset="UTF-8">
 	
+	<!-- KaKao Login -->
+	<script src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.1/kakao.min.js" integrity="sha384-kDljxUXHaJ9xAb2AzRd59KxjrFjzHa5TAoFQ6GbYTCAG0bjM55XohjjDT7tDDC01" crossorigin="anonymous"></script>
+	<script>
+  		Kakao.init('34a1e558e66560b2828143fa8eac7f54'); // 사용하려는 앱의 JavaScript 키 입력
+	</script>
+	
+	
 	<!-- 참조 : http://getbootstrap.com/css/   -->
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	
@@ -232,6 +239,41 @@
 	$(function(){
 		$('li a[id="topButton"]').css('color','white');
 	});
+	
+	//
+	//KaKao Login js
+	//
+	
+	function loginWithKakao() {
+    	Kakao.Auth.authorize({
+      		redirectUri: 'http://192.168.0.16:8080/user/kakaoLogin',
+    	});
+  	}
+
+  // 아래는 데모를 위한 UI 코드입니다.
+  	displayToken()
+  	function displayToken() {
+    	var token = getCookie('authorize-access-token');
+
+    	if(token) {
+     		Kakao.Auth.setAccessToken(token);	
+      		Kakao.Auth.getStatusInfo().then(function(res) {
+      		
+          	if (res.status === 'connected') {
+            
+             	alert('login success, token: ' + Kakao.Auth.getAccessToken());
+          	}
+        })
+        .catch(function(err) {
+         	Kakao.Auth.setAccessToken(null);
+        });
+    }
+  }
+
+  	function getCookie(name) {
+    	var parts = document.cookie.split(name + '=');
+    	if (parts.length === 2) { return parts[1].split(';')[0]; }
+  	}
 		
 	</script>	
 	
@@ -342,6 +384,11 @@
 			  			<a class="btn btn-info btn-lg" href="#" role="button">회원가입</a>
 			  		</div>
 			  	
+			  		<div class="text-center">
+			  			<a id="kakao-login-btn" href="javascript:loginWithKakao()">
+  						<img src="https://k.kakaocdn.net/14/dn/btroDszwNrM/I6efHub1SN5KCJqLm1Ovx1/o.jpg" width="222"  alt="카카오 로그인 버튼" />
+						</a>
+			  		</div>
 			  	</div>
 	        </div>
 	   	 	<!--  Main end /////////////////////////////////////-->   		

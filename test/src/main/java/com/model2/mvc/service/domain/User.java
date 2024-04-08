@@ -16,7 +16,12 @@ public class User {
 	private Date regDate; 
 	private String regDateString;
 	
+	private String isKakao;
+	private String isNaver;
+	
 	public User(){
+		this.isKakao = "0";
+		this.isNaver = "0";
 	}
 	
 	public String getUserId() {
@@ -93,6 +98,22 @@ public class User {
 
 	public void setRegDateString(String regDateString) {
 		this.regDateString = regDateString;
+	}
+
+	public String getIsKakao() {
+		return isKakao;
+	}
+
+	public String getIsNaver() {
+		return isNaver;
+	}
+
+	public void setIsKakao(String isKakao) {
+		this.isKakao = isKakao;
+	}
+
+	public void setIsNaver(String isNaver) {
+		this.isNaver = isNaver;
 	}
 
 	@Override

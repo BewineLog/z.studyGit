@@ -6,18 +6,28 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.client.RestTemplate;
 
 import com.model2.mvc.common.Page;
 import com.model2.mvc.common.SearchVO;
+import com.model2.mvc.service.domain.KakaoUser;
+import com.model2.mvc.service.domain.OAuthToken;
 import com.model2.mvc.service.domain.User;
 import com.model2.mvc.service.user.UserService;
 
@@ -45,7 +55,101 @@ public class UserController {
 	int pageSize;
 	
 	
-	// is need?
+	public ResponseEntity<String> getKakaoToken(String code) {
+		System.out.println("getKakaoToken");
+		RestTemplate rt = new RestTemplate();
+		
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("Content-Type", "application/x-www-form-urlencoded;charset=utf-8");
+		
+		MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
+		params.add("grant_type", "authorization_code");
+		params.add("client_id", "8029a1f4dc6d130e053ccca76946eb2e");
+		params.add("redirect_uri", "http://192.168.0.16:8080/user/kakaoLogin");
+		params.add("code", code);
+		
+		HttpEntity<MultiValueMap<String, String>> kakaoTokenRequest = new HttpEntity<>(params, headers);
+
+		// POST 방식으로 Http 요청한다. 그리고 response 변수의 응답 받는다.
+		ResponseEntity<String> response = rt.exchange(
+				"https://kauth.kakao.com/oauth/token", // https://{요청할 서버 주소}
+				HttpMethod.POST, // 요청할 방식
+				kakaoTokenRequest, // 요청할 때 보낼 데이터
+				String.class // 요청 시 반환되는 데이터 타입
+		);
+		
+		System.out.println("response:" + response);	
+		
+		return response;
+		
+		
+	}
+	
+	public OAuthToken getTokenToVO(ResponseEntity<String> response) throws Exception{
+		OAuthToken token = new OAuthToken();
+		
+		
+		ObjectMapper objMapper = new ObjectMapper();
+		
+		token = objMapper.readValue(response.getBody(), OAuthToken.class);
+		
+		System.out.println("getTokenToVo:" + token.toString());
+		return token;
+	}
+	
+	public KakaoUser getTokenToKakaoVO(ResponseEntity<String> response) throws Exception{
+		KakaoUser kakaoUser = new KakaoUser();
+		
+		ObjectMapper objMapper = new ObjectMapper();
+		
+		kakaoUser = objMapper.readValue(response.getBody(), KakaoUser.class);
+		
+		return kakaoUser;
+	}
+	
+	public ResponseEntity<String> getKakaoUserData(OAuthToken token) {
+		
+		//
+		//no body error
+		//
+		
+		RestTemplate rt = new RestTemplate();
+		
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("Content-Type", "Content-type: application/x-www-form-urlencoded;charset=utf-8");
+		headers.add("Authorization", "Bearer " + token.getAccess_token());
+		
+		HttpEntity<String> kakaoProfileRequest= new HttpEntity<>(headers);
+		
+		ResponseEntity<String> response = rt.exchange(
+			"https://kapi.kakao.com/v2/user/me",
+			HttpMethod.GET,
+			kakaoProfileRequest,
+			String.class
+			);
+
+		System.out.println("response:" + response);
+		return response;
+		
+		
+	}
+	
+	public User setKakaoUserVO(KakaoUser kakaoUser) {
+		User user = new User();
+		
+		user.setUserId(kakaoUser.getId());
+		user.setUserName(kakaoUser.getId());
+		user.setPassword("1234");// 아직 비밀번호를 카카오에서 못받아옴. 따라서 일단 디폴트로 1234 해놓고 나중에 변경
+		//
+		//기타 정보들도 나중에 넘어오게 되면 설
+		//
+		
+		user.setIsKakao("1"); // 1 == true, 2== false
+		
+		System.out.println("kakao ==> user :" + user.toString());
+		
+		return user;
+	}
 	
 //	@RequestMapping("/addUserView")
 	@RequestMapping(value="addUser", method=RequestMethod.GET)
@@ -148,6 +252,59 @@ public class UserController {
 			}
 		}
 		
+		return "redirect:/index.jsp";
+	}
+	
+	@RequestMapping(value="/kakaoLogin", method=RequestMethod.GET)
+	public String kakaoLogin(@RequestParam("code") String code, HttpSession session) throws Exception {
+		ResponseEntity<String>  kakaoUserInfo;
+		
+		
+		System.out.println("code:" + code);
+		
+		ResponseEntity<String> response = this.getKakaoToken(code);
+		
+		OAuthToken token = this.getTokenToVO(response);
+		System.out.println("OAuthToken: " + token.toString());
+		
+		kakaoUserInfo = getKakaoUserData(token);
+		
+		System.out.println("kakaoUserInfo:" + kakaoUserInfo);
+		
+		//https://kapi.kakao.com/v2/user/me
+		
+		System.out.println("kakaoUserInfo getBody:"+ kakaoUserInfo.getBody());
+		
+		
+		KakaoUser kakaoUser = new KakaoUser();
+		kakaoUser = getTokenToKakaoVO(kakaoUserInfo);
+		
+		System.out.println("kakaoUser:" + kakaoUser.toString());
+		System.out.println("kakaoUser nickName:"+kakaoUser.getProperties().get("nickname"));
+		
+		
+		User user = setKakaoUserVO(kakaoUser);
+		User dbUser = userService.getUser(user.getUserId());
+		
+		if(dbUser != null && dbUser.getPassword().equals(user.getPassword())) {
+			session.setAttribute("user", dbUser);
+			
+		}else {
+			userService.addUser(user);
+			session.setAttribute("user", user);
+		}
+		session.setAttribute("menu", "search");
+		
+		
+		
+		return "redirect:/index.jsp";
+	}
+	
+	
+	@RequestMapping(value="/kakaoLogin", method=RequestMethod.POST)
+	public String kakaoLoginPost(@RequestParam("code") String code) {
+		
+		System.out.println("POST code: " + code);
 		return "redirect:/index.jsp";
 	}
 	
