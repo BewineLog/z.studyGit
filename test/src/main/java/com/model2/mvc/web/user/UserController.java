@@ -19,6 +19,7 @@ import org.springframework.ui.Model;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -162,11 +163,16 @@ public class UserController {
 	
 //	@RequestMapping("/addUser")
 	@RequestMapping(value="addUser", method=RequestMethod.POST)
-	public String addUser( @ModelAttribute("user") User user ) throws Exception {
+	public String addUser( @ModelAttribute("user") User user, @RequestBody String authCode ) throws Exception {
 
 		System.out.println("/addUser");
 		//Business Logic
-		userService.addUser(user);
+		
+		if(authCode.equals("false")) {
+			System.out.println("not updated");//나중에 로직 견고히 해야함 .
+		}else {
+			userService.addUser(user);
+		}
 		
 		return "redirect:/user/loginView.jsp";
 	}
@@ -243,6 +249,7 @@ public class UserController {
 		User dbUser=userService.loginUser(user);
 		
 		if( user.getPassword().equals(dbUser.getPassword())){
+			System.out.println("Session user set");
 			session.setAttribute("user", dbUser);
 			
 			if(user.getRole() != null && user.getRole().equals("admin")) {
@@ -284,7 +291,7 @@ public class UserController {
 		
 		
 		User user = setKakaoUserVO(kakaoUser);
-		User dbUser = userService.getUser(user.getUserId());
+		User dbUser = userService.getUser(user.getUserId().trim());
 		
 		if(dbUser != null && dbUser.getPassword().equals(user.getPassword())) {
 			session.setAttribute("user", dbUser);

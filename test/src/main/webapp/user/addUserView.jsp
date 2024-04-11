@@ -147,6 +147,107 @@ $(function () {
 });
 
 
+//
+//도로명 주소
+//
+
+
+	
+	$(function() {
+		$('#searchRoadAddress')
+				.on(
+						"click",
+						function() {
+
+							// 호출된 페이지(jusopopup.jsp)에서 실제 주소검색URL(https://business.juso.go.kr/addrlink/addrLinkUrl.do)를 호출하게 됩니다.
+							var pop = window
+									.open("./roadAddress.jsp", "pop",
+											"width=570,height=420, scrollbars=yes, resizable=yes");
+
+							// 모바일 웹인 경우, 호출된 페이지(jusopopup.jsp)에서 실제 주소검색URL(https://business.juso.go.kr/addrlink/addrMobileLinkUrl.do)를 호출하게 됩니다.
+							//var pop = window.open("/popup/jusoPopup.jsp","pop","scrollbars=yes, resizable=yes"); 
+
+						});
+	});
+
+	function jusoCallBack(roadFullAddr, roadAddrPart1, addrDetail,
+			roadAddrPart2, engAddr, jibunAddr, zipNo, admCd, rnMgtSn, bdMgtSn,
+			detBdNmList, bdNm, bdKdcd, siNm, sggNm, emdNm, liNm, rn, udrtYn,
+			buldMnnm, buldSlno, mtYn, lnbrMnnm, lnbrSlno, emdNo) {
+		// 팝업페이지에서 주소입력한 정보를 받아서, 현 페이지에 정보를 등록합니다.
+// 		document.form.roadAddrPart1.value = roadAddrPart1;
+// 		document.form.roadAddrPart2.value = roadAddrPart2;
+// 		document.form.addrDetail.value = addrDetail;
+		console.log("addrDetail:" + roadFullAddr);
+		$('input:text[name="addr"]').val('');
+		$('input:text[name="addr"]').val(roadFullAddr);
+// 		document.form.zipNo.value = zipNo;
+	};
+	
+	
+	//
+	//email 인증
+	//
+	
+	$(function(){
+	$('#emailVerify').on("click", function(){
+		
+		console.log('why not work?');
+		console.log('user email: ' + $('input:text[name="email"]').val());
+		
+		$.ajax({
+			url: "/mail/sendAuthMail",
+			method: "POST",
+			dataType: "json",
+			headers:{
+				"Accept": "application/json",
+				"Content-Type":"application/json"
+			},
+			data: JSON.stringify({
+				receiverMail : $('input:text[name="email"]').val()
+			}),
+			success: function(JSONData,status){
+				console.log("data:" + JSONData.result);
+				console.log("status:" + status);
+				if(JSONData.result == 'ok'){
+					//"pop","width=570,height=420, scrollbars=yes, resizable=yes"
+					popWin = window.open("emailVerify.jsp","pop","width=570,height=420, scrollbars=yes, resizable=yes");
+					
+				}
+			}
+		});
+		
+		
+	});
+	});
+	
+	
+	function userAuthCode(authCode){
+		console.log('userAuthCode code:' + authCode);
+		
+		$.ajax({
+			url: "/mail/authCodeCheck",
+			method: "POST",
+			dataType: "json",
+			headers:{
+				"Accept": "application/json",
+				"Content-Type":"application/json"
+			},
+			data: JSON.stringify({
+				receiverMail : $('input:text[name="email"]').val(),
+				authCode : authCode
+			}),
+			success: function(JSONData,status){
+				console.log("data:" + JSONData.result);
+				console.log("status:" + status);
+				if(JSONData.result == 'true'){
+					$('input:hidden[name="emailAuth"]').val('true');
+					console.log('change after auth:' + $('input:hidden[name="emailAuth"]').val());
+				}
+			}
+		});
+		
+	}
 </script>
 </head>
 
@@ -309,8 +410,7 @@ $(function () {
 		<td width="104" class="ct_write">주소</td>
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
-			<input		type="text" name="addr" class="ct_input_g" 
-							style="width:370px; height:19px"  maxLength="100"/>
+			<input		type="text" name="addr" class="ct_input_g" style="width:370px; height:19px"  maxLength="100"/> <i id="searchRoadAddress" class="glyphicon glyphicon-search"></i>
 		</td>
 	</tr>
 	
@@ -349,8 +449,9 @@ $(function () {
 			<table border="0" cellspacing="0" cellpadding="0">
 				<tr>
 					<td height="26">
-						<input 	type="text" name="email" class="ct_input_g" 
-										style="width:100px; height:19px">
+						<input 	type="text" name="email" class="ct_input_g" style="width:100px; height:19px">
+						<input	type="hidden" name="emailAuth" value="false"/>
+						<button id="emailVerify" type="button" class="btn btn-default">이메일 인증하기</button>
 					</td>
 				</tr>
 			</table>

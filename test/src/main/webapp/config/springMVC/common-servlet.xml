@@ -67,7 +67,10 @@
 		<property name="maxUploadSize" value="10485760" />
       	<property name="defaultEncoding" value="utf-8" />
 	</bean>
-
+	
+	<context:property-placeholder location="classpath:com/model2/mvc/resources/config/email.properties" />
+	
+ 
 	<!-- 	:: exception resolver  선언 :: 서술적 / 선언적 예외처리 
 			:: Servlet 에서의 선언적 예외처리를 다시 생각하며....  -->
 			

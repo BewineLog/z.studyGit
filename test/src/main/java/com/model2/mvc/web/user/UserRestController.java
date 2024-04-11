@@ -103,7 +103,9 @@ public class UserRestController {
 		User dbUser=userService.getUser(user.getUserId());
 		
 		if( user.getPassword().equals(dbUser.getPassword())){
+			System.out.println("Session user set");
 			session.setAttribute("user", dbUser);
+			System.out.println(session.getAttribute("user").toString());
 		}
 		
 		System.out.println("dbuser::" + dbUser);

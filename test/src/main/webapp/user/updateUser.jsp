@@ -90,6 +90,42 @@ $(function(){
 // function resetData() {
 // 	$('form')[0].reset();
 // }
+
+
+//
+// 도로명 주소
+//
+
+$(function() {
+		$('#searchRoadAddress')
+				.on(
+						"click",
+						function() {
+
+							// 호출된 페이지(jusopopup.jsp)에서 실제 주소검색URL(https://business.juso.go.kr/addrlink/addrLinkUrl.do)를 호출하게 됩니다.
+							var pop = window
+									.open("./roadAddress.jsp", "pop",
+											"width=570,height=420, scrollbars=yes, resizable=yes");
+
+							// 모바일 웹인 경우, 호출된 페이지(jusopopup.jsp)에서 실제 주소검색URL(https://business.juso.go.kr/addrlink/addrMobileLinkUrl.do)를 호출하게 됩니다.
+							//var pop = window.open("/popup/jusoPopup.jsp","pop","scrollbars=yes, resizable=yes"); 
+
+						});
+	});
+
+	function jusoCallBack(roadFullAddr, roadAddrPart1, addrDetail,
+			roadAddrPart2, engAddr, jibunAddr, zipNo, admCd, rnMgtSn, bdMgtSn,
+			detBdNmList, bdNm, bdKdcd, siNm, sggNm, emdNm, liNm, rn, udrtYn,
+			buldMnnm, buldSlno, mtYn, lnbrMnnm, lnbrSlno, emdNo) {
+		// 팝업페이지에서 주소입력한 정보를 받아서, 현 페이지에 정보를 등록합니다.
+// 		document.form.roadAddrPart1.value = roadAddrPart1;
+// 		document.form.roadAddrPart2.value = roadAddrPart2;
+// 		document.form.addrDetail.value = addrDetail;
+		console.log("addrDetail:" + roadFullAddr);
+		$('input:text[name="addr"]').val('');
+		$('input:text[name="addr"]').val(roadFullAddr);
+// 		document.form.zipNo.value = zipNo;
+	}
 </script>
 </head>
 
@@ -177,7 +213,7 @@ $(function(){
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
 			<input type="text" name="userName" value="${user.userName}" class="ct_input_g" 
-						style="width:100px; height:19px"  maxLength="50" >
+						style="width:100px; height:19px"  maxLength="50" > 
 		</td>
 	</tr>
 	<tr>
@@ -189,7 +225,7 @@ $(function(){
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
 			<input 	type="text" name="addr" value="${user.addr}" class="ct_input_g" 
-							style="width:370px; height:19px"  maxLength="100">
+							style="width:370px; height:19px"  maxLength="100"> <i id="searchRoadAddress" class="glyphicon glyphicon-search"></i>
 		</td>
 	</tr>
 	<tr>

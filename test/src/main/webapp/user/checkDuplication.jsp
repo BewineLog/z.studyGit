@@ -98,7 +98,7 @@ $(function() {
 	<!-- ToolBar Start /////////////////////////////////////-->
 <%-- 	<jsp:include page="/layout/toolbar.jsp" /> --%>
    	<!-- ToolBar End /////////////////////////////////////-->
-   	<jsp:include page="/common/topBar.jsp"/>
+<%--    	<jsp:include page="/common/topBar.jsp"/> --%>
    	<!-- ToolBar End /////////////////////////////////////-->
    	
 	<!--  拳搁备己 div Start /////////////////////////////////////-->
@@ -111,7 +111,7 @@ $(function() {
 			<div class="col-md-3">
 		        
 		       	<!--  雀盔包府 格废俊 力格 -->
-				<jsp:include page="/common/bodyMenu.jsp"/>
+<%-- 				<jsp:include page="/common/bodyMenu.jsp"/> --%>
 				
 			</div>
 		

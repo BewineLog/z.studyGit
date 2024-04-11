@@ -152,7 +152,7 @@
 				
 				
 				
-				$($('div.text-center')).prepend(
+				$($('#classicLoginButton')).prepend(
 						
 						'<table width="100%" height="150" border="0" cellpadding="0" cellspacing="0">'+
 // 			              '<tr>'+ 
@@ -379,14 +379,14 @@
 			  		<p>로그인 전 검색만 가능합니다.</p>
 			  		<p>회원가입 하세요.</p>
 			  		
-			  		<div class="text-center">
+			  		<div id="classicLoginButton" class="text-center">
 			  			<a class="btn btn-info btn-lg" href="#" role="button">로 그 인</a>
 			  			<a class="btn btn-info btn-lg" href="#" role="button">회원가입</a>
 			  		</div>
 			  	
-			  		<div class="text-center">
+			  		<div id="kakaoLoginButton" class="text-center">
 			  			<a id="kakao-login-btn" href="javascript:loginWithKakao()">
-  						<img src="https://k.kakaocdn.net/14/dn/btroDszwNrM/I6efHub1SN5KCJqLm1Ovx1/o.jpg" width="222"  alt="카카오 로그인 버튼" />
+  							<img src="https://k.kakaocdn.net/14/dn/btroDszwNrM/I6efHub1SN5KCJqLm1Ovx1/o.jpg" width="222"  alt="카카오 로그인 버튼" />
 						</a>
 			  		</div>
 			  	</div>
